@@ -1,4 +1,4 @@
-<footer>
+<!-- <footer>
         <div class="container">
             <div class="columns is-multiline is-align-items-center border-bottom py-5">
                 <div class="column is-4-desktop is-12-tablet">
@@ -27,4 +27,4 @@
                         href="https://themefisher.com">themefisher</a></small>
             </div>
         </div>
-    </footer>
+    </footer> -->

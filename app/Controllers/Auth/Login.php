@@ -34,7 +34,7 @@ class Login extends BaseController
         if(!$user = $model->getUserBy('user_email',$email)){
             return redirect()->back()
                     ->with('msg',[
-                        'type'=>'danger',
+                        'type'=>'red',
                         'body'=> 'Este usuario no se encuentra registrado en el sistema.'
                     ])
                     ->withInput();
@@ -43,7 +43,7 @@ class Login extends BaseController
         if(!password_verify($password, $user->user_password)){
             return redirect()->back()
                     ->with('msg',[
-                        'type'=>'danger',
+                        'type'=>'red',
                         'body'=> 'Credenciales invalidas.'
                     ])
                     ->withInput();

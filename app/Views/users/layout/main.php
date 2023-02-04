@@ -10,16 +10,34 @@
 
     <!-- ** Plugins Needed for the Project ** -->
     <!-- plugins -->
-    <link rel="stylesheet" href="<?= base_url('plugins/bulma/bulma.min.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('plugins/themify-icons/themify-icons.css')?>">
+    <!-- <link rel="stylesheet" href="<?= base_url('plugins/bulma/bulma.min.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('plugins/themify-icons/themify-icons.css')?>"> -->
     <!-- Main Stylesheet -->
-    <link href="<?=base_url('css/style.css')?>" rel="stylesheet">
-
+    <!-- <link href="<?=base_url('css/style.css')?>" rel="stylesheet"> -->
     <!--Favicon-->
     <link rel="shortcut icon" href="<?=base_url('images/favicon.ico')?>" type="image/x-icon">
     <link rel="icon" href="<?=base_url('images/favicon.ico')?>" type="image/x-icon">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+            colors: {
+                clifford: '#da373d',
+            }
+            }
+        }
+        }
+    </script>
+    <style type="text/tailwindcss">
+    @layer utilities {
+        .content-auto {
+            content-visibility: auto;
+        }
+        }
+    </style>
 
 </head>
 
