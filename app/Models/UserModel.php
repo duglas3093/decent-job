@@ -43,6 +43,9 @@ class UserModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    protected $assignRol;
+    protected $infoUser;
+
     protected function addRol($data){
         $data['data']['rol_id'] = $this->assignRol;
         return $data;
