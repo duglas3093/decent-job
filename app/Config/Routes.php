@@ -42,6 +42,20 @@ $routes->group('auth',['namespace'=>'App\Controllers\Auth'],function($routes){
 $routes->group('admin',['namespace' => 'App\Controllers\admin','filter'=>'auth:admin'],function($routes){
     //Dashboard
     $routes->get('dashboard','Dashboard::index');
+
+    // Users
+    $routes->get('users','User::index');
+    $routes->get('add_user','User::add');
+    $routes->post('store_user','User::store');
+    $routes->get('edit_user/(:num)','User::edit/$1');
+    $routes->post('update_user','User::update');
+
+    // Beneficiary
+    $routes->get('beneficiaries','Beneficiary::index');
+    $routes->get('add_beneficiary','Beneficiary::add');
+    $routes->post('store_beneficiary','Beneficiary::store');
+    $routes->get('edit_beneficiary/(:num)','Beneficiary::edit/$1');
+    $routes->post('update_beneficiary','Beneficiary::update');
 });
 /*
  * --------------------------------------------------------------------

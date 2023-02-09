@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Admin;
+namespace App\Controllers\admin;
 
 use App\Controllers\BaseController;
 
@@ -9,6 +9,6 @@ class Dashboard extends BaseController
     public function index()
     {
         $data['session'] = session()->get();
-        return view('welcome_message');
+        return view('admin/dashboard/index',$data);
     }
 }
