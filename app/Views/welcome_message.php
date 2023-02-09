@@ -6,7 +6,20 @@
     <meta name="description" content="The small framework with powerful features">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/png" href="/favicon.ico">
-
+    
+    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png" />
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png" />
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- Nucleo Icons -->
+    <link href="<?=base_url('css/nucleo-icons.css')?>" rel="stylesheet" />
+    <link href="<?=base_url('css/nucleo-svg.css')?>" rel="stylesheet" />
+    <!-- Popper -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <!-- Main Styling -->
+    <link href="<?=base_url('css/argon-dashboard-tailwind.css?v=1.0.1')?>" rel="stylesheet" />
     <!-- STYLES -->
 
     <style {csp-style-nonce}>
@@ -318,6 +331,7 @@
         }
     }
 </script>
+
 
 <!-- -->
 
