@@ -44,11 +44,11 @@ $routes->group('admin',['namespace' => 'App\Controllers\admin','filter'=>'auth:a
     $routes->get('dashboard','Dashboard::index');
 
     // Users
-    $routes->get('users','User::index');
-    $routes->get('add_user','User::add');
-    $routes->post('store_user','User::store');
-    $routes->get('edit_user/(:num)','User::edit/$1');
-    $routes->post('update_user','User::update');
+    $routes->get('users','UserController::index');
+    $routes->get('add_user','UserController::add');
+    $routes->post('store_user','UserController::store');
+    $routes->get('edit_user/(:num)','UserController::edit/$1');
+    $routes->post('update_user','UserController::update');
 
     // Beneficiary
     $routes->get('beneficiaries','Beneficiary::index');

@@ -9,7 +9,7 @@ use App\Entities\User;
 class UserModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'user';
+    protected $table            = 'users';
     protected $primaryKey       = 'user_id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
@@ -17,10 +17,19 @@ class UserModel extends Model
     protected $returnType       = User::class;
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'user_name',
+        'user_lastname',
+        'user_ci',
+        'user_celphone',
+        'user_email',
+        'user_password',
+        'status_id',
+        'rol_id',
+    ];
 
     // Dates
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';

@@ -37,7 +37,7 @@ class Login extends BaseController
                         'type'=>'red',
                         'body'=> 'Este usuario no se encuentra registrado en el sistema.'
                     ])
-                    ->withInput();
+                    ->withInput();                    
         }
         
         if(!password_verify($password, $user->user_password)){
@@ -57,7 +57,7 @@ class Login extends BaseController
         ]);
 
         return redirect()->route('admin/dashboard')->with('msg',[
-            'type'=>'success',
+            'type'=>'green',
             'body'=> 'Bienvenido nuevamente '.$user->user_name
         ]);
     }
