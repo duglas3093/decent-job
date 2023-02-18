@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Models\RolsModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
@@ -46,7 +47,10 @@ class Auth implements FilterInterface
         // dd(session()->user_id);
         // if(!in_array($user->getRole()->name_group,$arguments)){
         // dd($user);
-        if(!in_array($user->getRole()['rol_description'],$arguments)){
+        $rolModel = model("RolsModel");
+        $userRole = $rolModel->where('rol_id',$user['rol_id'])->first();
+        
+        if(!($userRole['rol_description'] == $arguments[0])){
             throw PageNotFoundException::forPageNotFound();
         }
     }

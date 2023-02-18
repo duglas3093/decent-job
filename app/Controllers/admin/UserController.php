@@ -19,10 +19,22 @@ class UserController extends BaseController
     public function index(){
         $data['session'] = session()->get();
         $userModel = model('UserModel');
-        $data['students'] = $userModel->orderBy('user_lastname')->paginate(self::PAGINATION);
-        $data['pager'] = $userModel->pager;
+        $data['users'] = $userModel
+                            ->join('status s','s.status_id = users.status_id','LEFT')
+                            ->join('rols r','r.rol_id = users.rol_id','LEFT')
+                            ->select('users.*, s.status_name, r.rol_description')
+                            ->orderBy('user_lastname')
+                            ->paginate(self::PAGINATION);
+        // $data['pager'] = $userModel->pager;
         return view('admin/user/index',$data);
-        
+        // var_dump(json_encode(json_encode($data['users'], true)));   
+        // $data['courses'] = $courseModel
+        //                     ->join('instructor i','i.instructor_id = courses.instructor_id','LEFT')
+        //                     ->join('status s','s.status_id = courses.status_id','LEFT')
+        //                     ->join('categories c','c.category_id = courses.category_id','LEFT')
+        //                     ->select('courses.*,i.instructor_name,s.status_description,c.category_description')
+        //                     ->where('courses.status_id',self::STATUS)
+        //                     ->paginate(self::PAGINATION);
     }
     
     public function add(){

@@ -39,34 +39,36 @@ Usuarios
                                             Usuario
                                         </th>
                                         <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Area
+                                            Celular
+                                        </th>
+                                        <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                            Rol
                                         </th>
                                         <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                             Estado
-                                        </th>
-                                        <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Fecha
                                         </th>
                                         <th class="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b border-collapse border-solid shadow-none ligth:border-white/40 ligth:text-white tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
+
+                                    
+                                    <?php foreach($users as $user): ?>
                                     <tr>
                                         <td
                                             class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
                                             <div class="flex px-2 py-1">
-                                                <div>
+                                                <!-- <div>
                                                     <img src="../assets/img/team-2.jpg"
                                                         class="inline-flex items-center justify-center mr-4 text-sm text-white transition-all duration-200 ease-in-out h-9 w-9 rounded-xl"
                                                         alt="user1" />
-                                                </div>
+                                                </div> -->
                                                 <div class="flex flex-col justify-center">
-                                                    <h6 class="mb-0 text-sm leading-normal ligth:text-white">John Michael
+                                                    <h6 class="mb-0 text-sm leading-normal ligth:text-white"><?= $user['user_lastname'] ?> <?= $user['user_name'] ?>
                                                     </h6>
-                                                    <p
-                                                        class="mb-0 text-xs leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
-                                                        john@creative-tim.com</p>
+                                                    <p class="mb-0 text-xs leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
+                                                        <?= $user['user_email'] ?></p>
                                                 </div>
                                             </div>
                                         </td>
@@ -74,248 +76,29 @@ Usuarios
                                             class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
                                             <p
                                                 class="mb-0 text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80">
-                                                Manager</p>
-                                            <p
+                                                <?= $user['user_celphone'] ?></p>
+                                            <!-- <p
                                                 class="mb-0 text-xs leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
-                                                Organization</p>
+                                                <?= $user['rol_description'] ?></p> -->
                                         </td>
-                                        <td
-                                            class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <span
-                                                class="bg-gradient-to-tl from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Online</span>
+                                        <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
+                                            <span class="text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
+                                                <?= $user['rol_description'] ?>
+                                            </span>
                                         </td>
-                                        <td
-                                            class="p-2 text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <span
-                                                class="text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 text-slate-400">23/04/18</span>
+                                        <td class="p-2 text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
+                                            <span class="bg-gradient-to-tl from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
+                                                <?= $user['status_name'] ?>
+                                            </span>
                                         </td>
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
+                                        <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
                                             <a href="javascript:;"
                                                 class="text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
-                                                Edit </a>
+                                                Edit
+                                            </a>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <div class="flex px-2 py-1">
-                                                <div>
-                                                    <img src="../assets/img/team-3.jpg"
-                                                        class="inline-flex items-center justify-center mr-4 text-sm text-white transition-all duration-200 ease-in-out h-9 w-9 rounded-xl"
-                                                        alt="user2" />
-                                                </div>
-                                                <div class="flex flex-col justify-center">
-                                                    <h6 class="mb-0 text-sm leading-normal ligth:text-white">Alexa Liras
-                                                    </h6>
-                                                    <p
-                                                        class="mb-0 text-xs leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
-                                                        alexa@creative-tim.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <p
-                                                class="mb-0 text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80">
-                                                Programator</p>
-                                            <p
-                                                class="mb-0 text-xs leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
-                                                Developer</p>
-                                        </td>
-                                        <td
-                                            class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <span
-                                                class="bg-gradient-to-tl from-slate-600 to-slate-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Offline</span>
-                                        </td>
-                                        <td
-                                            class="p-2 text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <span
-                                                class="text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 text-slate-400">11/01/19</span>
-                                        </td>
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <a href="javascript:;"
-                                                class="text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
-                                                Edit </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <div class="flex px-2 py-1">
-                                                <div>
-                                                    <img src="../assets/img/team-4.jpg"
-                                                        class="inline-flex items-center justify-center mr-4 text-sm text-white transition-all duration-200 ease-in-out h-9 w-9 rounded-xl"
-                                                        alt="user3" />
-                                                </div>
-                                                <div class="flex flex-col justify-center">
-                                                    <h6 class="mb-0 text-sm leading-normal ligth:text-white">Laurent
-                                                        Perrier</h6>
-                                                    <p
-                                                        class="mb-0 text-xs leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
-                                                        laurent@creative-tim.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <p
-                                                class="mb-0 text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80">
-                                                Executive</p>
-                                            <p
-                                                class="mb-0 text-xs leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
-                                                Projects</p>
-                                        </td>
-                                        <td
-                                            class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <span
-                                                class="bg-gradient-to-tl from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Online</span>
-                                        </td>
-                                        <td
-                                            class="p-2 text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <span
-                                                class="text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 text-slate-400">19/09/17</span>
-                                        </td>
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <a href="javascript:;"
-                                                class="text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
-                                                Edit </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <div class="flex px-2 py-1">
-                                                <div>
-                                                    <img src="../assets/img/team-3.jpg"
-                                                        class="inline-flex items-center justify-center mr-4 text-sm text-white transition-all duration-200 ease-in-out h-9 w-9 rounded-xl"
-                                                        alt="user4" />
-                                                </div>
-                                                <div class="flex flex-col justify-center">
-                                                    <h6 class="mb-0 text-sm leading-normal ligth:text-white">Michael Levi
-                                                    </h6>
-                                                    <p
-                                                        class="mb-0 text-xs leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
-                                                        michael@creative-tim.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <p
-                                                class="mb-0 text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80">
-                                                Programator</p>
-                                            <p
-                                                class="mb-0 text-xs leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
-                                                Developer</p>
-                                        </td>
-                                        <td
-                                            class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <span
-                                                class="bg-gradient-to-tl from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Online</span>
-                                        </td>
-                                        <td
-                                            class="p-2 text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <span
-                                                class="text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 text-slate-400">24/12/08</span>
-                                        </td>
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <a href="javascript:;"
-                                                class="text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
-                                                Edit </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <div class="flex px-2 py-1">
-                                                <div>
-                                                    <img src="../assets/img/team-2.jpg"
-                                                        class="inline-flex items-center justify-center mr-4 text-sm text-white transition-all duration-200 ease-in-out h-9 w-9 rounded-xl"
-                                                        alt="user5" />
-                                                </div>
-                                                <div class="flex flex-col justify-center">
-                                                    <h6 class="mb-0 text-sm leading-normal ligth:text-white">Richard Gran
-                                                    </h6>
-                                                    <p
-                                                        class="mb-0 text-xs leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
-                                                        richard@creative-tim.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <p
-                                                class="mb-0 text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80">
-                                                Manager</p>
-                                            <p
-                                                class="mb-0 text-xs leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
-                                                Executive</p>
-                                        </td>
-                                        <td
-                                            class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <span
-                                                class="bg-gradient-to-tl from-slate-600 to-slate-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Offline</span>
-                                        </td>
-                                        <td
-                                            class="p-2 text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <span
-                                                class="text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 text-slate-400">04/10/21</span>
-                                        </td>
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <a href="javascript:;"
-                                                class="text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
-                                                Edit </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b-0 whitespace-nowrap shadow-transparent">
-                                            <div class="flex px-2 py-1">
-                                                <div>
-                                                    <img src="../assets/img/team-4.jpg"
-                                                        class="inline-flex items-center justify-center mr-4 text-sm text-white transition-all duration-200 ease-in-out h-9 w-9 rounded-xl"
-                                                        alt="user6" />
-                                                </div>
-                                                <div class="flex flex-col justify-center">
-                                                    <h6 class="mb-0 text-sm leading-normal ligth:text-white">Miriam Eric
-                                                    </h6>
-                                                    <p
-                                                        class="mb-0 text-xs leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
-                                                        miriam@creative-tim.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b-0 whitespace-nowrap shadow-transparent">
-                                            <p
-                                                class="mb-0 text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80">
-                                                Programtor</p>
-                                            <p
-                                                class="mb-0 text-xs leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
-                                                Developer</p>
-                                        </td>
-                                        <td
-                                            class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b-0 whitespace-nowrap shadow-transparent">
-                                            <span
-                                                class="bg-gradient-to-tl from-slate-600 to-slate-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Offline</span>
-                                        </td>
-                                        <td
-                                            class="p-2 text-center align-middle bg-transparent border-b-0 whitespace-nowrap shadow-transparent">
-                                            <span
-                                                class="text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 text-slate-400">14/09/20</span>
-                                        </td>
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b-0 whitespace-nowrap shadow-transparent">
-                                            <a href="javascript:;"
-                                                class="text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
-                                                Edit </a>
-                                        </td>
-                                    </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>

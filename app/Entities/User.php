@@ -14,8 +14,8 @@ class User extends Entity{
     //     $this->attributes['user_login'] = explode(' ',$this->name)[0] . explode(' ',$this->surname)[0];
     // }
 
-    public function getRole(){
-        $model = model('RolsModel');
-        return $model->where('rol_id',$this->rol_id)->first();
-    }
+    // public function getRole(){
+    //     $model = model('RolsModel');
+    //     return $model->where('rol_id',$this->rol_id)->first();
+    // }
 }
