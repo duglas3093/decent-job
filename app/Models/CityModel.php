@@ -4,33 +4,22 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class BeneficiaryModel extends Model
+class CityModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'beneficiaries';
-    protected $primaryKey       = 'beneficiary_id';
+    protected $table            = 'cities';
+    protected $primaryKey       = 'city_id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'beneficiary_name',
-        'beneficiary_lastname',
-        'beneficiary_ci',
-        'beneficiary_complement',
-        'beneficiary_email',
-        'beneficiary_password',
-        'beneficiary_datebirth',
-        'beneficiary_direction',
-        'city_id',
-        'schedule_id',
-        'sm_id',
-        'status_id'
+        'city_name'
     ];
 
     // Dates
-    protected $useTimestamps = true;
+    protected $useTimestamps = false;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';

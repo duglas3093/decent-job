@@ -51,11 +51,11 @@ $routes->group('admin',['namespace' => 'App\Controllers\admin','filter'=>'auth:a
     $routes->post('update_user','UserController::update');
 
     // Beneficiary
-    $routes->get('beneficiaries','Beneficiary::index');
-    $routes->get('add_beneficiary','Beneficiary::add');
-    $routes->post('store_beneficiary','Beneficiary::store');
-    $routes->get('edit_beneficiary/(:num)','Beneficiary::edit/$1');
-    $routes->post('update_beneficiary','Beneficiary::update');
+    $routes->get('beneficiaries','BeneficiaryController::index');
+    $routes->get('add_beneficiary','BeneficiaryController::add');
+    $routes->post('store_beneficiary','BeneficiaryController::store');
+    $routes->get('edit_beneficiary/(:num)','BeneficiaryController::edit/$1');
+    $routes->post('update_beneficiary','BeneficiaryController::update');
 });
 /*
  * --------------------------------------------------------------------
