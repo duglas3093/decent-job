@@ -74,12 +74,9 @@ Usuarios
                                         </td>
                                         <td
                                             class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <p
-                                                class="mb-0 text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80">
-                                                <?= $user['user_celphone'] ?></p>
-                                            <!-- <p
-                                                class="mb-0 text-xs leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
-                                                <?= $user['rol_description'] ?></p> -->
+                                            <p class="mb-0 text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80">
+                                                <?= $user['user_celphone'] ?>
+                                            </p>
                                         </td>
                                         <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
                                             <span class="text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
