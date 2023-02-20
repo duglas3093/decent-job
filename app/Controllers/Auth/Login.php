@@ -37,10 +37,10 @@ class Login extends BaseController
                         'type'=>'red',
                         'body'=> 'Este usuario no se encuentra registrado en el sistema.'
                     ])
-                    ->withInput();
+                    ->withInput();                    
         }
         
-        if(!password_verify($password, $user->user_password)){
+        if(!password_verify($password, $user['user_password'])){
             return redirect()->back()
                     ->with('msg',[
                         'type'=>'red',
@@ -50,15 +50,15 @@ class Login extends BaseController
         }
 
         session()->set([
-            'user_id' => $user->user_id,
-            'user_name' => $user->user_name,
-            'user_lastname' => $user->user_lastname,
+            'user_id' => $user['user_id'],
+            'user_name' => $user['user_name'],
+            'user_lastname' => $user['user_lastname'],
             'is_logged' => true,
         ]);
 
         return redirect()->route('admin/dashboard')->with('msg',[
-            'type'=>'success',
-            'body'=> 'Bienvenido nuevamente '.$user->user_name
+            'type'=>'green',
+            'body'=> 'Bienvenido nuevamente '.$user['user_name']
         ]);
     }
 

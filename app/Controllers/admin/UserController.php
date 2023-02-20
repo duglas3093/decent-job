@@ -3,6 +3,8 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Entities\User;
+use CodeIgniter\Exceptions\PageNotFoundException;
 
 class UserController extends BaseController
 {
@@ -17,112 +19,127 @@ class UserController extends BaseController
     public function index(){
         $data['session'] = session()->get();
         $userModel = model('UserModel');
-        $data['students'] = $userModel->orderBy('user_lastname')->paginate(self::PAGINATION);
-        $data['pager'] = $userModel->pager;
+        $data['users'] = $userModel
+                            ->join('status s','s.status_id = users.status_id','LEFT')
+                            ->join('rols r','r.rol_id = users.rol_id','LEFT')
+                            ->select('users.*, s.status_name, r.rol_description')
+                            ->orderBy('user_lastname')
+                            ->paginate(self::PAGINATION);
+        // $data['pager'] = $userModel->pager;
         return view('admin/user/index',$data);
-        
+        // var_dump(json_encode(json_encode($data['users'], true)));   
+        // $data['courses'] = $courseModel
+        //                     ->join('instructor i','i.instructor_id = courses.instructor_id','LEFT')
+        //                     ->join('status s','s.status_id = courses.status_id','LEFT')
+        //                     ->join('categories c','c.category_id = courses.category_id','LEFT')
+        //                     ->select('courses.*,i.instructor_name,s.status_description,c.category_description')
+        //                     ->where('courses.status_id',self::STATUS)
+        //                     ->paginate(self::PAGINATION);
     }
     
     public function add(){
         $data['session'] = session()->get();
-        // $generesModel = model('GeneresModel');
-        // $data['generes'] = $generesModel->findAll();
+        $statusModel = model('StatusModel');
+        $rolModel = model('RolsModel');
+        $data['status'] = $statusModel->where('status_category',1)->findAll();
+        $data['rols'] = $rolModel->findAll();
         
-        return view('admin/student/add',$data);
+        return view('admin/user/add',$data);
     }
 
-    public function edit(int $student_id){
-        $studentModel = model('StudentsModel');
-        if(!$data['student'] = $studentModel->where('student_id', $student_id)->first()){
+    public function edit(int $user_id){
+        $userModel = model('UserModel');
+        if(!$data['user'] = $userModel->where('user_id', $user_id)->first()){
             throw PageNotFoundException::forPageNotFound();
         }
         $data['session'] = session()->get();
-        $generesModel = model('GeneresModel');
-        $data['generes'] = $generesModel->findAll();
         $statusModel = model('StatusModel');
-        $data['status'] = $statusModel->where('status_code',1)->findAll();
-        return view('admin/student/edit',$data);
+        $rolModel = model('RolsModel');
+        $data['status'] = $statusModel->where('status_category',1)->findAll();
+        $data['rols'] = $rolModel->findAll();
+        return view('admin/user/edit',$data);
     }
 
     public function store(){
         $validation = service('validation');
         $validation->setRules([
-            'student_name'          => 'required|alpha_space',
-            'student_lastname'      => 'required|alpha_space',
-            'student_ci'            => 'required|is_unique[students.student_ci]|integer',
-            'student_celphone'      => 'required_with[student_celphone]',
-            'student_email'         => 'required_with[student_email]',
+            'user_name'          => ['label' => 'nombre(s)','rules' => 'required'],
+            'user_lastname'      => ['label' => 'apellido(s)' ,'rules' => 'required|alpha_space'],
+            'user_ci'            => ['label' => 'Carnet Identidad' ,'rules' => 'required|is_unique[users.user_ci]|integer'],
+            'user_celphone'      => ['label' => 'Telefono' ,'rules' => 'required_with[user_celphone]'],
+            'user_email'         => ['label' => 'email' ,'rules' => 'required_with[user_email]'],
+            'user_password'      => ['label' => 'contraseña' ,'rules' => 'required'],
+            'rol_id'             => ['label' => 'rol' ,'rules' => 'required'],
         ]);
 
         if(!$validation->withRequest($this->request)->run()){
             return redirect()->back()->withInput()->with('errors',$validation->getErrors());
         }
-        $formStudent = $this->request->getPost();
+        $formuser = $this->request->getPost();
+        $formuser['user_password'] = password_hash($formuser['user_password'],PASSWORD_ARGON2ID);
         $register = [
-            'student_photo' => $this->_upload(),
             'status_id'     => 1,//1 active
-            'user_id'       => (int)session()->get()['user_id']
         ];
+        
+        $userData = array_merge($formuser,$register);
+        $user = new User($userData);
+        $userModel = model('UserModel');
 
-        $studentData = array_merge($formStudent,$register);
-        $student = new EntitiesStudent($studentData);
-        $model = model('StudentsModel');
-
-        $model->save($student);
-        return redirect()->route('admin/students')->with('msg',[
+        $userModel->save($user);
+        return redirect()->route('admin/users')->with('msg',[
             'type' => 'success',
-            'body' => 'Estudiante registrado con exito!'
+            'body' => 'Usuario registrado con exito!'
         ]);
     }
 
     public function update(){
         $validation = service('validation');
         $validation->setRules([
-            'student_id'          => 'required|is_not_unique[students.student_id]',
-            'student_name'          => 'required|alpha_space',
-            'student_lastname'      => 'required|alpha_space',
-            'student_ci'            => 'required|integer',
-            'student_email'         => 'required_with[student_email]',
+            'user_name'          => ['label' => 'nombre(s)','rules' => 'required'],
+            'user_lastname'      => ['label' => 'apellido(s)' ,'rules' => 'required|alpha_space'],
+            'user_ci'            => ['label' => 'Carnet Identidad' ,'rules' => 'required|integer'],
+            'user_celphone'      => ['label' => 'Telefono' ,'rules' => 'required_with[user_celphone]'],
+            'user_email'         => ['label' => 'email' ,'rules' => 'required_with[user_email]'],
+            // 'user_password'      => ['label' => 'contraseña' ,'rules' => 'required'],
+            'rol_id'             => ['label' => 'rol' ,'rules' => 'required'],
         ]);
         
         if(!$validation->withRequest($this->request)->run()){
             return redirect()->back()->withInput()->with('errors',$validation->getErrors());
         }
         
-        $model = model('StudentsModel');
-        if(!$model->where('student_id', (int)trim($this->request->getVar('student_id')))->first()){
+        $model = model('UserModel');
+        if(!$model->where('user_id', (int)trim($this->request->getVar('user_id')))->first()){
             throw PageNotFoundException::forPageNotFound();
         }
 
-        $loadImage = $this->_upload();
+        // $loadImage = $this->_upload();
 
         $model->save([
-            'student_id'            => trim($this->request->getVar('student_id')),
-            'student_name'          => trim($this->request->getVar('student_name')),
-            'student_lastname'      => trim($this->request->getVar('student_lastname')),
-            'student_ci'            => trim($this->request->getVar('student_ci')),
-            'student_cicomplement'  => trim($this->request->getVar('student_cicomplement')),
-            'student_celphone'      => trim($this->request->getVar('student_celphone')),
-            'genere_id'             => trim($this->request->getVar('genere_id')),
-            'student_email'         => trim($this->request->getVar('student_email')),
-            'status_id'             => (int)trim($this->request->getVar('status_id')),
-            'student_photo'         => $loadImage
+            'user_id'            => trim($this->request->getVar('user_id')),
+            'user_name'          => trim($this->request->getVar('user_name')),
+            'user_lastname'      => trim($this->request->getVar('user_lastname')),
+            'user_ci'            => trim($this->request->getVar('user_ci')),
+            'user_celphone'      => trim($this->request->getVar('user_celphone')),
+            'user_email'         => trim($this->request->getVar('user_email')),
+            'rol_id'             => trim($this->request->getVar('rol_id')),
+            'status_id'          => (int)trim($this->request->getVar('status_id')),
         ]);
-        return redirect()->route('admin/students')->with('msg',[
-            'type' => 'success',
-            'body' => 'El estudiante se ha actualizado con exito!'
+        return redirect()->route('admin/users')->with('msg',[
+            'type'=>'green',
+            'body'=> 'El usuario se actualizo exitosamente.'
         ]);
+        
     }
 
-    private function _upload(){
-        $newName = "";
-        if ($imageFile = $this->request->getFile('student_photo')) {
-            if ($imageFile->isValid() && !$imageFile->hasMoved()) {
-                $newName = $imageFile->getRandomName();
-                // $imageFile->move(WRITEPATH."uploads/images/students/",$newName);
-                $imageFile->move(ROOTPATH."public/uploads/images/students/",$newName);
-            }
-        }
-        return $newName;
-    }
+    // private function _upload(){
+    //     $newName = "";
+    //     if ($imageFile = $this->request->getFile('user_photo')) {
+    //         if ($imageFile->isValid() && !$imageFile->hasMoved()) {
+    //             $newName = $imageFile->getRandomName();
+    //             $imageFile->move(ROOTPATH."public/uploads/images/users/",$newName);
+    //         }
+    //     }
+    //     return $newName;
+    // }
 }
