@@ -63,13 +63,13 @@ class UserController extends BaseController
     public function store(){
         $validation = service('validation');
         $validation->setRules([
-            'user_name'          => 'required',
-            'user_lastname'      => 'required',
-            'user_ci'            => 'required|is_unique[users.user_ci]|integer',
-            'user_celphone'      => 'required_with[user_celphone]',
-            'user_email'         => 'required_with[user_email]',
-            'user_password'      => 'required',
-            'rol_id'             => 'required',
+            'user_name'          => ['label' => 'nombre(s)','rules' => 'required'],
+            'user_lastname'      => ['label' => 'apellido(s)' ,'rules' => 'required|alpha_space'],
+            'user_ci'            => ['label' => 'Carnet Identidad' ,'rules' => 'required|is_unique[users.user_ci]|integer'],
+            'user_celphone'      => ['label' => 'Telefono' ,'rules' => 'required_with[user_celphone]'],
+            'user_email'         => ['label' => 'email' ,'rules' => 'required_with[user_email]'],
+            'user_password'      => ['label' => 'contraseña' ,'rules' => 'required'],
+            'rol_id'             => ['label' => 'rol' ,'rules' => 'required'],
         ]);
 
         if(!$validation->withRequest($this->request)->run()){
@@ -95,13 +95,13 @@ class UserController extends BaseController
     public function update(){
         $validation = service('validation');
         $validation->setRules([
-            'user_name'          => 'required|alpha_space',
-            'user_lastname'      => 'required|alpha_space',
-            'user_ci'            => 'required|is_unique[users.user_ci]|integer',
-            'user_celphone'      => 'required_with[user_celphone]',
-            'user_email'         => 'required_with[user_email]',
-            'user_password'      => 'required',
-            'rol_id'             => 'required',
+            'user_name'          => ['label' => 'nombre(s)','rules' => 'required'],
+            'user_lastname'      => ['label' => 'apellido(s)' ,'rules' => 'required|alpha_space'],
+            'user_ci'            => ['label' => 'Carnet Identidad' ,'rules' => 'required|integer'],
+            'user_celphone'      => ['label' => 'Telefono' ,'rules' => 'required_with[user_celphone]'],
+            'user_email'         => ['label' => 'email' ,'rules' => 'required_with[user_email]'],
+            // 'user_password'      => ['label' => 'contraseña' ,'rules' => 'required'],
+            'rol_id'             => ['label' => 'rol' ,'rules' => 'required'],
         ]);
         
         if(!$validation->withRequest($this->request)->run()){
@@ -116,18 +116,18 @@ class UserController extends BaseController
         // $loadImage = $this->_upload();
 
         $model->save([
-            // 'user_id'            => trim($this->request->getVar('user_id')),
+            'user_id'            => trim($this->request->getVar('user_id')),
             'user_name'          => trim($this->request->getVar('user_name')),
             'user_lastname'      => trim($this->request->getVar('user_lastname')),
             'user_ci'            => trim($this->request->getVar('user_ci')),
             'user_celphone'      => trim($this->request->getVar('user_celphone')),
             'user_email'         => trim($this->request->getVar('user_email')),
-            'user_password'      => trim($this->request->getVar('user_password')),
+            'rol_id'             => trim($this->request->getVar('rol_id')),
             'status_id'          => (int)trim($this->request->getVar('status_id')),
         ]);
         return redirect()->route('admin/users')->with('msg',[
             'type'=>'green',
-            'body'=> 'El usuario se registro exitosamente.'
+            'body'=> 'El usuario se actualizo exitosamente.'
         ]);
         
     }

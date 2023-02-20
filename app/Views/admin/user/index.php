@@ -87,15 +87,14 @@ Usuarios
                                             </span>
                                         </td>
                                         <td class="p-2 text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <span class="bg-gradient-to-tl from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
+                                            <span class="bg-gradient-to-tl <?= $user['status_name'] == 'Activo' ? "from-emerald-500 to-teal-400":"from-red-500 to-red-400" ?> px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                                 <?= $user['status_name'] ?>
                                             </span>
                                         </td>
                                         <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <a href="javascript:;"
-                                                class="text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
-                                                Edit
-                                            </a>
+                                            <a href="<?= base_url("admin/edit_user/{$user['user_id']}") ?>" class="inline-block px-2 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                                                <i class="fa-solid fa-pencil"></i>
+                                            </a> 
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>
