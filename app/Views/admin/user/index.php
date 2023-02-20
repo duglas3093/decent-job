@@ -84,7 +84,7 @@ Usuarios
                                             </span>
                                         </td>
                                         <td class="p-2 text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <span class="bg-gradient-to-tl <?= $user['status_name'] == 'Activo' ? "from-emerald-500 to-tealcomm-400":"from-red-500 to-red-400" ?> px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
+                                            <span class="bg-gradient-to-tl <?= $user['status_name'] == 'Activo' ? "from-emerald-500 to-teal-400":"from-red-500 to-red-400" ?> px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                                 <?= $user['status_name'] ?>
                                             </span>
                                         </td>
