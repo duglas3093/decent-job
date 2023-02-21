@@ -4,29 +4,18 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class BeneficiaryModel extends Model
+class SocialMediaModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'beneficiaries';
-    protected $primaryKey       = 'beneficiary_id';
+    protected $table            = 'social_medias';
+    protected $primaryKey       = 'sm_id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'beneficiary_name',
-        'beneficiary_lastname',
-        'beneficiary_ci',
-        'beneficiary_complement',
-        'beneficiary_email',
-        'beneficiary_celphone',
-        'beneficiary_password',
-        'beneficiary_datebirth',
-        'beneficiary_direction',
-        'city_id',
-        'schedule_id',
-        'sm_id',
+        'sm_name',
         'status_id'
     ];
 

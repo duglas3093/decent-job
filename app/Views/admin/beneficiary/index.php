@@ -1,7 +1,7 @@
 <?= $this->extend('admin/layout/main') ?>
 
 <?= $this->section('title') ?>
-Usuarios
+Beneficiarios
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -21,12 +21,12 @@ Usuarios
                         <?php endif ?>
                         <div class="relative">
                             <div class="absolute left-0 top-0">
-                                <h6 class="ligth:text-white">Tabla de usuarios</h6>
+                                <h6 class="ligth:text-white">Tabla de Beneficiarios</h6>
                             </div>
                             <div class="absolute top-0 right-0">
-                                <a href="<?= base_url("admin/add_user"); ?>" class="inline-block px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out">
+                                <a href="<?= base_url("admin/add_beneficiary"); ?>" class="inline-block px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out">
                                     <i class="fa-solid fa-plus"></i> 
-                                    Agregar Usuario
+                                    Agregar Beneficiario
                                 </a>
                             </div>
                         </div>
@@ -37,16 +37,16 @@ Usuarios
                                 <thead class="align-bottom">
                                     <tr>
                                         <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Usuario
+                                            NOMBRE
                                         </th>
                                         <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Celular
+                                            CI
                                         </th>
                                         <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Rol
+                                            EDAD
                                         </th>
                                         <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Estado
+                                            CIUDAD
                                         </th>
                                         <th class="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b border-collapse border-solid shadow-none ligth:border-white/40 ligth:text-white tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                         </th>
@@ -55,8 +55,8 @@ Usuarios
                                 <tbody>
 
                                     
-                                    <?php foreach($users as $user): ?>
-                                    <tr>
+                                    <?php foreach($beneficiaries as $beneficiary): ?>
+                                    <tr class="uppercase">
                                         <td
                                             class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
                                             <div class="flex px-2 py-1">
@@ -66,31 +66,32 @@ Usuarios
                                                         alt="user1" />
                                                 </div> -->
                                                 <div class="flex flex-col justify-center">
-                                                    <h6 class="mb-0 text-sm leading-normal ligth:text-white"><?= $user['user_lastname'] ?> <?= $user['user_name'] ?>
+                                                    <h6 class="mb-0 text-sm leading-normal ligth:text-white"><?= $beneficiary['beneficiary_lastname'] ?> <?= $beneficiary['beneficiary_name'] ?>
                                                     </h6>
-                                                    <p class="mb-0 text-xs leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
-                                                        <?= $user['user_email'] ?></p>
+                                                    <p class="mb-0 text-xs leading-tight ligth:git text-black ligth:opacity-80 text-slate-400">
+                                                        <?= $beneficiary['beneficiary_celphone'] ?>
+                                                    </p>
                                                 </div>
                                             </div>
                                         </td>
                                         <td
                                             class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
                                             <p class="mb-0 text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80">
-                                                <?= $user['user_celphone'] ?>
+                                                <?= $beneficiary['beneficiary_ci'] ?>
                                             </p>
                                         </td>
                                         <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
                                             <span class="text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
-                                                <?= $user['rol_description'] ?>
+                                                <?= ((new DateTime(date("Y-m-d")))->diff(new DateTime($beneficiary['beneficiary_datebirth'])))->y ?> Años
                                             </span>
                                         </td>
                                         <td class="p-2 text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <span class="bg-gradient-to-tl <?= $user['status_name'] == 'Activo' ? "from-emerald-500 to-teal-400":"from-red-500 to-red-400" ?> px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                                <?= $user['status_name'] ?>
-                                            </span>
+                                            <span class="text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
+                                                <?= $beneficiary['city_name'] ?>
+                                            </span>    
                                         </td>
                                         <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <a href="<?= base_url("admin/edit_user/{$user['user_id']}") ?>" class="inline-block px-2 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                                            <a href="<?= base_url("admin/edit_beneficiary/{$beneficiary['beneficiary_id']}") ?>" class="inline-block px-2 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
                                                 <i class="fa-solid fa-pencil"></i>
                                             </a> 
                                         </td>

@@ -70,7 +70,7 @@
             <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="status_id" name="status_id">
                 <?php foreach ($status as $state): ?>
-                <option value="<?= $state['status_id'] ?>" <?= $user['status_id'] == $state['status_id'] ?? "selected" ?>><?= $state['status_name'] ?></option>
+                <option value="<?= $state['status_id'] ?>" <?= $user['status_id'] == $state['status_id'] ? "selected":"" ?>><?= $state['status_name'] ?></option>
                 <?php endforeach; ?>
             </select>
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -88,7 +88,7 @@
             <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="rol_id" name="rol_id">
                 <?php foreach ($rols as $rol): ?>
-                <option value="<?= $rol['rol_id'] ?>" <?= !isset($user) ? "": ($user['rol_id'] == $rol['rol_id'] ?? "selected") ?>><?= $rol['rol_description'] ?></option>
+                <option value="<?= $rol['rol_id'] ?>" <?= !isset($user) ? "": ($user['rol_id'] == $rol['rol_id'] ? "selected":"") ?>><?= $rol['rol_description'] ?></option>
                 <?php endforeach; ?>
             </select>
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
