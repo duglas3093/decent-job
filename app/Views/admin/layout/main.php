@@ -58,8 +58,6 @@
     
     <?= $this->renderSection('content') ?>
     
-    <?= $this->include('admin/layout/footer') ?>
-    
     <!-- plugins -->
     <script src="<?=base_url('plugins/jQuery/jquery.min.js')?>"></script>
     <script src="<?=base_url('plugins/masonry/masonry.min.js')?>"></script>
