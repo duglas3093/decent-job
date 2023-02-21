@@ -19,8 +19,8 @@ Edición de usuario
                     </div>
                     <div class="flex-auto px-0 pt-0 pb-2 mt-8">
                         <div class="p-0 overflow-x-auto ml-4 p-8">
-                            <form class="w-full"  action="<?= base_url('admin/update_user') ?>" method="POST" enctype="multipart/form-data">
-                                <?= $this->include('admin/user/form') ?>
+                            <form class="w-full"  action="<?= base_url('admin/update_beneficiary') ?>" method="POST" enctype="multipart/form-data">
+                                <?= $this->include('admin/beneficiary/form') ?>
                             </form>
                         </div>
                     </div>

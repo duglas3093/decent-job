@@ -10,14 +10,15 @@ Usuarios
         <div class="flex flex-wrap -mx-3">
             <div class="flex-none w-full max-w-full px-3">
                 <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl ligth:bg-slate-850 ligth:shadow-ligth-xl rounded-2xl bg-clip-border">
-                    <?php if((session('msg'))): ?>
-                        <article class="message is-<?= session('msg.type') ?>">
-                            <div class="message-body">
-                                <?= session('msg.body ') ?>
-                            </div>
-                        </article>
-                    <?php endif ?>
                     <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                        <?php if((session('msg'))): ?>
+                            <div class="bg-<?= session('msg.type') ?>-100 border border-<?= session('msg.type') ?>-400 text-<?= session('msg.type') ?>-700 px-4 py-3 rounded relative mb-2" role="alert">
+                                <span class="block sm:inline"><?= session('msg.body ') ?></span>
+                                <!-- <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                                    <svg class="fill-current h-6 w-6 text-<?= session('msg.type') ?>-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
+                                </span> -->
+                            </div>
+                        <?php endif ?>
                         <div class="relative">
                             <div class="absolute left-0 top-0">
                                 <h6 class="ligth:text-white">Tabla de usuarios</h6>
@@ -31,7 +32,7 @@ Usuarios
                         </div>
                     </div>
                     <div class="flex-auto px-0 pt-0 pb-2 mt-8">
-                        <div class="p-0 overflow-x-auto">
+                        <div class="p-3 overflow-x-auto">
                             <table class="items-center w-full mb-0 align-top border-collapse ligth:border-white/40 text-slate-500">
                                 <thead class="align-bottom">
                                     <tr>

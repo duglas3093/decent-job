@@ -87,7 +87,7 @@ class UserController extends BaseController
 
         $userModel->save($user);
         return redirect()->route('admin/users')->with('msg',[
-            'type' => 'success',
+            'type' => 'green',
             'body' => 'Usuario registrado con exito!'
         ]);
     }

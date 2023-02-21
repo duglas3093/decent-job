@@ -6,7 +6,7 @@
         </label>
         <input
             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-<?= session('errors.beneficiary_name') ? "red-500 mb-3":"gray-200 focus:border-gray-500" ?> rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
-            id="beneficiary_name" name="beneficiary_name" type="text" placeholder="Nombre(s)" value="<?= old('beneficiary_name') ?? (!isset($beneficiary) ? "":"{$beneficiary['beneficiary_name']})") ?>">
+            id="beneficiary_name" name="beneficiary_name" type="text" placeholder="Nombre(s)" value="<?= old('beneficiary_name') ?? (!isset($beneficiary) ? "":"{$beneficiary['beneficiary_name']}") ?>">
             <p class="text-red-500 text-xs italic"><?= session('errors.beneficiary_name') ?></p>
     </div>
     <div class="w-full md:w-1/2 px-3 mb-2">
@@ -71,7 +71,7 @@
         </label>
         <input
             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-<?= session('errors.beneficiary_direction') ? "red-500 mb-3":"gray-200 focus:border-gray-500" ?> rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
-            id="beneficiary_direction" name="beneficiary_direction" type="text" placeholder="Dirección del beneficiario" value="<?= old('beneficiary_direction') ?? (!isset($beneficiary) ? "":"{$beneficiary['beneficiary_direction']}") ?>" required>
+            id="beneficiary_direction" name="beneficiary_direction" type="text" placeholder="Dirección del beneficiario" value="<?= old('beneficiary_direction') ?? (!isset($beneficiary) ? "":"{$beneficiary['beneficiary_direction']}") ?>">
             <p class="text-red-500 text-xs italic"><?= session('errors.beneficiary_direction') ?></p>
     </div>
 </div>
@@ -84,7 +84,7 @@
             <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="city_id" name="city_id">
                 <?php foreach ($cities as $city): ?>
-                <option value="<?= $city['city_id'] ?>" <?= !isset($beneficiary) ? "": ($beneficiary['city_id'] == $city['city_id'] ?? "selected") ?>><?= $city['city_name'] ?></option>
+                <option value="<?= $city['city_id'] ?>" <?= !isset($beneficiary) ? "": ($beneficiary['city_id'] == $city['city_id'] ? "selected":"") ?>><?= $city['city_name'] ?></option>
                 <?php endforeach; ?>
             </select>
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -102,7 +102,7 @@
             <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="schedule_id" name="schedule_id">
                 <?php foreach ($schedules as $schedule): ?>
-                <option value="<?= $schedule['schedule_id'] ?>" <?= !isset($beneficiary) ? "": ($beneficiary['schedule_id'] == $schedule['schedule_id'] ?? "selected") ?>><?= $schedule['schedule_description'] ?></option>
+                <option value="<?= $schedule['schedule_id'] ?>" <?= !isset($beneficiary) ? "": ($beneficiary['schedule_id'] == $schedule['schedule_id'] ? "selected":"") ?>><?= $schedule['schedule_description'] ?></option>
                 <?php endforeach; ?>
             </select>
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -120,7 +120,7 @@
             <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="sm_id" name="sm_id">
                 <?php foreach ($social_medias as $sm): ?>
-                <option value="<?= $sm['sm_id'] ?>" <?= !isset($beneficiary) ? "": ($beneficiary['sm_id'] == $sm['sm_id'] ?? "selected") ?>><?= $sm['sm_name'] ?></option>
+                <option value="<?= $sm['sm_id'] ?>" <?= !isset($beneficiary) ? "": ($beneficiary['sm_id'] == $sm['sm_id'] ? "selected":"") ?>><?= $sm['sm_name'] ?></option>
                 <?php endforeach; ?>
             </select>
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -139,7 +139,7 @@
             <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="status_id" name="status_id">
                 <?php foreach ($status as $state): ?>
-                <option value="<?= $state['status_id'] ?>" <?= $beneficiary['status_id'] == $state['status_id'] ?? "selected" ?>><?= $state['status_name'] ?></option>
+                <option value="<?= $state['status_id'] ?>" <?= $beneficiary['status_id'] == $state['status_id'] ? "selected":"" ?>><?= $state['status_name'] ?></option>
                 <?php endforeach; ?>
             </select>
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">

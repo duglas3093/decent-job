@@ -10,14 +10,15 @@ Beneficiarios
         <div class="flex flex-wrap -mx-3">
             <div class="flex-none w-full max-w-full px-3">
                 <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl ligth:bg-slate-850 ligth:shadow-ligth-xl rounded-2xl bg-clip-border">
-                    <?php if((session('msg'))): ?>
-                        <article class="message is-<?= session('msg.type') ?>">
-                            <div class="message-body">
-                                <?= session('msg.body ') ?>
-                            </div>
-                        </article>
-                    <?php endif ?>
                     <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                        <?php if((session('msg'))): ?>
+                            <div class="bg-<?= session('msg.type') ?>-100 border border-<?= session('msg.type') ?>-400 text-<?= session('msg.type') ?>-700 px-4 py-3 rounded relative mb-2" role="alert">
+                                <span class="block sm:inline"><?= session('msg.body ') ?></span>
+                                <!-- <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                                    <svg class="fill-current h-6 w-6 text-<?= session('msg.type') ?>-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
+                                </span> -->
+                            </div>
+                        <?php endif ?>
                         <div class="relative">
                             <div class="absolute left-0 top-0">
                                 <h6 class="ligth:text-white">Tabla de Beneficiarios</h6>
@@ -31,7 +32,7 @@ Beneficiarios
                         </div>
                     </div>
                     <div class="flex-auto px-0 pt-0 pb-2 mt-8">
-                        <div class="p-0 overflow-x-auto">
+                        <div class="p-3 overflow-x-auto">
                             <table class="items-center w-full mb-0 align-top border-collapse ligth:border-white/40 text-slate-500">
                                 <thead class="align-bottom">
                                     <tr>
@@ -55,7 +56,7 @@ Beneficiarios
 
                                     
                                     <?php foreach($beneficiaries as $beneficiary): ?>
-                                    <tr>
+                                    <tr class="uppercase">
                                         <td
                                             class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
                                             <div class="flex px-2 py-1">
@@ -67,8 +68,9 @@ Beneficiarios
                                                 <div class="flex flex-col justify-center">
                                                     <h6 class="mb-0 text-sm leading-normal ligth:text-white"><?= $beneficiary['beneficiary_lastname'] ?> <?= $beneficiary['beneficiary_name'] ?>
                                                     </h6>
-                                                    <p class="mb-0 text-xs leading-tight ligth:git text-white ligth:opacity-80 text-slate-400">
-                                                    <?= $beneficiary['beneficiary_celphone'] ?>
+                                                    <p class="mb-0 text-xs leading-tight ligth:git text-black ligth:opacity-80 text-slate-400">
+                                                        <?= $beneficiary['beneficiary_celphone'] ?>
+                                                    </p>
                                                 </div>
                                             </div>
                                         </td>
@@ -80,16 +82,16 @@ Beneficiarios
                                         </td>
                                         <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
                                             <span class="text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
-                                                <?= $beneficiary['beneficiary_datebirth'] ?>
+                                                <?= ((new DateTime(date("Y-m-d")))->diff(new DateTime($beneficiary['beneficiary_datebirth'])))->y ?> Años
                                             </span>
                                         </td>
                                         <td class="p-2 text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <span class="bg-gradient-to-tl <?= $beneficiary['status_name'] == 'Activo' ? "from-emerald-500 to-tealcomm-400":"from-red-500 to-red-400" ?> px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
+                                            <span class="text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
                                                 <?= $beneficiary['city_name'] ?>
-                                            </span>
+                                            </span>    
                                         </td>
                                         <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <a href="<?= base_url("admin/edit_user/{$beneficiary['beneficiary_id']}") ?>" class="inline-block px-2 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                                            <a href="<?= base_url("admin/edit_beneficiary/{$beneficiary['beneficiary_id']}") ?>" class="inline-block px-2 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
                                                 <i class="fa-solid fa-pencil"></i>
                                             </a> 
                                         </td>

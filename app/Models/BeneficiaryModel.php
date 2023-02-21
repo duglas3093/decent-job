@@ -20,6 +20,7 @@ class BeneficiaryModel extends Model
         'beneficiary_ci',
         'beneficiary_complement',
         'beneficiary_email',
+        'beneficiary_celphone',
         'beneficiary_password',
         'beneficiary_datebirth',
         'beneficiary_direction',

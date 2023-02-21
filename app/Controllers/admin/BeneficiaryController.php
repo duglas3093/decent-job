@@ -43,9 +43,9 @@ class BeneficiaryController extends BaseController
         return view('admin/beneficiary/add',$data);
     }
 
-    public function edit(int $user_id){
-        $userModel = model('UserModel');
-        if(!$data['user'] = $userModel->where('user_id', $user_id)->first()){
+    public function edit(int $beneficairy_id){
+        $beneficiaryModel = model('BeneficiaryModel');
+        if(!$data['beneficiary'] = $beneficiaryModel->where('beneficiary_id', $beneficairy_id)->first()){
             throw PageNotFoundException::forPageNotFound();
         }
         $data['session'] = session()->get();
@@ -91,49 +91,55 @@ class BeneficiaryController extends BaseController
 
         $beneficiaryModel->save($beneficiary);
         return redirect()->route('admin/beneficiaries')->with('msg',[
-            'type' => 'success',
-            'body' => 'Usuario registrado con exito!'
+            'type' => 'green',
+            'body' => 'Beneficiario registrado con exito!'
         ]);
     }
 
     public function update(){
         $validation = service('validation');
         $validation->setRules([
-            'user_name'          => ['label' => 'nombre(s)','rules' => 'required'],
-            'user_lastname'      => ['label' => 'apellido(s)' ,'rules' => 'required|alpha_space'],
-            'user_ci'            => ['label' => 'Carnet Identidad' ,'rules' => 'required|integer'],
-            'user_celphone'      => ['label' => 'Telefono' ,'rules' => 'required_with[user_celphone]'],
-            'user_email'         => ['label' => 'email' ,'rules' => 'required_with[user_email]'],
-            // 'user_password'      => ['label' => 'contraseña' ,'rules' => 'required'],
-            'rol_id'             => ['label' => 'rol' ,'rules' => 'required'],
+            'beneficiary_name'          => ['label' => 'nombre(s)','rules' => 'required'],
+            'beneficiary_lastname'      => ['label' => 'apellido(s)' ,'rules' => 'required|alpha_space'],
+            'beneficiary_ci'            => ['label' => 'Carnet Identidad' ,'rules' => 'required|is_unique[users.user_ci]|integer'],
+            'beneficiary_celphone'      => ['label' => 'Telefono' ,'rules' => 'required_with[user_celphone]'],
+            'beneficiary_email'         => ['label' => 'email' ,'rules' => 'required_with[user_email]'],
+            'beneficiary_datebirth'     => ['label' => 'fecha de nacimiento' ,'rules' => 'required_with[user_email]'],
+            'beneficiary_direction'     => ['label' => 'dirección' ,'rules' => 'required_with[user_email]'],
+            'city_id'                   => ['label' => 'ciudad' ,'rules' => 'required'],
+            'schedule_id'               => ['label' => 'horario' ,'rules' => 'required'],
+            'sm_id'                     => ['label' => 'sm' ,'rules' => 'required'],
         ]);
         
         if(!$validation->withRequest($this->request)->run()){
             return redirect()->back()->withInput()->with('errors',$validation->getErrors());
         }
         
-        $model = model('UserModel');
-        if(!$model->where('user_id', (int)trim($this->request->getVar('user_id')))->first()){
+        $model = model('BeneficiaryModel');
+        if(!$model->where('beneficiary_id', (int)trim($this->request->getVar('beneficiary_id')))->first()){
             throw PageNotFoundException::forPageNotFound();
         }
 
         // $loadImage = $this->_upload();
 
         $model->save([
-            'user_id'            => trim($this->request->getVar('user_id')),
-            'user_name'          => trim($this->request->getVar('user_name')),
-            'user_lastname'      => trim($this->request->getVar('user_lastname')),
-            'user_ci'            => trim($this->request->getVar('user_ci')),
-            'user_celphone'      => trim($this->request->getVar('user_celphone')),
-            'user_email'         => trim($this->request->getVar('user_email')),
-            'rol_id'             => trim($this->request->getVar('rol_id')),
-            'status_id'          => (int)trim($this->request->getVar('status_id')),
+            'beneficiary_id'            => trim($this->request->getVar('beneficiary_id')),
+            'beneficiary_name'          => trim($this->request->getVar('beneficiary_name')),
+            'beneficiary_lastname'      => trim($this->request->getVar('beneficiary_lastname')),
+            'beneficiary_ci'            => trim($this->request->getVar('beneficiary_ci')),
+            'beneficiary_celphone'      => trim($this->request->getVar('beneficiary_celphone')),
+            'beneficiary_email'         => trim($this->request->getVar('beneficiary_email')),
+            'beneficiary_datebirth'     => trim($this->request->getVar('beneficiary_datebirth')),
+            'beneficiary_direction'     => trim($this->request->getVar('beneficiary_direction')),
+            'city_id'                   => trim($this->request->getVar('city_id')),
+            'schedule_id'               => trim($this->request->getVar('schedule_id')),
+            'sm_id'                     => trim($this->request->getVar('sm_id')),
+            'status_id'                 => (int)trim($this->request->getVar('status_id')),
         ]);
-        return redirect()->route('admin/users')->with('msg',[
+        return redirect()->route('admin/beneficiaries')->with('msg',[
             'type'=>'green',
-            'body'=> 'El usuario se actualizo exitosamente.'
+            'body'=> 'El beneficiario se actualizo exitosamente.'
         ]);
-        
     }
 
     // private function _upload(){
