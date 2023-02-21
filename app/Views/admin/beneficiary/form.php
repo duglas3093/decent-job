@@ -156,8 +156,8 @@
         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             <?= isset($beneficiary) ? "Actualizar":"Guardar"?>
         </button>
-        <button class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <a href="javascript:history.back()" class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Cancelar
-        </button>
+        </a>
     </div>
 </div>
