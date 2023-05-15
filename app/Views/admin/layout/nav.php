@@ -104,11 +104,11 @@
                         class="block rounded-lg bg-white pl-10 pt-0 pr-1 light-lg Light:bg-neutral-700 Light:text-neutral-50">
                         <ul class="flex flex-col pl-0 mb-0">
                             <li class="mt-0.2 w-full">
-                                <a class=" Light:text-white Light:o<pacity-80 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors <?= service('request')->uri->getPath() == 'admin/companies' ? 'rounded-lg font-semibold text-slate-700  bg-blue-500/13':'' ?>" href="<?= base_url('admin/companies') ?>">
+                                <a class=" Light:text-white Light:o<pacity-80 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors <?= service('request')->uri->getPath() == 'admin/compromises' ? 'rounded-lg font-semibold text-slate-700  bg-blue-500/13':'' ?>" href="<?= base_url('admin/compromises') ?>">
                                     <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                         <i class="relative top-0 text-sm leading-normal text-cyan-500 fa-solid fa-building"></i>
                                     </div>
-                                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Empresas</span>
+                                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Compromisos</span>
                                 </a>
                             </li>
                             

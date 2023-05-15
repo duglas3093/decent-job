@@ -31,13 +31,6 @@ class PostulantController extends BaseController
             'beneficiary_name'          => ['label' => 'nombre(s)','rules' => 'required'],
             'beneficiary_lastname'      => ['label' => 'apellido(s)' ,'rules' => 'required|alpha_space'],
             'beneficiary_ci'            => ['label' => 'Carnet Identidad' ,'rules' => 'required|is_unique[beneficiaries.beneficiary_ci]|integer'],
-            'beneficiary_celphone'      => ['label' => 'Telefono' ,'rules' => 'required_with[beneficiary_celphone]'],
-            'beneficiary_email'         => ['label' => 'email' ,'rules' => 'required'],
-            'beneficiary_datebirth'     => ['label' => 'fecha de nacimiento' ,'rules' => 'required'],
-            'beneficiary_direction'     => ['label' => 'dirección' ,'rules' => 'required'],
-            'city_id'                   => ['label' => 'ciudad' ,'rules' => 'required'],
-            'schedule_id'               => ['label' => 'horario' ,'rules' => 'required'],
-            'sm_id'                     => ['label' => 'sm' ,'rules' => 'required'],
         ]);
 
         if(!$validation->withRequest($this->request)->run()){

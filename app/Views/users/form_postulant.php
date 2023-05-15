@@ -74,16 +74,17 @@ Formulario de Inscripción
                         </div>
                         <div class="w-full md:w-1/4 px-3 mb-3 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="beneficiary_datebirth">
-                                Fecha de nacimiento<span class="text-red-600 ">*</span>
+                                Fecha de nacimiento
                             </label>
                             <input
                                 class="appearance-none block w-full bg-gray-200 text-gray-700 border border-<?= session('errors.beneficiary_datebirth') ? "red-500 mb-3":"gray-200 focus:border-gray-500" ?> rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
-                                id="beneficiary_datebirth" name="beneficiary_datebirth" type="date" placeholder="Complemento" value="<?= old('beneficiary_datebirth') ?? (!isset($beneficiary) ? "":"{$beneficiary['beneficiary_datebirth']}") ?>" required>
+                                id="beneficiary_datebirth" name="beneficiary_datebirth" type="date" placeholder="Complemento" value="<?= old('beneficiary_datebirth') ?? (!isset($beneficiary) ? "":"{$beneficiary['beneficiary_datebirth']}") ?>" 
+                                >
                                 <p class="text-red-500 text-xs italic"><?= session('errors.beneficiary_datebirth') ?></p>
                         </div>
                         <div class="w-full md:w-1/4 px-3">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="beneficiary_celphone">
-                                Celular<span class="text-red-600 " required>*</span>
+                                Celular
                             </label>
                             <input
                                 class="appearance-none block w-full bg-gray-200 text-gray-700 border border-<?= session('errors.beneficiary_beneficiary_celphone') ? "red-500 mb-3":"gray-200 focus:border-gray-500" ?> rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
@@ -94,11 +95,12 @@ Formulario de Inscripción
                     <div class="flex flex-wrap -mx-3 mb-2">
                         <div class="w-full md:w-2/4 px-3 mb-2">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="beneficiary_email">
-                                Correo Electronico<span class="text-red-600 ">*</span>
+                                Correo Electronico
                             </label>
                             <input
                                 class="appearance-none block w-full bg-gray-200 text-gray-700 border border-<?= session('errors.beneficiary_email') ? "red-500 mb-3":"gray-200 focus:border-gray-500" ?> rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
-                                id="beneficiary_email" name="beneficiary_email" type="email" placeholder="Email" value="<?= old('beneficiary_email') ?? (!isset($beneficiary) ? "":"{$beneficiary['beneficiary_email']}") ?>" required>
+                                id="beneficiary_email" name="beneficiary_email" type="email" placeholder="Email" value="<?= old('beneficiary_email') ?? (!isset($beneficiary) ? "":"{$beneficiary['beneficiary_email']}") ?>" 
+                                >
                                 <p class="text-red-500 text-xs italic"><?= session('errors.beneficiary_email') ?></p>
                         </div>
                         <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
@@ -132,11 +134,11 @@ Formulario de Inscripción
                     <div class="flex flex-wrap -mx-3 mb-2">
                     <div class="w-full px-3 mb-2">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="beneficiary_direction">
-                                Dirección<span class="text-red-600 ">*</span>
+                                Dirección
                             </label>
                             <input
                                 class="appearance-none block w-full bg-gray-200 text-gray-700 border border-<?= session('errors.beneficiary_direction') ? "red-500 mb-3":"gray-200 focus:border-gray-500" ?> rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
-                                id="beneficiary_direction" name="beneficiary_direction" type="text" placeholder="Dirección del beneficiario" value="<?= old('beneficiary_direction') ?? (!isset($beneficiary) ? "":"{$beneficiary['beneficiary_direction']}") ?>" required>
+                                id="beneficiary_direction" name="beneficiary_direction" type="text" placeholder="Dirección del beneficiario" value="<?= old('beneficiary_direction') ?? (!isset($beneficiary) ? "":"{$beneficiary['beneficiary_direction']}") ?>">
                                 <p class="text-red-500 text-xs italic"><?= session('errors.beneficiary_direction') ?></p>
                         </div>
                         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -154,7 +156,7 @@ Formulario de Inscripción
                         </div>
                         <div class="w-full md:w-2/3 px-3 mb-6 md:mb-0 mt-2">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="schedule_id">
-                                Días de trabajo<span class="text-red-600 ">*</span>
+                                Días de trabajo
                             </label>
                             <div class="relative">
                             <input class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 ml-2"
@@ -203,13 +205,13 @@ Formulario de Inscripción
                                 </label>
                                 <div class="flex items-center mb-4">
                                     <input id="default-radio-1" type="radio" value="1" name="beneficiary_entrepreneurship" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ligth:focus:ring-blue-600 ligth:ring-offset-gray-800 focus:ring-2 ligth:bg-gray-700 ligth:border-gray-600">
-                                    <label for="default-radio-1" class="ml-2 text-sm font-medium text-gray-900 ligth:text-gray-300">
+                                    <label for="" class="ml-2 text-sm font-medium text-gray-900 ligth:text-gray-300">
                                         Si, estoy deacuerdo.
                                     </label>
                                 </div>
                                 <div class="flex items-center">
                                     <input checked id="default-radio-2" type="radio" value="2" name="beneficiary_entrepreneurship" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ligth:focus:ring-blue-600 ligth:ring-offset-gray-800 focus:ring-2 ligth:bg-gray-700 ligth:border-gray-600">
-                                    <label for="default-radio-2" class="ml-2 text-sm font-medium text-gray-900 ligth:text-gray-300">
+                                    <label for="" class="ml-2 text-sm font-medium text-gray-900 ligth:text-gray-300">
                                         No estoy deacuerdo.
                                     </label>
                                 </div>
@@ -250,13 +252,13 @@ Formulario de Inscripción
                                 </label>
                                 <div class="flex items-center mb-4">
                                     <input id="default-radio-1" type="radio" value="1" name="beneficiary_job" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ligth:focus:ring-blue-600 ligth:ring-offset-gray-800 focus:ring-2 ligth:bg-gray-700 ligth:border-gray-600">
-                                    <label for="default-radio-1" class="ml-2 text-sm font-medium text-gray-900 ligth:text-gray-300">
+                                    <label for="" class="ml-2 text-sm font-medium text-gray-900 ligth:text-gray-300">
                                         Si, estoy deacuerdo.
                                     </label>
                                 </div>
                                 <div class="flex items-center">
                                     <input checked id="default-radio-2" type="radio" value="2" name="beneficiary_job" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ligth:focus:ring-blue-600 ligth:ring-offset-gray-800 focus:ring-2 ligth:bg-gray-700 ligth:border-gray-600">
-                                    <label for="default-radio-2" class="ml-2 text-sm font-medium text-gray-900 ligth:text-gray-300">
+                                    <label for="" class="ml-2 text-sm font-medium text-gray-900 ligth:text-gray-300">
                                         No estoy deacuerdo.
                                     </label>
                                 </div>

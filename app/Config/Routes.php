@@ -122,6 +122,11 @@ $routes->group('admin',['namespace' => 'App\Controllers\admin','filter'=>'auth:a
     $routes->get('kardex_beneficiary','KardexDetailController::kardexBeneficiary');
     
     $routes->get('reports','ReportController::index');
+    
+    // COMPROMISE
+    $routes->get('compromises','CompromiseController::index');
+    $routes->get('edit_compromise/(:num)','CompromiseController::edit/$1');
+    $routes->post('update_compromise','CompromiseController::update');
 });
 /*
  * --------------------------------------------------------------------
