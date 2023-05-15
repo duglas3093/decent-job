@@ -4,38 +4,19 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class BeneficiaryModel extends Model
+class CompromiseModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'beneficiaries';
-    protected $primaryKey       = 'beneficiary_id';
+    protected $table            = 'compromises';
+    protected $primaryKey       = 'compromise_id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'beneficiary_name',
-        'beneficiary_lastname',
-        'beneficiary_ci',
-        'beneficiary_complement',
-        'beneficiary_email',
-        'beneficiary_celphone',
-        'beneficiary_password',
-        'beneficiary_datebirth',
-        'beneficiary_direction',
-        'city_id',
-        'schedule_id',
-        'sm_id',
-        'status_id',
-        'beneficiary_workweek',
-        'beneficiary_entrepreneurship',
-        'beneficiary_skills',
-        'beneficiary_business',
-        'beneficiary_job',
-        'beneficiary_experience',
-        'beneficiary_workarea',
-        'beneficiary_notworkarea'
+        'compromise_name',
+        'compromise_description'
     ];
 
     // Dates

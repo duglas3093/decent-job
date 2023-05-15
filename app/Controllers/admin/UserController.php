@@ -18,6 +18,8 @@ class UserController extends BaseController
 
     public function index(){
         $data['session'] = session()->get();
+        $areaModel = model('AreaModel');
+        $data['areas'] = $areaModel->where('status_id', 1)->findAll();
         $userModel = model('UserModel');
         $data['users'] = $userModel
                             ->join('status s','s.status_id = users.status_id','LEFT')
@@ -39,6 +41,8 @@ class UserController extends BaseController
     
     public function add(){
         $data['session'] = session()->get();
+        $areaModel = model('AreaModel');
+        $data['areas'] = $areaModel->where('status_id', 1)->findAll();
         $statusModel = model('StatusModel');
         $rolModel = model('RolsModel');
         $data['status'] = $statusModel->where('status_category',1)->findAll();
@@ -53,6 +57,8 @@ class UserController extends BaseController
             throw PageNotFoundException::forPageNotFound();
         }
         $data['session'] = session()->get();
+        $areaModel = model('AreaModel');
+        $data['areas'] = $areaModel->where('status_id', 1)->findAll();
         $statusModel = model('StatusModel');
         $rolModel = model('RolsModel');
         $data['status'] = $statusModel->where('status_category',1)->findAll();

@@ -3,6 +3,7 @@
 namespace Config;
 
 use App\Filters\Auth;
+use App\Filters\Areas;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
 use CodeIgniter\Filters\DebugToolbar;
@@ -23,6 +24,7 @@ class Filters extends BaseConfig
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
         'auth'          => Auth::class,
+        'areas'          => Areas::class,
     ];
 
     /**
