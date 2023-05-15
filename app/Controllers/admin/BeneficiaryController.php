@@ -18,19 +18,43 @@ class BeneficiaryController extends BaseController
 
     public function index(){
         $data['session'] = session()->get();
+        $areaModel = model('AreaModel');
+        $data['areas'] = $areaModel->where('status_id', 1)->findAll();
+        $vulnerabilityModel = model('VulnerabilityModel');
+        $data['vulnerabilities'] = $vulnerabilityModel->where('status_id', 1)->findAll();
         $beneficiaryModel = model('BeneficiaryModel');
         $data['beneficiaries'] = $beneficiaryModel
                             ->join('status s','s.status_id = beneficiaries.status_id','LEFT')
                             ->join('cities c','c.city_id = beneficiaries.city_id','LEFT')
-                            ->select('beneficiaries.*, s.status_name, c.city_name')
+                            ->join('kardices k','k.beneficiary_id = beneficiaries.beneficiary_id','LEFT')
+                            ->select('beneficiaries.*, s.status_name, c.city_name,k.kardex_id')
+                            ->where('beneficiaries.status_id', 1)
                             ->orderBy('beneficiary_lastname')
                             ->paginate(self::PAGINATION);
         // $data['pager'] = $userModel->pager;
         return view('admin/beneficiary/index',$data);
     }
     
+    public function postulants(){
+        $data['session'] = session()->get();
+        $areaModel = model('AreaModel');
+        $data['areas'] = $areaModel->where('status_id', 1)->findAll();
+        $beneficiaryModel = model('BeneficiaryModel');
+        $data['beneficiaries'] = $beneficiaryModel
+                            ->join('status s','s.status_id = beneficiaries.status_id','LEFT')
+                            ->join('cities c','c.city_id = beneficiaries.city_id','LEFT')
+                            ->join('kardices k','k.beneficiary_id = beneficiaries.beneficiary_id','LEFT')
+                            ->select('beneficiaries.*, s.status_name, c.city_name,k.kardex_id')
+                            ->where('beneficiaries.status_id', 9)
+                            ->orderBy('beneficiary_lastname')
+                            ->paginate(self::PAGINATION);
+        return view('admin/beneficiary/postulant',$data);
+    }
+    
     public function add(){
         $data['session'] = session()->get();
+        $areaModel = model('AreaModel');
+        $data['areas'] = $areaModel->where('status_id', 1)->findAll();
         $statusModel = model('StatusModel');
         $cityModel = model('CityModel');
         $scheduleModel = model('ScheduleModel');
@@ -49,6 +73,8 @@ class BeneficiaryController extends BaseController
             throw PageNotFoundException::forPageNotFound();
         }
         $data['session'] = session()->get();
+        $areaModel = model('AreaModel');
+        $data['areas'] = $areaModel->where('status_id', 1)->findAll();
         $statusModel = model('StatusModel');
         $cityModel = model('CityModel');
         $scheduleModel = model('ScheduleModel');
@@ -58,6 +84,33 @@ class BeneficiaryController extends BaseController
         $data['schedules'] = $scheduleModel->where('status_id',1)->findAll();
         $data['cities'] = $cityModel->findAll();
         return view('admin/beneficiary/edit',$data);
+    }
+    
+    public function getPostulant(int $beneficiary_id){
+        $beneficiaryModel = model('BeneficiaryModel');
+        if(!$beneficiary = $beneficiaryModel->where('beneficiary_id', $beneficiary_id)->first()){
+            throw PageNotFoundException::forPageNotFound();
+        }
+        $data['beneficiary'] = $beneficiaryModel->join('schedules s','s.schedule_id = beneficiaries.schedule_id','LEFT')
+                                                ->join('cities c','c.city_id = beneficiaries.city_id','LEFT')
+                                                ->join('social_medias sm','sm.sm_id = beneficiaries.sm_id','LEFT')
+                                                ->select('beneficiaries.*, s.schedule_description, c.city_name, sm_name')
+                                                ->where('beneficiary_id', $beneficiary_id)
+                                                ->first();
+        $data['session'] = session()->get();
+        $areaModel = model('AreaModel');
+        $data['areas'] = $areaModel->where('status_id', 1)->findAll();
+        $statusModel = model('StatusModel');
+        $cityModel = model('CityModel');
+        $scheduleModel = model('ScheduleModel');
+        $socialMediaModel = model('SocialMediaModel');
+        $vulnerabilityModel = model('VulnerabilityModel');
+        $data['status'] = $statusModel->where('status_category',1)->findAll();
+        $data['social_medias'] = $socialMediaModel->where('status_id',1)->findAll();
+        $data['schedules'] = $scheduleModel->where('status_id',1)->findAll();
+        $data['vulnerabilities'] = $vulnerabilityModel->where('status_id',1)->findAll();
+        $data['cities'] = $cityModel->findAll();
+        return view('admin/beneficiary/infoPostulant',$data);
     }
 
     public function store(){
@@ -142,14 +195,41 @@ class BeneficiaryController extends BaseController
         ]);
     }
 
-    // private function _upload(){
-    //     $newName = "";
-    //     if ($imageFile = $this->request->getFile('user_photo')) {
-    //         if ($imageFile->isValid() && !$imageFile->hasMoved()) {
-    //             $newName = $imageFile->getRandomName();
-    //             $imageFile->move(ROOTPATH."public/uploads/images/users/",$newName);
-    //         }
-    //     }
-    //     return $newName;
-    // }
+
+    public function approvePostulant($beneficiary_id){
+
+        $model = model('BeneficiaryModel');
+        if(!$beneficiary = $model->where('beneficiary_id', $beneficiary_id)->first()){
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        $model->save([
+            'beneficiary_id'            => $beneficiary_id,
+            'status_id'                 => 1 //Active
+        ]);
+
+        return redirect()->route('admin/postulants')->with('msg',[
+            'type'=>'green',
+            'body'=> "El postulante {$beneficiary['beneficiary_name']} {$beneficiary['beneficiary_lastname']} ha sido aceptado exitosamente."
+        ]);
+    }
+    
+    public function dropPostulant($beneficiary_id){
+
+        $model = model('BeneficiaryModel');
+
+        if(!$beneficiary = $model->where('beneficiary_id', $beneficiary_id)->first()){
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        $model->save([
+            'beneficiary_id'            => $beneficiary_id,
+            'status_id'                 => 10 //Reject
+        ]);
+
+        return redirect()->route('admin/postulants')->with('msg',[
+            'type'=>'red',
+            'body'=> "El postulante {$beneficiary['beneficiary_name']} {$beneficiary['beneficiary_lastname']} ha sido rechazado."
+        ]);
+    }
 }

@@ -1,5 +1,5 @@
 <div class="relative flex mr-7 ml-7 mt-4 flex-wrap items-stretch">
-    <input type="search" class="relative xl:w-96 m-0 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-1.5 text-base font-normal text-neutral-700 outline-none transition duration-300 ease-in-out focus:border-primary-600 focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 light-table-filter" data-table="order-table" placeholder="Filtro"/>
+    <input type="search" class="relative xl:w-96 m-0 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-1.5 text-base font-normal text-neutral-700 outline-none transition duration-300 ease-in-out focus:border-primary-600 focus:text-neutral-700 focus:shadow-te-primary focus:outline-none light:border-neutral-600 light:text-neutral-200 light:placeholder:text-neutral-200 light-table-filter" data-table="order-table" placeholder="Filtro"/>
     <span
         class="input-group-text flex items-center whitespace-nowrap rounded px-3 py-1.5 text-center text-base font-normal text-neutral-700 dark:text-neutral-200"
         id="basic-addon2">

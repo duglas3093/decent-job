@@ -4,10 +4,10 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class BeneficiaryModel extends Model
+class PostulantModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'beneficiaries';
+    protected $table            = 'postulants';
     protected $primaryKey       = 'beneficiary_id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
@@ -28,7 +28,7 @@ class BeneficiaryModel extends Model
         'schedule_id',
         'sm_id',
         'status_id',
-        'beneficiary_workweek',
+        'beneficiciary_workweek',
         'beneficiary_entrepreneurship',
         'beneficiary_skills',
         'beneficiary_business',

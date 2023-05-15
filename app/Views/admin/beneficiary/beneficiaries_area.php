@@ -23,13 +23,9 @@ Beneficiarios
                         <?php endif ?>
                         <div class="relative">
                             <div class="absolute left-0 top-0">
-                                <h6 class="ligth:text-white text-xl">Beneficiarios: <?= count($beneficiaries) ?></h6>
+                                <h6 class="ligth:text-white text-xl">AREA <?= $areas[$area_id-1]['area_name'] ?>: <?= count($beneficiaries) ?></h6>
                             </div>
                             <div class="absolute top-0 right-0">
-                                <a href="<?= base_url("admin/add_beneficiary"); ?>" class="inline-block px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out">
-                                    <i class="fa-solid fa-plus"></i> 
-                                    Agregar Beneficiario 
-                                </a>
                             </div>
                         </div>
                     </div>
@@ -63,11 +59,6 @@ Beneficiarios
                                         <td
                                             class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
                                             <div class="flex px-2 py-1">
-                                                <!-- <div>
-                                                    <img src="../assets/img/team-2.jpg"
-                                                        class="inline-flex items-center justify-center mr-4 text-sm text-white transition-all duration-200 ease-in-out h-9 w-9 rounded-xl"
-                                                        alt="user1" />
-                                                </div> -->
                                                 <div class="flex flex-col justify-center">
                                                     <h6 class="mb-0 text-sm leading-normal ligth:text-white">
                                                         <?= $beneficiary['beneficiary_lastname'] ?> <?= $beneficiary['beneficiary_name'] ?>
@@ -95,6 +86,17 @@ Beneficiarios
                                             </span>    
                                         </td>
                                         <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
+                                            <button onclick="supportBeneficiary(<?= $beneficiary['beneficiary_id'] ?>,'<?= $beneficiary['beneficiary_lastname'] ?> <?= $beneficiary['beneficiary_name'] ?>',<?= $area_id ?>,<?= $beneficiary['kardex_id'] ?>)" title="Agregar actividad" class="inline-block px-2 py-1.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+                                            data-te-toggle="modal"
+                                                data-te-target="#addActivity"
+                                                data-te-ripple-init
+                                                data-te-ripple-color="light"
+                                                >
+                                                <i class="fa-solid fa-square-plus"></i>
+                                            </button> 
+                                            <a href="<?= base_url("admin/view_kardex_beneficiary/{$beneficiary['kardex_id']}/area/$area_id") ?>" title="Ver actividades" target="_blank" class="inline-block px-2 py-1.5 bg-fuchsia-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-fuchsia-700 hover:shadow-lg focus:bg-fuchsia-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-fuchsia-800 active:shadow-lg transition duration-150 ease-in-out">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </a> 
                                             <button onclick="beneficiaryArea(<?= $beneficiary['beneficiary_id'] ?>,'<?= $beneficiary['beneficiary_lastname'] ?> <?= $beneficiary['beneficiary_name'] ?>')" title="Asignar area" class="inline-block px-2 py-1.5 bg-amber-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-amber-700 hover:shadow-lg focus:bg-amber-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-amber-800 active:shadow-lg transition duration-150 ease-in-out"
                                             data-te-toggle="modal"
                                                 data-te-target="#assingArea"
@@ -102,11 +104,8 @@ Beneficiarios
                                                 data-te-ripple-color="light"
                                                 >
                                                 <i class="fa-solid fa-circle-user"></i>
-                                            </button> 
-                                            <a href="<?= base_url("admin/edit_beneficiary/{$beneficiary['beneficiary_id']}") ?>" title="Editar Beneficiario" class="inline-block px-2 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-                                                <i class="fa-solid fa-pencil"></i>
-                                            </a> 
-                                            <button onclick="loadData(<?= $beneficiary['beneficiary_id'] ?>,'<?= $beneficiary['beneficiary_lastname'] ?> <?= $beneficiary['beneficiary_name'] ?>')" title="Contacto" class="inline-block px-2 py-1.5 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out"
+                                            </button> <br>
+                                            <button onclick="loadData(<?= $beneficiary['beneficiary_id'] ?>,'<?= $beneficiary['beneficiary_lastname'] ?> <?= $beneficiary['beneficiary_name'] ?>')" title="Contacto" class="mt-1 inline-block px-2 py-1.5 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out"
                                             data-te-toggle="modal"
                                                 data-te-target="#contactModal"
                                                 data-te-ripple-init
@@ -114,18 +113,9 @@ Beneficiarios
                                                 >
                                                 <i class="fa-solid fa-address-book"></i>
                                             </button> 
-                                            <a href="<?= base_url("admin/view_kardex_beneficiary/{$beneficiary['beneficiary_id']}") ?>" title="Ver Kardex" class="inline-block px-2 py-1.5 bg-cyan-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-cyan-700 hover:shadow-lg focus:bg-cyan-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-cyan-800 active:shadow-lg transition duration-150 ease-in-out">
+                                            <a href="<?= base_url("admin/view_kardex_beneficiary/{$beneficiary['kardex_id']}") ?>" title="Ver Kardex" class="mt-1 inline-block px-2 py-1.5 bg-cyan-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-cyan-700 hover:shadow-lg focus:bg-cyan-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-cyan-800 active:shadow-lg transition duration-150 ease-in-out">
                                                 <i class="fa-solid fa-book"></i>
-                                            </a>
-                                            <button onclick="showVulnerabilities(<?= $beneficiary['beneficiary_id'] ?>)" title="Vulnerabilidad" class="inline-block px-2 py-1.5 bg-yellow-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-700 hover:shadow-lg focus:bg-yellow-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-800 active:shadow-lg transition duration-150 ease-in-out"
-                                                        data-te-toggle="modal"
-                                                            data-te-target="#vulnerability_participant"
-                                                            data-te-ripple-init
-                                                            data-te-ripple-color="light"
-                                                            >
-                                                <!-- <i class="fa-solid fa-plus"></i>  -->
-                                                <i class="fa-solid fa-user-injured"></i>
-                                            </button>
+                                            </a> 
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>
@@ -138,14 +128,13 @@ Beneficiarios
         </div>
     </div>
 </main>
+
+<!-- contact information -->
 <div data-te-modal-init class="fixed top-0 left-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none" id="contactModal" tabindex="-1" aria-labelledby="titleModal" aria-modal="true" role="dialog">
     <div data-te-modal-dialog-ref class="pointer-events-none relative w-auto translate-y-[-50px] opacity-0 transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px] min-[992px]:max-w-[800px]">
         <div class="pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none ligth:bg-neutral-600">
         <div class="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 ligth:border-opacity-50">
             <h5 class="text-xl font-medium leading-normal text-neutral-800 ligth:text-neutral-200" id="titleModal"></h5>
-            <!-- <button class="bg-amber-500 hover:bg-amber-700 text-white font-bold py-1 px-3 rounded mr-0" onclick="viewFormContact()" title="Nuevo contacto">
-                <i class="fa-solid fa-address-book"></i>
-            </button> -->
             <button type="button" class="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none" data-te-modal-dismiss aria-label="Close">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -213,6 +202,7 @@ Beneficiarios
     </div>
 </div>
 
+<!-- add area -->
 <div data-te-modal-init class="fixed top-0 left-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none" id="assingArea" tabindex="-1" aria-labelledby="titleModal" aria-modal="true" role="dialog">
     <div data-te-modal-dialog-ref class="pointer-events-none relative w-auto translate-y-[-50px] opacity-0 transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px] min-[992px]:max-w-[800px]">
         <div class="pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none ligth:bg-neutral-600">
@@ -277,81 +267,161 @@ Beneficiarios
     </div>
 </div>
 
-<div data-te-modal-init class="fixed top-0 left-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none" id="vulnerability_participant" tabindex="-1" aria-labelledby="titleModal" aria-modal="true" role="dialog">
-        <div data-te-modal-dialog-ref class="pointer-events-none relative w-auto translate-y-[-50px] opacity-0 transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px] min-[992px]:max-w-[800px]">
-            <div class="pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none ligth:bg-neutral-600">
-            <div class="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 ligth:border-opacity-50">
-                <h5 class="text-xl font-medium leading-normal text-neutral-800 ligth:text-neutral-200">Vulnerabilidades</h5>
-                <button type="button" class="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none" data-te-modal-dismiss aria-label="Close">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
+<!-- activity -->
+<div data-te-modal-init class="fixed top-0 left-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none" id="addActivity" tabindex="-1" aria-labelledby="titleModal" aria-modal="true" role="dialog">
+    <div data-te-modal-dialog-ref class="pointer-events-none relative w-auto translate-y-[-50px] opacity-0 transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px] min-[992px]:max-w-[800px]">
+        <div class="pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none ligth:bg-neutral-600">
+        <div class="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 ligth:border-opacity-50">
+            <h5 class="text-xl font-medium leading-normal text-neutral-800 ligth:text-neutral-200" id="titleModalActivitty"></h5>
+            <button type="button" class="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none" data-te-modal-dismiss aria-label="Close">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            </button>
+        </div>
+        <div class="relative p-4">
+            <!-- <div class="grid justify-items-end ...">
+                <button class="bg-amber-500 hover:bg-amber-700 text-white py-1 px-3 rounded mr-0" onclick="viewFormSupport()" title="Nueva actividad">
+                    <i class="fa-solid fa-plus"></i> Agregar actividad
                 </button>
-            </div>
-            <div class="relative p-4">
-                <div class="grid justify-items-end ...">
-                    <button class="bg-amber-500 hover:bg-amber-700 text-white py-1 px-3 rounded mr-0" onclick="viewForm()" title="Agregar Vulnerabilidad">
-                        <i class="fa-solid fa-plus"></i> Agregar Vulnerabilidad
-                    </button>
-                </div>
-                <div id="newVulnerabilityForBeneficiary" style="display: none;">
-                    <div class="flex flex-wrap -mx-3 mb-2">
-                        <div class="w-full md:w-3/8 px-3 mb-2 md:mb-0">
-                            <input type="hidden" name="beneficiary_id" id="beneficiary_id" value="">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="area_id">
-                                VULNERABILIDAD<span class="text-red-600 ">*</span>
-                            </label>
-                            <select
-                                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-<?= session('errors.area_id') ? "red-500 mb-3":"gray-200 focus:border-gray-500" ?> rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
-                                id="vulnerability_id" name="vulnerability_id">
-                                <?php foreach ($vulnerabilities as $vulnerability):?>
-                                    <option value="<?= $vulnerability['vulnerability_id'] ?>"><?= $vulnerability['vulnerability_name'] ?></option>
-                                <?php endforeach; ?>
-                            </select>
+            </div> -->
+            <div id="newSupportForBeneficiary" style="display: none;">
+                <div class="flex flex-wrap -mx-3 mb-2">
+                    <div class="w-full md:w-3/6 px-3 mb-2 md:mb-0">
+                        <input type="hidden" name="beneficiary_id_support" id="beneficiary_id_support" value="">
+                        <input type="hidden" name="kardex" id="kardex" value="">
+                        <input type="hidden" name="detkardex" id="detkardex" value="">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="support_id">
+                            Actividades<span class="text-red-600 ">*</span>
+                        </label>
+                        <select
+                            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-<?= session('errors.support_id') ? "red-500 mb-3":"gray-200 focus:border-gray-500" ?> rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
+                            id="support_id" name="support_id">
+                            <?php foreach ($supports as $support):?>
+                                <option value="<?= $support['support_id'] ?>"><?= $support['support_name'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
                             <p class="text-red-500 text-xs italic"></p>
-                        </div>
-                        <div class="w-full md:w-3/8 px-3 mb-2 md:mb-0">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="area_id">
-                                OBSERVACION<span class="text-red-600 ">*</span>
-                            </label>
-                            <input type="text" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-<?= session('errors.area_id') ? "red-500 mb-3":"gray-200 focus:border-gray-500" ?> rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white" id="vulnerability_observation">
-                            <p class="text-red-500 text-xs italic"></p>
-                        </div>
-                        <div class="w-full md:w-1/8 px-3 mb-2 md:mb-0 md:mt-6">
-                            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-0" onclick="saveVulnerabilityBeneficiary()" title="Guardar">
-                                <i class="fa-solid fa-check"></i>
-                            </button>
-                            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-0" onclick="viewForm()" title="Cancelar">
-                                <i class="fa-solid fa-xmark"></i>
-                            </button>
-                        </div>
                     </div>
+                    <div class="w-full md:w-3/6 px-3 mb-2 md:mb-0">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="status_id">
+                            ESTADO<span class="text-red-600 ">*</span>
+                        </label>
+                        <select
+                            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-<?= session('errors.status_id') ? "red-500 mb-3":"gray-200 focus:border-gray-500" ?> rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
+                            id="status_id" name="status_id">
+                            <?php foreach ($status as $state):?>
+                                <option value="<?= $state['status_id'] ?>"><?= $state['status_name'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                            <p class="text-red-500 text-xs italic"></p> 
+                    </div>
+                    <div class="w-full md:w-6/6 px-3 mb-2 md:mb-0">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="detkar_description">
+                            DESCRIPCION<span class="text-red-600 ">*</span>
+                        </label>
+                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-<?= session('errors.detkar_description') ? "red-500 mb-3":"gray-200 focus:border-gray-500" ?> rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white" id="detkar_description" name="detkar_description" type="text" placeholder="Descripción de la actividad" value="">
+                    </div>
+                    <!-- <div class="w-full md:w-1/6 px-3 mb-2 md:mb-0 md:mt-6">
+                        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-0" onclick="saveSupportBeneficiary(<?= $area_id ?>)" title="Guardar ayuda">
+                            <i class="fa-solid fa-check"></i>
+                        </button>
+                        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-0" onclick="viewFormSupport()" title="Cancelar">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div> -->
                 </div>
-                <table class="items-center w-full mb-0 align-top border-collapse ligth:border-white/40 text-slate-500 order-table table">
-                    <thead class="align-bottom">
-                        <tr class="">
-                            <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                VULNERABILIDADES
-                            </th>
-                            <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                OBSERVACION
-                            </th>
-                            <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70"></th>
-                        </tr>
-                    </thead>
-                    <tbody id="vulnerabilityBeneficiaryTable"></tbody>
-                </table>
             </div>
-                <div class="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4 ligth:border-opacity-50">
-                    <button type="button" class="inline-block rounded bg-primary-100 px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200" data-te-modal-dismiss data-te-ripple-init data-te-ripple-color="light">
-                        Cerrar
-                    </button>
-                </div>
+            <!-- <table class="items-center w-full mb-0 align-top border-collapse ligth:border-white/40 text-slate-500 order-table table">
+                <thead class="align-bottom">
+                    <tr class="">
+                        <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                            AYUDA
+                        </th>
+                        <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                            ESTADO
+                        </th>
+                        <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70"></th>
+                    </tr>
+                </thead>
+                <tbody id="supportBeneficiaryTable"></tbody>
+            </table> -->
+        </div>
+            <div class="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4 ligth:border-opacity-50">
+                <!-- <button type="button" class="inline-block rounded bg-primary-100 px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200" data-te-modal-dismiss data-te-ripple-init data-te-ripple-color="light">
+                    Cerrar
+                </button> -->
+
+                <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-3" onclick="saveSupportBeneficiary(<?= $area_id ?>)" title="Guardar ayuda">
+                    <i class="fa-solid fa-check"></i> Guardar
+                </button>
+                <button class="inline-block rounded bg-red-100 px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-red-700 transition duration-150 ease-in-out hover:bg-red-accent-100 focus:bg-red-accent-100 focus:outline-none focus:ring-0 active:bg-red-accent-200" onclick="viewFormSupport()" title="Cancelar" data-te-modal-dismiss data-te-ripple-init data-te-ripple-color="light">
+                    <i class="fa-solid fa-xmark"></i> Cerrar
+                </button>
+
             </div>
         </div>
     </div>
+</div>
 
 <script>
+    function supportBeneficiary(beneficiary,beneficiaryName,area, kardex) {
+        $('#supportBeneficiaryTable').html("");
+        let url = document.getElementById("base_url").value;
+        document.getElementById("beneficiary_id_support").value = beneficiary;
+        document.getElementById("kardex").value = kardex;
+        let controller = `${url}/admin/support_beneficiary`
+        viewFormSupport();
+        $.ajax({
+            type: "POST",
+            url: controller,
+            data: {
+                beneficiary:beneficiary,
+                area:area,
+                kardex:kardex
+            },
+            success: (result)=>{
+                let beneficiarySupports = JSON.parse(result)
+                document.getElementById('titleModalActivitty').innerHTML = beneficiaryName.toUpperCase()
+                let html;
+                if(beneficiarySupports.length > 0){
+                    beneficiarySupports.map(beneficiarysupport => {
+                        html += `
+                            <tr>
+                                <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
+                                    ${beneficiarysupport.support_name}
+                                </td>
+                                <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
+                                    ${beneficiarysupport.status_name}
+                                </td>
+                                <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
+                                    <button title="Editar ayuda" class="inline-block px-2 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" onclick="viewFormSupport(${beneficiarysupport.detkar_id})">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </button>
+                                    <button title="Borrar area" class="inline-block px-2 py-1.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">
+                                        <i class="fa-solid fa-x"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    })
+                }else{
+                    html += `
+                            <tr>
+                                <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent"></td>
+                                <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent content-center">
+                                    El beneficiario no tiene Ninguna actividad
+                                </td>
+                                <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent"></td>
+                            </tr>
+                        `;
+                }
+                $('#supportBeneficiaryTable').html(html);
+            },
+            error: (error)=>{}
+        })
+    }
+
     function beneficiaryArea(beneficiary,beneficiaryName) {
         $('#AreaBeneficiaryTable').html("");
         let url = document.getElementById("base_url").value;
@@ -447,6 +517,15 @@ Beneficiarios
         })
     }
 
+    function viewFormSupport(detkar = 0){
+        clearInputs()
+        let newSupportForBeneficiary = document.getElementById('newSupportForBeneficiary').style.display;
+        document.getElementById('newSupportForBeneficiary').style.display = newSupportForBeneficiary == 'none' ? 'block' : 'none';
+        if(!detkar == 0){
+            editSupport(detkar)
+        }
+    }
+
     function viewFormArea(){
         clearInputs()
         let newAreaForBeneficiary = document.getElementById('newAreaForBeneficiary').style.display;
@@ -460,18 +539,15 @@ Beneficiarios
     }
 
     function clearInputs(){
-        // document.getElementById('beneficiary_id').value = "";
         document.getElementById('contact_name').value = "";
         document.getElementById('contact_phone').value = "";
+        document.getElementById('detkar_description').value = "";
     }
 
     function saveContact(){
         let beneficiary = document.getElementById('beneficiary_id').value;
-        console.log(beneficiary)
         let name = document.getElementById('contact_name').value;
-        console.log(name)
         let phone = document.getElementById('contact_phone').value;
-        console.log(phone)
         $('#contactTable').html("");
         let url = document.getElementById("base_url").value;
         let controller = `${url}/admin/store_contact`
@@ -515,89 +591,69 @@ Beneficiarios
             error: (error)=>{}
         })
     }
-</script>
-<script>
-    function showVulnerabilities(beneficiary){
+    function saveSupportBeneficiary(area){
+        let beneficiary = document.getElementById('beneficiary_id_support').value;
+        let kardex = document.getElementById('kardex').value;
+        let detkardex = document.getElementById('detkardex').value;
+        let detkar_description = document.getElementById('detkar_description').value;
+        let support = document.getElementById('support_id').value;
+        let status = document.getElementById('status_id').value;
+        $('#AreaBeneficiaryTable').html("");
         let url = document.getElementById("base_url").value;
-        let controller = `${url}/admin/get_vulnerabilities`
+        let controller = `${url}/admin/save_support_beneficiary`
         $.ajax({
             type: "POST",
             url: controller,
             data: {
                 beneficiary:beneficiary,
+                kardex:kardex,
+                detkar_description:detkar_description,
+                support:support,
+                status:status,
+                area:area,
+                detkardex:detkardex
             },
             success: (result)=>{
-                document.getElementById('beneficiary_id').value = beneficiary
-                let vulnerabilities = JSON.parse(result)
-                let html = ``
-                if (vulnerabilities.length > 0) {
-                    vulnerabilities.map( vulnerability => {
-                        html += `
-                            <tr>
-                                <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                    ${vulnerability.vulnerability_name}
-                                </td>
-                                <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent content-end">
-                                    <div class="grid justify-items-center">${vulnerability.bevu_observation}</div>
-                                </td>
-                                <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                    <button title="Editar Beneficiario" class="inline-block px-2 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-                                        <i class="fa-solid fa-pencil"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        `
-                    })
-                }else{
-                    html += `
-                            <tr>
-                                <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                    
-                                </td>
-                                <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent content-end">
-                                    No se agregaron vulnerabilidades
-                                </td>
-                                <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                    
-                                </td>
-                            </tr>
-                        `
-                }
-                $('#vulnerabilityBeneficiaryTable').html(html);
+                let name = document.getElementById('titleModalArea').innerHTML;
+                // supportBeneficiary(beneficiary,name,area,kardex);
+                // viewFormSupport();
+                clearInputs();
+                cerrarModal()
+
             },
             error: (error)=>{}
         })
     }
 
-    function viewForm(){
-        // clearInputs()
-        let newVulnerabilityForBeneficiary = document.getElementById('newVulnerabilityForBeneficiary').style.display;
-        document.getElementById('newVulnerabilityForBeneficiary').style.display = newVulnerabilityForBeneficiary == 'none' ? 'block' : 'none';
-    }
-
-    function saveVulnerabilityBeneficiary(){
+    function editSupport(detkar){
+        document.getElementById('detkardex').value = detkar;
+        let beneficiary = document.getElementById('beneficiary_id_support').value;
         let url = document.getElementById("base_url").value;
-        let controller = `${url}/admin/save_vulnerabilities`
-        let beneficiary = document.getElementById('beneficiary_id').value;
-        let vulnerability = document.getElementById('vulnerability_id').value;
-        let observation = document.getElementById('vulnerability_observation').value;
+        let controller = `${url}/admin/edit_support_beneficiary`
         $.ajax({
             type: "POST",
             url: controller,
             data: {
-                beneficiary:beneficiary,
-                vulnerability:vulnerability,
-                observation:observation
+                detkar:detkar
             },
             success: (result)=>{
-                showVulnerabilities(beneficiary);
-                viewForm()
-                document.getElementById('beneficiary_id').value = "";
-                document.getElementById('vulnerability_id').value = "";
-                document.getElementById('vulnerability_observation').value = "";
+                let detkar = JSON.parse(result)
+                document.getElementById('detkardex').value = detkar.detkardex
+                document.getElementById('support_id').value = detkar.support_id
+                document.getElementById('titleModalArea').value = detkar.status_id
             },
             error: (error)=>{}
         })
     }
+
+    function cerrarModal() {
+        const modal = document.querySelector('#'); // selecciona el modal
+        modal.classList.remove('opacity-100'); // elimina la clase 'opacity-100'
+        modal.classList.add('opacity-0'); // añade la clase 'opacity-0'
+        setTimeout(() => {
+            modal.style.display = 'none'; // oculta el modal después de que se haya completado la transición
+        }, 300); // ajusta el tiempo de espera para que coincida con la duración de la transición en tu archivo CSS
+    }
+
 </script>
 <?= $this->endSection() ?>
