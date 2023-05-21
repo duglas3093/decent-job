@@ -120,6 +120,7 @@ $routes->group('admin',['namespace' => 'App\Controllers\admin','filter'=>'auth:a
     $routes->post('edit_support_beneficiary','KardexDetailController::edit');
     $routes->post('save_support_beneficiary','KardexDetailController::store');
     $routes->get('kardex_beneficiary','KardexDetailController::kardexBeneficiary');
+    $routes->post('delete_activity','KardexDetailController::delete');
     
     $routes->get('reports','ReportController::index');
     

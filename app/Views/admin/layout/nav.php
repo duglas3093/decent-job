@@ -126,7 +126,7 @@
                                     <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                         <i class="relative top-0 text-sm leading-normal text-cyan-500 fa-solid fa-notes-medical"></i>
                                     </div>
-                                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Vulneravilidades</span>
+                                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Vulnerabilidades</span>
                                 </a>
                             </li>
                             <li class="mt-0.2 w-full">

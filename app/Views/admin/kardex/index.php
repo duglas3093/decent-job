@@ -107,44 +107,46 @@ Kardex de NOMBRE_DEL_BENEFICIARIO
                                         <div class="col-start-1 col-end-12">
                                             <table class="items-center w-full mb-0 align-top border-collapse ligth:border-white/40 text-gray-500 order-table table ">
                                                 <thead>
-                                                    <th class="px-6 py-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-gray-400 opacity-70">
-                                                        AREA
-                                                    </th>
-                                                    <th class="px-6 py-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-gray-400 opacity-70">
-                                                        FECHA
-                                                    </th>
-                                                    <th class="px-6 py-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-gray-400 opacity-70">
-                                                        ACTIVIDAD
-                                                    </th>
-                                                    <th class="px-6 py-2 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-gray-400 opacity-70">
-                                                        DESCRIPTION
-                                                    </th>
-                                                    <th class="px-6 py-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-gray-400 opacity-70">
-                                                        ESTADO
-                                                    </th>
+                                                    <tr>
+                                                        <th class="px-6 py-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-gray-400 opacity-70">
+                                                            AREA
+                                                        </th>
+                                                        <th class="px-6 py-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-gray-400 opacity-70">
+                                                            FECHA
+                                                        </th>
+                                                        <th class="px-6 py-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-gray-400 opacity-70">
+                                                            ACTIVIDAD
+                                                        </th>
+                                                        <th class="px-6 py-2 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-gray-400 opacity-70">
+                                                            DESCRIPCIÓN
+                                                        </th>
+                                                        <th class="px-6 py-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-gray-400 opacity-70">
+                                                            ESTADO
+                                                        </th>
+                                                    </tr>
                                                 </thead>
                                                 <tbody>
                                                     <?php foreach ($activities as $activity): ?>
-                                                        <tr>
-                                                            <td class="align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                                <?= $activity['area_name'] ?>
-                                                            </td>
-                                                            <td class="align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                                <?=  $created = date('d-m-Y', strtotime($activity['created_at'])) ?>
-                                                            </td>
-                                                            <td class="align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                                <?= $activity['support_name'] ?>
-                                                            </td>
-                                                            <td class="align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                                <?= $activity['detkar_description'] ?>
-                                                            </td>
-                                                            <td class="align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                                <?= $activity['status_name'] ?>
-                                                            </td>
-                                                        </tr>
+                                                    <tr>
+                                                        <td class="align-middle bg-transparent border-b shadow-transparent whitespace-normal">
+                                                            <?= $activity['area_name'] ?>
+                                                        </td>
+                                                        <td class="align-middle bg-transparent border-b shadow-transparent">
+                                                            <?= $created = date('d-m-Y', strtotime($activity['created_at'])) ?>
+                                                        </td>
+                                                        <td class="align-middle bg-transparent border-b shadow-transparent whitespace-normal">
+                                                            <?= $activity['support_name'] ?>
+                                                        </td>
+                                                        <td class="align-middle bg-transparent border-b shadow-transparent whitespace-normal">
+                                                            <?= $activity['detkar_description'] ?>
+                                                        </td>
+                                                        <td class="align-middle bg-transparent border-b shadow-transparent whitespace-normal">
+                                                            <?= $activity['status_name'] ?>
+                                                        </td>
+                                                    </tr>
                                                     <?php endforeach; ?>
                                                 </tbody>
-                                            </table> 
+                                            </table>
                                         </div>
                                     </div>
                                 </div>

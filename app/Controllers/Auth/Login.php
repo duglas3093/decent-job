@@ -11,7 +11,7 @@ class Login extends BaseController
         if (!session()->is_logged){
             return view('auth/login');
         }
-        return redirect()->route('register');
+        return redirect()->route('admin/dashboard');
         // session()->destroy();
     }
 
