@@ -58,13 +58,17 @@ class KardexController extends BaseController
         $areaModel = model('AreaModel');
         $kardexModel = model('KardexModel');
         $kardexDetailModel = model('KardexDetailModel');
+        $supportModel = model('SuportModel');
+        $activitiesModel = model('ActivityModel');
+        $statusModel = model('StatusModel');
         $data['session'] = session()->get();
-        
+        $data['areaBeneficiary_id'] = $areaId;
         $data['areas'] = $areaModel->where('status_id', 1)->findAll();
+        $data['supports'] = $supportModel->where('status_id', 1)->findAll();
 
         $data['beneficiary'] = $kardexModel->join('beneficiaries b', 'b.beneficiary_id = kardices.beneficiary_id','LEFT')
                                             ->where('kardices.kardex_id', $kardexId)
-                                            ->select('b.beneficiary_name, b.beneficiary_lastname')
+                                            ->select('b.beneficiary_id,b.beneficiary_name, b.beneficiary_lastname,kardices.kardex_id')
                                             ->first();
 
         $data['activities'] = $kardexDetailModel->join('supports s','kardexdetails.support_id = s.support_id','LEFT')
@@ -74,7 +78,8 @@ class KardexController extends BaseController
                                             ->where('kardexdetails.area_id', $areaId)
                                             ->select('kardexdetails.*,a.area_name ,s.support_name, st.status_name')
                                             ->findAll();
-
+        $data['form_activities'] = $activitiesModel->where('status_id', 1)->findAll();
+        $data['status'] = $statusModel->where('status_category', 2)->findAll();
         return view('admin/kardex/activities_area',$data);
     }
     

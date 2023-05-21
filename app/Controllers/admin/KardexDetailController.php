@@ -26,7 +26,7 @@ class KardexDetailController extends BaseController
     }
 
     public function edit(){
-        $detkar_id = $this->request->getPost('detkar_id');
+        $detkar_id = $this->request->getPost('activity');
         $kardexDetailModel = model('KardexDetailModel');
         if(!$detkar = $kardexDetailModel->where('detkar_id', $detkar_id)->first()){
             throw PageNotFoundException::forPageNotFound();
@@ -41,23 +41,50 @@ class KardexDetailController extends BaseController
         $status_id = $this->request->getPost('status');
         $support_id = $this->request->getPost('support');
         $area_id = $this->request->getPost('area');
+        $detkar_id = $this->request->getPost('detkardex');
         $detkar_description = $this->request->getPost('detkar_description');
         $kardexDetailModel = model('KardexDetailModel');
-        $formData = [
-            'kardex_id'             => $kardex_id,
-            'area_id'               => $area_id,
-            'support_id'            => $support_id,
-            'detkar_description'    => $detkar_description,
-            'status_id'             => $status_id
-        ];
-        $kardexDetail = new KardexDetail($formData);
-        $kardexDetailModel->save($kardexDetail);
+
+        if($detkar_id !== ""){
+            if(!$detkar = $kardexDetailModel->where('detkar_id', $detkar_id)->first()){
+                throw PageNotFoundException::forPageNotFound();
+            }
+            
+            $formData = [
+                'detkar_id'             => $detkar_id,
+                'kardex_id'             => $kardex_id,
+                'area_id'               => $area_id,
+                'support_id'            => $support_id,
+                'detkar_description'    => $detkar_description,
+                'status_id'             => $status_id
+            ];
+            $kardexDetailModel->save($formData);
+        }else{
+            $formData = [
+                'kardex_id'             => $kardex_id,
+                'area_id'               => $area_id,
+                'support_id'            => $support_id,
+                'detkar_description'    => $detkar_description,
+                'status_id'             => $status_id
+            ];
+            
+            $kardexDetail = new KardexDetail($formData);
+            $kardexDetailModel->save($kardexDetail);
+        }
+        
         
         echo json_encode("ok");
     }
 
-    private function strToArray($str){
-        $array = explode(',', $str);
-        return $array;
+    public function delete(){
+        $detkar_id = $this->request->getPost('activity');
+        $kardexDetailModel = model('KardexDetailModel');
+        if(!$kardexDetailModel->where('detkar_id', $detkar_id)->first()){
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        $kardexDetailModel->where('detkar_id', $detkar_id)->delete();
+
+        echo json_encode("ok");
     }
 }

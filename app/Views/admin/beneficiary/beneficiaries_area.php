@@ -285,7 +285,7 @@ Beneficiarios
                     <i class="fa-solid fa-plus"></i> Agregar actividad
                 </button>
             </div> -->
-            <div id="newSupportForBeneficiary" style="display: none;">
+            <div id="newSupportForBeneficiary">
                 <div class="flex flex-wrap -mx-3 mb-2">
                     <div class="w-full md:w-3/6 px-3 mb-2 md:mb-0">
                         <input type="hidden" name="beneficiary_id_support" id="beneficiary_id_support" value="">
@@ -367,59 +367,10 @@ Beneficiarios
 <script>
     function supportBeneficiary(beneficiary,beneficiaryName,area, kardex) {
         $('#supportBeneficiaryTable').html("");
-        let url = document.getElementById("base_url").value;
         document.getElementById("beneficiary_id_support").value = beneficiary;
         document.getElementById("kardex").value = kardex;
-        let controller = `${url}/admin/support_beneficiary`
-        viewFormSupport();
-        $.ajax({
-            type: "POST",
-            url: controller,
-            data: {
-                beneficiary:beneficiary,
-                area:area,
-                kardex:kardex
-            },
-            success: (result)=>{
-                let beneficiarySupports = JSON.parse(result)
-                document.getElementById('titleModalActivitty').innerHTML = beneficiaryName.toUpperCase()
-                let html;
-                if(beneficiarySupports.length > 0){
-                    beneficiarySupports.map(beneficiarysupport => {
-                        html += `
-                            <tr>
-                                <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                    ${beneficiarysupport.support_name}
-                                </td>
-                                <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                    ${beneficiarysupport.status_name}
-                                </td>
-                                <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                    <button title="Editar ayuda" class="inline-block px-2 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" onclick="viewFormSupport(${beneficiarysupport.detkar_id})">
-                                        <i class="fa-solid fa-pencil"></i>
-                                    </button>
-                                    <button title="Borrar area" class="inline-block px-2 py-1.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">
-                                        <i class="fa-solid fa-x"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        `;
-                    })
-                }else{
-                    html += `
-                            <tr>
-                                <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent"></td>
-                                <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent content-center">
-                                    El beneficiario no tiene Ninguna actividad
-                                </td>
-                                <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent"></td>
-                            </tr>
-                        `;
-                }
-                $('#supportBeneficiaryTable').html(html);
-            },
-            error: (error)=>{}
-        })
+        document.getElementById('titleModalActivitty').innerHTML = beneficiaryName.toUpperCase()
+        // viewFormSupport();
     }
 
     function beneficiaryArea(beneficiary,beneficiaryName) {
@@ -517,14 +468,14 @@ Beneficiarios
         })
     }
 
-    function viewFormSupport(detkar = 0){
-        clearInputs()
-        let newSupportForBeneficiary = document.getElementById('newSupportForBeneficiary').style.display;
-        document.getElementById('newSupportForBeneficiary').style.display = newSupportForBeneficiary == 'none' ? 'block' : 'none';
-        if(!detkar == 0){
-            editSupport(detkar)
-        }
-    }
+    // function viewFormSupport(detkar = 0){
+    //     clearInputs()
+    //     let newSupportForBeneficiary = document.getElementById('newSupportForBeneficiary').style.display;
+    //     document.getElementById('newSupportForBeneficiary').style.display = newSupportForBeneficiary == 'none' ? 'block' : 'none';
+    //     if(!detkar == 0){
+    //         editSupport(detkar)
+    //     }
+    // }
 
     function viewFormArea(){
         clearInputs()
