@@ -123,6 +123,7 @@ $routes->group('admin',['namespace' => 'App\Controllers\admin','filter'=>'auth:a
     $routes->post('delete_activity','KardexDetailController::delete');
     
     $routes->get('reports','ReportController::index');
+    $routes->post('get_report','ReportController::getReport');
     
     // COMPROMISE
     $routes->get('compromises','CompromiseController::index');
