@@ -113,9 +113,9 @@ Beneficiarios
                                                 >
                                                 <i class="fa-solid fa-address-book"></i>
                                             </button> 
-                                            <a href="<?= base_url("admin/view_kardex_beneficiary/{$beneficiary['kardex_id']}") ?>" title="Ver Kardex" class="mt-1 inline-block px-2 py-1.5 bg-cyan-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-cyan-700 hover:shadow-lg focus:bg-cyan-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-cyan-800 active:shadow-lg transition duration-150 ease-in-out">
+                                            <a href="<?= base_url("admin/view_kardex_beneficiary/{$beneficiary['beneficiary_id']}") ?>" title="Ver Kardex" class="mt-1 inline-block px-2 py-1.5 bg-cyan-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-cyan-700 hover:shadow-lg focus:bg-cyan-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-cyan-800 active:shadow-lg transition duration-150 ease-in-out">
                                                 <i class="fa-solid fa-book"></i>
-                                            </a> 
+                                            </a>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>

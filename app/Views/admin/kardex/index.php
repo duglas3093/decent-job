@@ -16,16 +16,16 @@ Kardex de NOMBRE_DEL_BENEFICIARIO
                                 <h6 class="ligth:text-white text-xl">KARDEX DE <?= strtoupper("{$beneficiary['beneficiary_name']} {$beneficiary['beneficiary_lastname']}") ?></h6>
                             </div>
                             <div class="absolute top-0 right-0">
-                                <button onclick="imprimirContenidoDiv('imprimir')" class="inline-block px-6 py-2.5 bg-slate-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-slate-500 hover:shadow-lg focus:bg-slate-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-slate-600 active:shadow-lg transition duration-150 ease-in-out" title="Imprimir">
+                                <button onclick="printKardex('imprimir')" class="inline-block px-6 py-2.5 bg-slate-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-slate-500 hover:shadow-lg focus:bg-slate-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-slate-600 active:shadow-lg transition duration-150 ease-in-out" title="Imprimir">
                                     <i class="fa-solid fa-print"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <div class="flex-auto px-0 pt-0 pb-2 mt-8" id="imprimir">
+                    <div class="flex-auto px-0 pt-0 pb-2 mt-8">
                         <div class="overflow-x-auto ml-4 pr-8 pl-4 pt-4 pb-4" >
                             <div class=" rounded overflow-hidden shadow-lg">
-                                <div class="px-6 py-4">
+                                <div class="px-6 py-4" id="imprimir">
                                     <div class="grid grid-cols-12 gap-0">
                                         <div class="col-start-1 col-end-8">
                                             <h6 class="font-bold text-xl mb-2"><?= strtoupper("{$beneficiary['beneficiary_name']} {$beneficiary['beneficiary_lastname']}") ?></h6>
@@ -103,11 +103,14 @@ Kardex de NOMBRE_DEL_BENEFICIARIO
                                             <?= $beneficiary['sm_name'] ?>
                                         </div>
                                     </div>
-                                    <div class="grid grid-cols-12 gap-0 mt-5 mb-5">
+                                    <div class="grid gap-0 mt-5 mb-5">
                                         <div class="col-start-1 col-end-12">
                                             <table class="items-center w-full mb-0 align-top border-collapse ligth:border-white/40 text-gray-500 order-table table ">
                                                 <thead>
                                                     <tr>
+                                                        <th class="px-3 py-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-gray-400 opacity-70">
+                                                            #
+                                                        </th>
                                                         <th class="px-6 py-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-gray-400 opacity-70">
                                                             AREA
                                                         </th>
@@ -126,8 +129,14 @@ Kardex de NOMBRE_DEL_BENEFICIARIO
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <?php foreach ($activities as $activity): ?>
+                                                    <?php
+                                                        $cont = 1;
+                                                        foreach ($activities as $activity): 
+                                                    ?>
                                                     <tr>
+                                                        <td class="align-middle bg-transparent border-b shadow-transparent whitespace-normal">
+                                                            <?= $cont ?>
+                                                        </td>
                                                         <td class="align-middle bg-transparent border-b shadow-transparent whitespace-normal">
                                                             <?= $activity['area_name'] ?>
                                                         </td>
@@ -144,7 +153,10 @@ Kardex de NOMBRE_DEL_BENEFICIARIO
                                                             <?= $activity['status_name'] ?>
                                                         </td>
                                                     </tr>
-                                                    <?php endforeach; ?>
+                                                    <?php
+                                                        $cont++; 
+                                                        endforeach; 
+                                                    ?>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -160,19 +172,32 @@ Kardex de NOMBRE_DEL_BENEFICIARIO
 </main>
 
 <script>
-    function imprimirContenidoDiv(idDiv) {
-        var contenido = document.getElementById(idDiv).innerHTML;
-        var ventana = window.open(``, ``, `height=1024,width=1024`);
-        ventana.document.write(`<html><head><title>Contenido del div</title>`);
-        ventana.document.write(`</head><body>
-                                <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-                                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-                                `);
-        ventana.document.write(contenido);
-        ventana.document.write(`</body></html>`);
-        ventana.document.close();
-        ventana.print();
-    }
+    function printKardex(idDiv) {
+        const printWindow = window.open('', '_blank');
+        const contentDiv = document.getElementById(idDiv).outerHTML
+        const contentHTML = `
+                            <html>
+                                <head>
+                                <title>Imprimir</title>
+                                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+                                <style>
+                                    /* Agrega estilos personalizados si es necesario */
+                                </style>
+                                </head>
+                                <body>
+                                ${contentDiv}
+                                </body>
+                            </html>
+                            `;
 
+        printWindow.document.open();
+        printWindow.document.write(contentHTML);
+        printWindow.document.close();
+
+        setTimeout(function() {
+            printWindow.print();
+            printWindow.close();
+        }, 500);
+    }
 </script>
 <?= $this->endSection() ?>
