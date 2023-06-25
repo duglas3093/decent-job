@@ -15,24 +15,29 @@ class KardexController extends BaseController
         $beneficiaryModel = model('BeneficiaryModel');
         $kardexDetailModel = model('KardexDetailModel');
         
-        if(!$data['kardex'] = $kardexModel->where('beneficiary_id', $beneficiary_id)->first()){
-            throw PageNotFoundException::forPageNotFound();
-        }
         $data['beneficiary'] = $beneficiaryModel->join('schedules s','s.schedule_id = beneficiaries.schedule_id','LEFT')
                                                 ->join('cities c','c.city_id = beneficiaries.city_id','LEFT')
                                                 ->join('social_medias sm','sm.sm_id = beneficiaries.sm_id','LEFT')
                                                 ->select('beneficiaries.*, s.schedule_description, c.city_name, sm_name')
                                                 ->where('beneficiary_id', $beneficiary_id)
                                                 ->first();
-        $data['activities'] = $kardexDetailModel->join('kardices k','k.kardex_id = kardexdetails.kardex_id','LEFT')
-                                                ->join('status s',' s.status_id = kardexdetails.status_id','LEFT')
-                                                ->join('supports su', 'su.support_id = kardexdetails.support_id','LEFT')
-                                                ->join('areas a', 'a.area_id = kardexdetails.area_id','LEFT')
-                                                ->select('kardexdetails.*, s.status_name, a.area_name, su.support_name')
-                                                ->orderBy('a.area_name','ASC')
-                                                ->orderBy('kardexdetails.created_at','ASC')
-                                                ->where('k.beneficiary_id',$beneficiary_id)
-                                                ->findAll();
+                                                
+        if($data['kardex'] = $kardexModel->where('beneficiary_id', $beneficiary_id)->first()){
+            // throw PageNotFoundException::forPageNotFound();
+            $data['activities'] = $kardexDetailModel->join('kardices k','k.kardex_id = kardexdetails.kardex_id','LEFT')
+                                                    ->join('status s',' s.status_id = kardexdetails.status_id','LEFT')
+                                                    ->join('supports su', 'su.support_id = kardexdetails.support_id','LEFT')
+                                                    ->join('areas a', 'a.area_id = kardexdetails.area_id','LEFT')
+                                                    ->select('kardexdetails.*, s.status_name, a.area_name, su.support_name')
+                                                    ->orderBy('a.area_name','ASC')
+                                                    ->orderBy('kardexdetails.created_at','ASC')
+                                                    ->where('k.beneficiary_id',$beneficiary_id)
+                                                    ->findAll();
+        }else{
+            $data['activities'] = [];
+        }
+                                                
+
         $data['session'] = session()->get();
         $data['areas'] = $areaModel->where('status_id', 1)->findAll();
 

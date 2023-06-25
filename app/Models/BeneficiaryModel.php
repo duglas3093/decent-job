@@ -35,7 +35,8 @@ class BeneficiaryModel extends Model
         'beneficiary_job',
         'beneficiary_experience',
         'beneficiary_workarea',
-        'beneficiary_notworkarea'
+        'beneficiary_notworkarea',
+        'beneficiary_grade'
     ];
 
     // Dates

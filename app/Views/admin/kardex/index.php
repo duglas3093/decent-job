@@ -38,10 +38,10 @@ Kardex de NOMBRE_DEL_BENEFICIARIO
                                             <span class="font-bold text-md">C.I.: </span>
                                             <?= "{$beneficiary['beneficiary_ci']} {$beneficiary['beneficiary_complement']}" ?>
                                         </div>
-                                        <div class="col-start-9 col-end-12 ">
+                                        <!-- <div class="col-start-9 col-end-12 ">
                                             <span class="font-bold text-md">REF: </span>
                                             ...
-                                        </div>
+                                        </div> -->
                                         <div class="col-start-1 col-span-12 ">
                                             <span class="font-bold text-md">CEL.: </span>
                                             <?= $beneficiary['beneficiary_celphone'] ?>
@@ -68,36 +68,64 @@ Kardex de NOMBRE_DEL_BENEFICIARIO
                                         </div>
                                         <div class="col-start-9 col-end-12 ">
                                             <span class="font-bold text-md">DIAS DE TRABAJO: </span>
-                                            ...
+                                            <?php 
+                                                $diasSemana = $beneficiary['beneficiary_days'];
+
+                                                $reemplazo = array(
+                                                    '1' => 'lunes',
+                                                    '2' => 'martes',
+                                                    '3' => 'miércoles',
+                                                    '4' => 'jueves',
+                                                    '5' => 'viernes',
+                                                    '6' => 'sabado',
+                                                    '7' => 'domingo',
+                                                );
+                                                
+                                                $diasSemana = str_replace(array_keys($reemplazo), $reemplazo, $diasSemana);
+                                                
+                                                $diasSemana = rtrim($diasSemana, ',');
+                                                
+                                                echo $diasSemana;
+                                            ?>
                                         </div>
                                         <div class="col-start-2 col-end-12 ">
                                             <span class="font-bold text-md">QUIERE: </span>
-                                            ...
+                                            <?= $beneficiary['beneficiary_entrepreneurship'] == 1 ? "Ayuda con su emprendimiento<br>":"" ?>
+                                            <?= $beneficiary['beneficiary_job'] == 1 ? "Ayuda a buscar trabajo":"" ?>
                                         </div>
+                                        <?php if($beneficiary['beneficiary_entrepreneurship'] == 1): ?>
+                                            <div class="col-start-2 col-end-12 ">
+                                                <span class="font-bold text-md">IDEA DE NEGOCIO: </span>
+                                                <?= $beneficiary['beneficiary_business'] ?>
+                                            </div>
+                                            <div class="col-start-2 col-end-12 ">
+                                                <span class="font-bold text-md">HABILIDADES: </span>
+                                                <?= $beneficiary['beneficiary_skills'] ?>
+                                            </div>
+                                        <?php endif; ?>
+                                        <?php if($beneficiary['beneficiary_job'] == 1): ?>
+                                            <div class="col-start-2 col-end-12 ">
+                                                <span class="font-bold text-md">EXPERIENCIA LABORAL: </span>
+                                                <?= $beneficiary['beneficiary_experience'] ?>
+                                            </div>
+                                            <div class="col-start-2 col-end-12 ">
+                                                <span class="font-bold text-md">DESEO: </span>
+                                                <?= $beneficiary['beneficiary_workarea'] ?>
+                                            </div>
+                                            <div class="col-start-2 col-end-12 ">
+                                                <span class="font-bold text-md">NO DESEO: </span>
+                                                <?= $beneficiary['beneficiary_notworkarea'] ?>
+                                            </div>
+                                        <?php endif; ?>
                                         <div class="col-start-2 col-end-12 ">
-                                            <span class="font-bold text-md">IDEA DE NEGOCIO: </span>
-                                            ...
+                                            <span class="font-bold text-md">ULTIMO GRADO/PROFESION: </span>
+                                            <?= $beneficiary['beneficiary_grade'] ?>
                                         </div>
-                                        <div class="col-start-2 col-end-12 ">
-                                            <span class="font-bold text-md">HABILIDADES: </span>
-                                            ...
                                         </div>
-                                        <div class="col-start-2 col-end-12 ">
-                                            <span class="font-bold text-md">EXPERIENCIA LABORAL: </span>
-                                            ...
-                                        </div>
-                                        <div class="col-start-2 col-end-12 ">
-                                            <span class="font-bold text-md">DESEO: </span>
-                                            ...
-                                        </div>
-                                        <div class="col-start-2 col-end-12 ">
-                                            <span class="font-bold text-md">NO DESEO: </span>
-                                            ...
-                                        </div>
-                                        <div class="col-start-2 col-end-12 ">
+                                        <!-- <div class="col-start-2 col-end-12 ">
                                             <span class="font-bold text-md">OBSERVACIONES: </span>
                                             ...
-                                        </div>
+                                        </div> -->
                                         <div class="col-start-2 col-end-12 ">
                                             <span class="font-bold text-md">MEDIO POR EL QUE CONOCIO EL PROYECTO: </span>
                                             <?= $beneficiary['sm_name'] ?>

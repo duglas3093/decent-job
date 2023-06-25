@@ -174,7 +174,7 @@ Actividades realizadas
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="detkar_description">
                             DESCRIPCION<span class="text-red-600 ">*</span>
                         </label>
-                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-<?= session('errors.detkar_description') ? "red-500 mb-3":"gray-200 focus:border-gray-500" ?> rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white" id="detkar_description" name="detkar_description" type="text" placeholder="Descripción de la actividad" value="">
+                        <textarea class="appearance-none block w-full bg-gray-200 text-gray-700 border border-<?= session('errors.compromise_description') ? "red-500 mb-3":"gray-200 focus:border-gray-500" ?> rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white" name="detkar_description" id="detkar_description" cols="30" rows="10"></textarea>
                     </div>
                 </div>
             </div>

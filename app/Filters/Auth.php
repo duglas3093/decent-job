@@ -40,7 +40,7 @@ class Auth implements FilterInterface
             session()->destroy();
             return redirect()->route('login')->with('msg',[
                 'type'  => 'danger',
-                'body'  => 'El usuario actualmente no esta disponible'
+                'body'  => 'El usuario actualmente no esta disponible'  
             ]);
         }
         // dd($user->getRole()['rol_description']);
@@ -50,7 +50,7 @@ class Auth implements FilterInterface
         $rolModel = model("RolsModel");
         $userRole = $rolModel->where('rol_id',$user['rol_id'])->first();
         
-        if(!($userRole['rol_description'] == $arguments[0])){
+        if(!($userRole['rol_description'] == $arguments[0] || $userRole['rol_description'] == $arguments[1])){
             throw PageNotFoundException::forPageNotFound();
         }
     }

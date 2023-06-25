@@ -42,7 +42,7 @@ $routes->group('auth',['namespace'=>'App\Controllers\Auth'],function($routes){
     $routes->get('logout', 'Login::signout',['as'=>'signout']);
 });
 
-$routes->group('admin',['namespace' => 'App\Controllers\admin','filter'=>'auth:admin'],function($routes){
+$routes->group('admin',['namespace' => 'App\Controllers\admin','filter'=>'auth:admin,sub-admin'],function($routes){
     //Dashboard
     $routes->get('dashboard','Dashboard::index');
 
