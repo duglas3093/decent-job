@@ -71,7 +71,7 @@ class UserModel extends Model
 
     public function withRol(string $rol){
         $row = $this->db->table('rols')
-                        -> where('rol_description',$rol)
+                        ->where('rol_description',$rol)
                         ->get()->getFirstRow();
         // d($row);
         if($row != null){

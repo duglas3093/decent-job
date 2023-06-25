@@ -87,7 +87,8 @@ Edición de beneficiario
                                         </div>
                                         <div class="col-start-2 col-end-12 ">
                                             <span class="font-bold text-md">QUIERE: </span>
-                                            <?= $beneficiary['beneficiary_job'] ?>
+                                            <?= $beneficiary['beneficiary_entrepreneurship'] == 1 ? "Ayuda con su emprendimiento<br>":"" ?>
+                                            <?= $beneficiary['beneficiary_job'] == 1 ? "Ayuda a buscar trabajo":"" ?>
                                         </div>
                                         <div class="col-start-2 col-end-12 ">
                                             <span class="font-bold text-md">IDEA DE NEGOCIO: </span>

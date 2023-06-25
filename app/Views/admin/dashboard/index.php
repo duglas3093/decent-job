@@ -116,14 +116,10 @@ Dashboard
                     <div class="border-black/12.5 Light:bg-slate-850 Light:shadow-Light-xl shadow-xl relative z-20 flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
                     <div class="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid p-6 pt-4 pb-0">
                         <h6 class="capitalize Light:text-white">Beneficiarios</h6>
-                        <!-- <p class="mb-0 text-sm leading-normal Light:text-white Light:opacity-60">
-                        <i class="fa fa-arrow-up text-emerald-500"></i>
-                        <span class="font-semibold">4% more</span> in 2021
-                        </p> -->
                     </div>
                     <div class="flex-auto p-4">
-                        <div>
-                            <canvas id="chart-line" height="300"></canvas>
+                        <div id="contenedor" style="width: 100%; height: 300px;">
+                        <canvas id="grafico"></canvas>
                         </div>
                     </div>
                     </div>
@@ -131,5 +127,51 @@ Dashboard
             </div>
         </div>
     </main>    
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const contenedor = document.getElementById('contenedor');
+            const canvas = document.getElementById('grafico');
+            const ctx = canvas.getContext('2d');
+            let grafico;
+
+            function actualizarTamanio() {
+                canvas.width = contenedor.clientWidth;
+                canvas.height = contenedor.clientHeight;
+                grafico.update();
+            }
+
+            function crearGrafico() {
+                const datos = {
+                labels: ['Una area', 'Dos areas', 'Mas de 2 areas'],
+                datasets: [{
+                    data: [30, 50, 20],
+                    backgroundColor: ['#ff6384', '#36a2eb', '#ffce56']
+                }]
+                };
+
+                const opciones = {
+                    // Asegura que el gráfico se ajuste automáticamente al tamaño del contenedor
+                    responsive: true,
+
+                    // Mantén el aspect ratio del gráfico
+                    maintainAspectRatio: false
+                };
+
+                grafico = new Chart(ctx, {
+                type: 'pie',
+                data: datos,
+                options: opciones
+                });
+
+                actualizarTamanio();
+            }
+
+            window.addEventListener('resize', actualizarTamanio);
+            crearGrafico();
+        });
+
+    </script>
     
 <?= $this->endSection() ?>

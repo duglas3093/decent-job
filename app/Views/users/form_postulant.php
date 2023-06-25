@@ -132,7 +132,7 @@ Formulario de Inscripción
                         
                     </div>
                     <div class="flex flex-wrap -mx-3 mb-2">
-                    <div class="w-full px-3 mb-2">
+                        <div class="w-full px-3 mb-2">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="beneficiary_direction">
                                 Dirección
                             </label>
@@ -154,7 +154,16 @@ Formulario de Inscripción
                                 </select>
                             </div>
                         </div>
-                        <div class="w-full md:w-2/3 px-3 mb-6 md:mb-0 mt-2">
+                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="beneficiary_grade">
+                                Ultimo grado que curso / Profesion
+                            </label>
+                            <input
+                                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-<?= session('errors.beneficiary_grade') ? "red-500 mb-3":"gray-200 focus:border-gray-500" ?> rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
+                                id="beneficiary_grade" name="beneficiary_grade" type="text" placeholder="Dirección del beneficiario" value="<?= old('beneficiary_grade') ?? (!isset($beneficiary) ? "":"{$beneficiary['beneficiary_grade']}") ?>">
+                                <p class="text-red-500 text-xs italic"><?= session('errors.beneficiary_grade') ?></p>
+                        </div>
+                        <div class="w-full md:w-3/3 px-3 mb-6 md:mb-0 mt-2">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="schedule_id">
                                 Días de trabajo
                             </label>
@@ -218,7 +227,7 @@ Formulario de Inscripción
                             </div>
                             <div class="w-full px-3 mb-3 md:mb-0">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="beneficiary_skills">
-                                    Indique que beneficiary_skills tiene
+                                    Indique que habilidades tiene
                                 </label>
                                 <textarea class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 focus:border-gray-500 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white" id="beneficiary_skills" name="beneficiary_skills"  rows="4" placeholder="Habilidades"></textarea>
                             </div>

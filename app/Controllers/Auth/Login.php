@@ -53,9 +53,11 @@ class Login extends BaseController
             'user_id' => $user['user_id'],
             'user_name' => $user['user_name'],
             'user_lastname' => $user['user_lastname'],
+            'rol' => $user['rol_id'],
+            'rol_url' => $user['rol_id'] == 1 ? 'admin':'sub-admin',
             'is_logged' => true,
         ]);
-
+        
         return redirect()->route('admin/dashboard')->with('msg',[
             'type'=>'green',
             'body'=> 'Bienvenido nuevamente '.$user['user_name']

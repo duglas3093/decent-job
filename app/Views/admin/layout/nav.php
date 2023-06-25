@@ -10,7 +10,7 @@
         <span class="ml-1 font-semibold transition-all duration-200 ease-nav-brand">Trabajo Digno</span>
         </a>
     </div>
-
+    
     <hr class="h-px mt-0 bg-transparent bg-gradient-to-r from-transparent via-black/40 to-transparent Light:bg-gradient-to-r Light:from-transparent Light:via-white Light:to-transparent" />
 
     <div class="items-center block w-auto max-h-screen overflow-auto grow basis-full">
@@ -86,11 +86,12 @@
                 <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Reportes</span>
                 </a>
             </li>
-
+                                
+            <?php if ($session['rol'] == 1):?>
             <li class="w-full mt-4">
                 <h6 class="pl-6 ml-2 text-xs font-bold leading-tight uppercase Light:text-white opacity-60">Configuraci&oacute;n</h6>
             </li>
-        
+            
             <li class="mt-0.1 w-full">
                 <a class=" Light:text-white Light:o<pacity-80 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors" data-te-collapse-init data-te-ripple-init data-te-ripple-color="light" href="#collapseConfiguration" role="button" aria-expanded="false" aria-controls="collapseConfiguration">
                     <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5 ">
@@ -150,6 +151,7 @@
                 <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Usuarios</span>
                 </a>
             </li>
+            <?php endIf; ?>
         </ul>
     </div>
     <script>
