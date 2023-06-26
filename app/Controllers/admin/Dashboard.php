@@ -12,30 +12,23 @@ class Dashboard extends BaseController
     
     public function index()
     {
-        // $db = \Config\Database::connect();
+        $db = \Config\Database::connect();
 
-        // $query = "SELECT 
-        //             CASE  THEN 'Nuevo' 
-        //                 ELSE 'Antiguo' 
-        //             END AS tbeneficiary,
-        //             b.beneficiary_id,
-        //             b.beneficiary_id,
-        //             b.beneficiary_name,
-        //             b.beneficiary_lastname,
-        //             CONCAT(b.beneficiary_ci, b.beneficiary_complement) AS carnet,
-        //             s.support_name,
-        //             GROUP_CONCAT(st.status_name SEPARATOR '<br>') AS status,
-        //             GROUP_CONCAT(s.support_name SEPARATOR '<br>') AS tipo
-        //         FROM kardexdetails kd
-        //         LEFT JOIN kardices k ON k.kardex_id = kd.kardex_id
-        //         LEFT JOIN beneficiaries b ON b.beneficiary_id = k.beneficiary_id
-        //         LEFT JOIN supports s ON kd.support_id = s.support_id
-        //         LEFT JOIN status st ON kd.status_id = st.status_id
-        //         WHERE kd.area_id IS NOT NULL
-        //             AND kd.area_id = 
-        //         GROUP BY b.beneficiary_id;";
+        $query = "SELECT area.one_area,area.two_areas,area.more_two_areas,benefi.total_beneficiaries
+        from (
+            SELECT 1 as id,
+                COUNT(CASE WHEN LENGTH(k.beneficiary_area) <= 2 THEN 1 END) AS one_area,
+                COUNT(CASE WHEN LENGTH(k.beneficiary_area) = 3 THEN 1 END) AS two_areas,
+                COUNT(CASE WHEN LENGTH(k.beneficiary_area) > 4 THEN 1 END) AS more_two_areas
+            FROM
+                kardices k) as area
+        join (
+            SELECT 1 as id,count(b.beneficiary_id) as total_beneficiaries 
+            from beneficiaries b 
+            where b.status_id = 1
+        ) as benefi";
         
-        // $data['beneficiary'] = $db->query($query)->getResultArray();
+        $data['beneficiary'] = $db->query($query)->getResultArray()[0];
 
         $data['session'] = session()->get();
         $areaModel = model('AreaModel');
