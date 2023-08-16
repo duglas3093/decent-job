@@ -220,16 +220,24 @@ class BeneficiaryController extends BaseController
 
         if(!$beneficiary = $model->where('beneficiary_id', $beneficiary_id)->first()){
             throw PageNotFoundException::forPageNotFound();
-        }
+        }       
 
-        $model->save([
-            'beneficiary_id'            => $beneficiary_id,
-            'status_id'                 => 10 //Reject
-        ]);
-
+        $model->where('beneficiary_id', $beneficiary_id)->delete();
+        // $model->save([
+        //     'beneficiary_id'            => $beneficiary_id,
+        //     'beneficiary_ci'            => "",
+        //     'status_id'                 => 10 //Reject
+        // ]);
         return redirect()->route('admin/postulants')->with('msg',[
             'type'=>'red',
             'body'=> "El postulante {$beneficiary['beneficiary_name']} {$beneficiary['beneficiary_lastname']} ha sido rechazado."
         ]);
+    }
+
+    public function deleteAllPostulants(){
+        $model = model('BeneficiaryModel');
+
+        $model->where('status_id', 9)->delete();
+        echo "ok";
     }
 }

@@ -52,6 +52,7 @@ $routes->group('admin',['namespace' => 'App\Controllers\admin','filter'=>'auth:a
     $routes->post('store_user','UserController::store');
     $routes->get('edit_user/(:num)','UserController::edit/$1');
     $routes->post('update_user','UserController::update');
+    $routes->post('change_password','UserController::changePassword');
 
     // Beneficiary
     $routes->get('beneficiaries','BeneficiaryController::index');
@@ -65,6 +66,7 @@ $routes->group('admin',['namespace' => 'App\Controllers\admin','filter'=>'auth:a
     $routes->get('info_postulant/(:num)','BeneficiaryController::getPostulant/$1');
     $routes->get('approve_postulant/(:num)','BeneficiaryController::approvePostulant/$1');
     $routes->get('drop_postulant/(:num)','BeneficiaryController::dropPostulant/$1');
+    $routes->post('delete_all_postulants','BeneficiaryController::deleteAllPostulants');
 
     //contacts
     $routes->post('contact_beneficiary','ContactController::contactBeneficiary');
@@ -107,10 +109,14 @@ $routes->group('admin',['namespace' => 'App\Controllers\admin','filter'=>'auth:a
     $routes->post('update_vulnerability','VulnerabilityController::update');
     $routes->post('get_vulnerabilities','VulnerabilityController::vulnerabilyBeneficiary');
     $routes->post('save_vulnerabilities','VulnerabilityController::storeVulnerabilyBeneficiary');
+    $routes->post('edit_vulnerabilitie','VulnerabilityController::editVulnerabilyBeneficiary');
+    $routes->post('delete_vulnerabilitie','VulnerabilityController::deleteVulnerability');
 
     // KARDEX
     $routes->post('area_beneficiary','KardexController::kardexBeneficiary');
     $routes->post('save_area_beneficiary','KardexController::store');
+    $routes->post('edit_area_beneficiary','KardexController::editAreaBeneficiary');
+    $routes->post('delete_area_beneficiary','KardexController::deleteAreaBeneficiary');
     $routes->get('kardex_beneficiary/(:num)','KardexController::kardexBeneficiary/$1');
     $routes->get('view_kardex_beneficiary/(:num)','KardexController::viewKardex/$1');
     $routes->get('view_kardex_beneficiary/(:num)/area/(:num)','KardexController::viewKardexArea/$1/$2');

@@ -148,4 +148,19 @@ class UserController extends BaseController
     //     }
     //     return $newName;
     // }
+    public function changePassword(){
+        $user = $this->request->getPost('user');
+        $newPassword = $this->request->getPost('newPassword');
+        
+        $userModel = model('UserModel');
+        
+        $hashPassword = password_hash("$newPassword",PASSWORD_ARGON2ID);
+
+        $userModel->save([
+            'user_id'               => $user,
+            'user_password'         => $hashPassword
+        ]);
+
+        echo json_encode("ok");
+    }
 }
