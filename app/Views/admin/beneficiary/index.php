@@ -49,6 +49,9 @@ Beneficiarios
                                             EDAD
                                         </th>
                                         <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                            ESTADO
+                                        </th>
+                                        <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                             CIUDAD
                                         </th>
                                         <th class="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b border-collapse border-solid shadow-none ligth:border-white/40 ligth:text-white tracking-none whitespace-nowrap text-slate-400 opacity-70">
@@ -90,6 +93,11 @@ Beneficiarios
                                             </span>
                                         </td>
                                         <td class="p-2 text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
+                                            <span class="bg-gradient-to-tl <?= $beneficiary['status_name'] == 'Activo' ? "from-emerald-500 to-teal-400":"from-red-500 to-red-400" ?> px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
+                                                <?= $beneficiary['status_name'] ?>
+                                            </span>
+                                        </td>
+                                        <td class="p-2 text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
                                             <span class="text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
                                                 <?= $beneficiary['city_name'] ?>
                                             </span>    
@@ -113,11 +121,11 @@ Beneficiarios
                                                 data-te-ripple-color="light"
                                                 >
                                                 <i class="fa-solid fa-address-book"></i>
-                                            </button> 
-                                            <a href="<?= base_url("admin/view_kardex_beneficiary/{$beneficiary['beneficiary_id']}") ?>" title="Ver Kardex" class="inline-block px-2 py-1.5 bg-cyan-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-cyan-700 hover:shadow-lg focus:bg-cyan-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-cyan-800 active:shadow-lg transition duration-150 ease-in-out">
+                                            </button> <br>
+                                            <a href="<?= base_url("admin/view_kardex_beneficiary/{$beneficiary['beneficiary_id']}") ?>" title="Ver Kardex" class="mt-1 inline-block px-2 py-1.5 bg-cyan-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-cyan-700 hover:shadow-lg focus:bg-cyan-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-cyan-800 active:shadow-lg transition duration-150 ease-in-out">
                                                 <i class="fa-solid fa-book"></i>
                                             </a>
-                                            <button onclick="showVulnerabilities(<?= $beneficiary['beneficiary_id'] ?>)" title="Vulnerabilidad" class="inline-block px-2 py-1.5 bg-yellow-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-700 hover:shadow-lg focus:bg-yellow-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-800 active:shadow-lg transition duration-150 ease-in-out"
+                                            <button onclick="showVulnerabilities(<?= $beneficiary['beneficiary_id'] ?>)" title="Vulnerabilidad" class="mt-1 inline-block px-2 py-1.5 bg-yellow-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-700 hover:shadow-lg focus:bg-yellow-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-800 active:shadow-lg transition duration-150 ease-in-out"
                                                         data-te-toggle="modal"
                                                             data-te-target="#vulnerability_participant"
                                                             data-te-ripple-init
@@ -125,6 +133,11 @@ Beneficiarios
                                                             >
                                                 <!-- <i class="fa-solid fa-plus"></i>  -->
                                                 <i class="fa-solid fa-user-injured"></i>
+                                            </button>
+                                            <button onclick="inactivePostulants(<?= $beneficiary['beneficiary_id'] ?>)" title="Cambiar a estado a inactivo" class="mt-1 inline-block px-2 py-1.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">
+                                                <!-- <i class="fa-solid fa-plus"></i>  -->
+                                                <i class="fa-solid fa-user-slash"></i>
+                                                <!-- <i class="fa-solid fa-user-injured"></i> -->
                                             </button>
                                         </td>
                                     </tr>
@@ -549,7 +562,7 @@ Beneficiarios
         for (let i = 0; i < selectElement.options.length; i++) {
             if (selectElement.options[i].value === area) {
                 selectElement.options[i].selected = true;
-                break; // Termina el bucle una vez que se haya encontrado la opción
+                break; 
             }
         }
     }
@@ -659,6 +672,23 @@ Beneficiarios
             },
             error: (error)=>{}
         })
+    }
+
+    function inactivePostulants(beneficiary){
+        let url = document.getElementById("base_url").value;
+        let controller = `${url}/admin/change_inactive`
+        let message = 'Se cambiara el estado a inactivo del postulante, ¿Desea continuar?'
+        if (confirm(message)) {
+            $.ajax({
+                type: "POST",
+                url: controller,
+                data: {beneficiary:beneficiary},
+                success: (result)=>{
+                    location.reload()
+                },
+                error: (error)=>{}
+            })
+        }
     }
 </script>
 <?= $this->endSection() ?>

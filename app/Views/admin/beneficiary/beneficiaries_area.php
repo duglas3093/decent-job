@@ -224,6 +224,7 @@ Beneficiarios
                 <div class="flex flex-wrap -mx-3 mb-2">
                     <div class="w-full md:w-2/4 px-3 mb-2 md:mb-0">
                         <input type="hidden" name="beneficiary_id_area" id="beneficiary_id_area" value="">
+                        <input type="hidden" name="last_area" id="last_area" value="">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="area_id">
                             AREAS<span class="text-red-600 ">*</span>
                         </label>
@@ -237,7 +238,7 @@ Beneficiarios
                             <p class="text-red-500 text-xs italic"></p>
                     </div>
                     <div class="w-full md:w-1/4 px-3 mb-2 md:mb-0 md:mt-6">
-                        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-0" onclick="saveAreaBeneficiary()" title="Guardar area">
+                        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-0" id="saveButton" onclick="saveAreaBeneficiary()" title="Guardar area">
                             <i class="fa-solid fa-check"></i>
                         </button>
                         <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-0" onclick="viewFormArea()" title="Cancelar">
@@ -332,33 +333,14 @@ Beneficiarios
                     </div> -->
                 </div>
             </div>
-            <!-- <table class="items-center w-full mb-0 align-top border-collapse ligth:border-white/40 text-slate-500 order-table table">
-                <thead class="align-bottom">
-                    <tr class="">
-                        <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                            AYUDA
-                        </th>
-                        <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                            ESTADO
-                        </th>
-                        <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70"></th>
-                    </tr>
-                </thead>
-                <tbody id="supportBeneficiaryTable"></tbody>
-            </table> -->
         </div>
             <div class="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4 ligth:border-opacity-50">
-                <!-- <button type="button" class="inline-block rounded bg-primary-100 px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200" data-te-modal-dismiss data-te-ripple-init data-te-ripple-color="light">
-                    Cerrar
-                </button> -->
-
                 <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-3" onclick="saveSupportBeneficiary(<?= $area_id ?>)" title="Guardar ayuda">
                     <i class="fa-solid fa-check"></i> Guardar
                 </button>
                 <button class="inline-block rounded bg-red-100 px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-red-700 transition duration-150 ease-in-out hover:bg-red-accent-100 focus:bg-red-accent-100 focus:outline-none focus:ring-0 active:bg-red-accent-200" onclick="viewFormSupport()" title="Cancelar" data-te-modal-dismiss data-te-ripple-init data-te-ripple-color="light">
                     <i class="fa-solid fa-xmark"></i> Cerrar
                 </button>
-
             </div>
         </div>
     </div>
@@ -383,7 +365,8 @@ Beneficiarios
             url: controller,
             data: {beneficiary:beneficiary},
             success: (result)=>{
-                let beneficiaryAreas = JSON.parse(result)
+                let data = JSON.parse(result)
+                let beneficiaryAreas = data.areas;
                 document.getElementById('titleModalArea').innerHTML = beneficiaryName.toUpperCase()
                 let html;
                 if(beneficiaryAreas.length > 0){
@@ -394,10 +377,10 @@ Beneficiarios
                                     ${beneficiaryArea.area_name}
                                 </td>
                                 <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                    <button title="Editar area" class="inline-block px-2 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                                    <button title="Editar area" class="inline-block px-2 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" onclick="editArea(${beneficiaryArea.area_id})">
                                         <i class="fa-solid fa-pencil"></i>
                                     </button>
-                                    <button title="Borrar area" class="inline-block px-2 py-1.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">
+                                    <button title="Borrar area" class="inline-block px-2 py-1.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out" onclick="deleteArea(${beneficiaryArea.area_id},${data.kardex.kardex_id})">
                                         <i class="fa-solid fa-x"></i>
                                     </button>
                                 </td>
@@ -468,15 +451,6 @@ Beneficiarios
         })
     }
 
-    // function viewFormSupport(detkar = 0){
-    //     clearInputs()
-    //     let newSupportForBeneficiary = document.getElementById('newSupportForBeneficiary').style.display;
-    //     document.getElementById('newSupportForBeneficiary').style.display = newSupportForBeneficiary == 'none' ? 'block' : 'none';
-    //     if(!detkar == 0){
-    //         editSupport(detkar)
-    //     }
-    // }
-
     function viewFormArea(){
         clearInputs()
         let newAreaForBeneficiary = document.getElementById('newAreaForBeneficiary').style.display;
@@ -523,6 +497,7 @@ Beneficiarios
     function saveAreaBeneficiary(){
         let beneficiary = document.getElementById('beneficiary_id_area').value;
         let area = document.getElementById('area_id').value;
+        let last_area = document.getElementById('last_area').value;
         $('#AreaBeneficiaryTable').html("");
         let url = document.getElementById("base_url").value;
         let controller = `${url}/admin/save_area_beneficiary`
@@ -532,16 +507,61 @@ Beneficiarios
             data: {
                 beneficiary:beneficiary,
                 area:area,
+                last_area:last_area
             },
             success: (result)=>{
                 let name = document.getElementById('titleModalArea').innerHTML;
-                loadData(beneficiary,name);
+                beneficiaryArea(beneficiary,name);
                 viewFormArea();
-                clearInputs();
+                // document.getElementById('beneficiary_id_area').value = "";
+                document.getElementById('last_area').value = "";
+                document.getElementById('assingArea').checked = true;
             },
             error: (error)=>{}
         })
     }
+
+    function editArea(area){
+        let url = document.getElementById("base_url").value;
+        let controller = `${url}/admin/edit_area_beneficiary`
+        let beneficiary = document.getElementById("beneficiary_id_area").value
+
+        document.getElementById("last_area").value = area
+        document.getElementById("area_id").value = area
+        viewFormArea()
+        let selectElement = document.getElementById("area_id");
+
+        for (let i = 0; i < selectElement.options.length; i++) {
+            if (selectElement.options[i].value === area) {
+                selectElement.options[i].selected = true;
+                break; 
+            }
+        }
+    }
+    
+    function deleteArea(area,kBeneficiary){
+        let url = document.getElementById("base_url").value;
+        let controller = `${url}/admin/delete_area_beneficiary`
+
+        let beneficiary = document.getElementById('beneficiary_id_area').value;
+        if (confirm("¿Esta seguro qué quiere borrar esta area?")) {
+            $.ajax({
+                type: "POST",
+                url: controller,
+                data: {
+                    area:area,
+                    beneficiary:beneficiary,
+                    kBeneficiary:kBeneficiary
+                },
+                success: (result)=>{
+                    let name = document.getElementById('titleModalArea').innerHTML;
+                    beneficiaryArea(beneficiary,name);
+                },
+                error: (error)=>{}
+            })
+        }
+    }
+
     function saveSupportBeneficiary(area){
         let beneficiary = document.getElementById('beneficiary_id_support').value;
         let kardex = document.getElementById('kardex').value;
