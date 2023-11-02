@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Entities\Beneficiary;
+use App\Entities\Contact;
 use App\Entities\Postulant;
 
 class PostulantController extends BaseController
@@ -69,7 +70,20 @@ class PostulantController extends BaseController
         $postulant = new Beneficiary ($postulantData);
         $postulantModel = model('BeneficiaryModel');
 
-        $postulantModel->save($postulant);
+        $postulantModel->insert($postulant);
+
+        $postulantId = $postulantModel->getInsertId();
+
+        $contactModel = model('ContactModel');
+        $formData = [
+            'beneficiary_id'    => $postulantId,
+            'contact_name'      => $postulantData['name_contact'],
+            'contact_phone'     => $postulantData['phone_contact'],
+        ];
+
+        $contact = new Contact($formData);
+        $contactModel->save($contact);
+
         return redirect()->route('application_form')->with('msg',[
             'type' => 'green',
             'body' => 'El formulario se envio exitosamente!!!'
