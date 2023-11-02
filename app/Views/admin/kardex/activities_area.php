@@ -112,9 +112,11 @@ Actividades realizadas
                                                 data-te-ripple-color="light">
                                                 <i class="fa-solid fa-pencil"></i> 
                                             </button>
+                                            <?php if($session['rol'] == 1): ?>
                                             <button onclick="deleteActivity(<?= $activity['detkar_id'] ?>)" title="Borrar" class="inline-block px-2 py-1.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">
                                                 <i class="fa-solid fa-trash-can"></i>
                                             </button>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

@@ -168,7 +168,7 @@ Dashboard
             let totalBeneficiaries = document.getElementById('total_beneficiaries').innerText;
             let notAssigned = document.getElementById('notAssigned').innerText;
 
-            console.log(notAssigned)
+            // console.log(notAssigned)
 
             function actualizarTamanio() {
                 canvas.width = contenedor.clientWidth;

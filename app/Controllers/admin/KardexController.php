@@ -50,13 +50,15 @@ class KardexController extends BaseController
         $areaModel = model('AreaModel');
         $kardexModel = model('KardexModel');
 
-        $areasBeneficiaryStr = $kardexModel->where('kardices.beneficiary_id', $beneficiary_id)->select('kardices.beneficiary_area')->first();
+        $areasBeneficiaryStr = $kardexModel->where('kardices.beneficiary_id', $beneficiary_id)->select('kardices.beneficiary_area,kardices.kardex_id')->first();
         $beneficiaryAreas = $this->strToArray($areasBeneficiaryStr['beneficiary_area']);
         $areas = [];
         foreach ($beneficiaryAreas as $ba) {
-            array_push($areas, $areaModel->where('area_id',(int)$ba)->select('area_name')->first());
+            array_push($areas, $areaModel->where('area_id',(int)$ba)->select('area_id,area_name')->first());
         }
-        echo json_encode($areas);
+        $data['kardex'] = $areasBeneficiaryStr;
+        $data['areas'] = $areas;
+        echo json_encode($data);
     }
     
     public function viewKardexArea($kardexId, $areaId){
@@ -92,6 +94,7 @@ class KardexController extends BaseController
         $beneficiary_id = $this->request->getPost('beneficiary');
         $kardexModel = model('KardexModel');
         $area_id = $this->request->getPost('area');
+        $last_area = $this->request->getPost('last_area');
         if(!$kardex = $kardexModel->where('beneficiary_id', $beneficiary_id)->select('kardices.kardex_id,kardices.beneficiary_area')->first()){
             $formData = [
                 'beneficiary_id'        => $beneficiary_id,
@@ -100,16 +103,75 @@ class KardexController extends BaseController
             $kardex = new Kardex($formData);
             $kardexModel->save($kardex);
         }else{
-            if(!strstr($kardex['beneficiary_area'],"$area_id")){
+            if(!$last_area == ""){
+                $beneficiaryNewArea = $this->replaceStringElement($kardex['beneficiary_area'],$last_area,$area_id); //"{$kardex['beneficiary_area']},$area_id",
                 $formData = [
                     'kardex_id'             => $kardex['kardex_id'],
                     'beneficiary_id'        => $beneficiary_id,
-                    'beneficiary_area'      => "{$kardex['beneficiary_area']},$area_id",
+                    'beneficiary_area'      => $beneficiaryNewArea
                 ];
                 $kardexModel->save($formData);
+            }elseif(!strstr($kardex['beneficiary_area'],"$area_id")){
+                    $formData = [
+                        'kardex_id'             => $kardex['kardex_id'],
+                        'beneficiary_id'        => $beneficiary_id,
+                        'beneficiary_area'      => "{$kardex['beneficiary_area']},$area_id",
+                    ];
+                    $kardexModel->save($formData);
             }
         }
         echo json_encode("ok");
+    }
+
+    function replaceStringElement($originalString, $searchElement, $replaceElement) {
+        // Reemplaza el elemento de búsqueda por el elemento de reemplazo en la cadena original
+        $newString = str_replace($searchElement, $replaceElement, $originalString);
+        
+        return $newString;
+    }
+
+    public function editAreaBeneficiary(){
+        $beneficiary_id = $this->request->getPost('beneficiary');
+        $area_id = $this->request->getPost('area');
+        $areaModel = model('AreaModel');
+        $kardexModel = model('KardexModel');
+
+        $areasBeneficiaryStr = $kardexModel->where('kardices.beneficiary_id', $beneficiary_id)->select('kardices.beneficiary_area,kardices.kardex_id')->first();
+        $beneficiaryAreas = $this->strToArray($areasBeneficiaryStr['beneficiary_area']);
+        $areas = [];
+        foreach ($beneficiaryAreas as $ba) {
+            array_push($areas, $areaModel->where('area_id',(int)$ba)->select('area_id,area_name')->first());
+        }
+        echo json_encode($areas);
+    }
+
+    public function deleteAreaBeneficiary(){
+        $area_id = $this->request->getPost('area');
+        $beneficiary_id = $this->request->getPost('beneficiary');
+        $kardex_id = $this->request->getPost('kBeneficiary');
+        $kardexModel = model("KardexModel");
+        $kardex = $kardexModel->where('kardex_id', $kardex_id)->select('kardices.kardex_id,kardices.beneficiary_area')->first();
+        $beneficiaryNewArea = $this->replaceStringElement($kardex['beneficiary_area'],"$area_id",""); 
+        $beneficiaryNewArea = $this->orderNumbersInString($beneficiaryNewArea);
+        $formData = [
+            'kardex_id'             => $kardex_id,
+            'beneficiary_area'      => $beneficiaryNewArea
+        ];
+        $kardexModel->save($formData);
+        echo "ok";
+    }
+
+    function orderNumbersInString($inputString) {
+        // Separa los números en un array eliminando valores vacíos
+        $numbers = array_filter(explode(',', $inputString), 'is_numeric');
+        
+        // Ordena los números en el array
+        sort($numbers);
+        
+        // Convierte el array ordenado en una cadena
+        $sortedString = implode(',', $numbers);
+        
+        return $sortedString;
     }
 
     private function strToArray($str){

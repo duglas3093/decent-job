@@ -152,6 +152,7 @@ Edición de beneficiario
                 <div id="newVulnerabilityForBeneficiary" style="display: none;">
                     <div class="flex flex-wrap -mx-3 mb-2">
                         <div class="w-full md:w-3/8 px-3 mb-2 md:mb-0">
+                            <input type="hidden" name="bevu_id" id="bevu_id" value="">
                             <input type="hidden" name="beneficiary_id" id="beneficiary_id" value="">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="area_id">
                                 VULNERABILIDAD<span class="text-red-600 ">*</span>
@@ -231,8 +232,11 @@ Edición de beneficiario
                                     <div class="grid justify-items-center">${vulnerability.bevu_observation}</div>
                                 </td>
                                 <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                    <button title="Editar Beneficiario" class="inline-block px-2 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                                    <button title="Editar Vulnerabilidad" class="inline-block px-2 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" onClick="editVulnerability(${vulnerability.bevu_id})">
                                         <i class="fa-solid fa-pencil"></i>
+                                    </button>
+                                    <button title="Borrar Vulnerabilidad" class="inline-block px-2 py-1.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out" onClick="deleteVulnerability(${vulnerability.bevu_id})">
+                                        <i class="fa-solid fa-trash-can"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -269,6 +273,7 @@ Edición de beneficiario
         let url = document.getElementById("base_url").value;
         let controller = `${url}/admin/save_vulnerabilities`
         let beneficiary = document.getElementById('beneficiary_id').value;
+        let bevu = document.getElementById('bevu_id').value;
         let vulnerability = document.getElementById('vulnerability_id').value;
         let observation = document.getElementById('vulnerability_observation').value;
         $.ajax({
@@ -277,11 +282,68 @@ Edición de beneficiario
             data: {
                 beneficiary:beneficiary,
                 vulnerability:vulnerability,
-                observation:observation
+                observation:observation,
+                bevu:bevu
             },
             success: (result)=>{
                 showVulnerabilities(beneficiary);
                 viewForm()
+                document.getElementById('beneficiary_id').value = "";
+                document.getElementById('vulnerability_id').value = "";
+                document.getElementById('bevu_id').value = "";
+                document.getElementById('vulnerability_observation').value = "";
+            },
+            error: (error)=>{}
+        })
+    }
+
+    function editVulnerability(bevu_id){
+        let url = document.getElementById("base_url").value;
+        let controller = `${url}/admin/edit_vulnerabilitie`
+        $.ajax({
+            type: "POST",
+            url: controller,
+            data: {
+                bevu_id:bevu_id
+            },
+            success: (result)=>{
+                let vulnerability = JSON.parse(result)
+                viewForm()
+                document.getElementById('beneficiary_id').value = vulnerability.beneficiary_id;
+                document.getElementById('vulnerability_id').value = vulnerability.vulnerability_id;
+                document.getElementById('bevu_id').value = vulnerability.bevu_id;
+                document.getElementById('vulnerability_observation').value = vulnerability.bevu_observation;
+
+                var selectElement = document.getElementById("vulnerability_id");
+
+                // Valor que deseas seleccionar
+                var valorASeleccionar = vulnerability.vulnerability_id;
+
+                // Itera a través de las opciones para encontrar la que coincide con el valor
+                for (var i = 0; i < selectElement.options.length; i++) {
+                    if (selectElement.options[i].value === valorASeleccionar) {
+                        selectElement.options[i].selected = true;
+                        break; // Termina el bucle una vez que se haya encontrado la opción
+                    }
+                }
+            },
+            error: (error)=>{}
+        })
+    }
+    
+    function deleteVulnerability(bevu_id){
+        let url = document.getElementById("base_url").value;
+        let controller = `${url}/admin/delete_vulnerabilitie`
+        let beneficiary = document.getElementById('beneficiary_id').value;
+        $.ajax({
+            type: "POST",
+            url: controller,
+            data: {
+                bevu_id:bevu_id
+            },
+            success: (result)=>{
+                showVulnerabilities(beneficiary);
+                // viewForm()
                 document.getElementById('beneficiary_id').value = "";
                 document.getElementById('vulnerability_id').value = "";
                 document.getElementById('vulnerability_observation').value = "";

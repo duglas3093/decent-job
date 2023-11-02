@@ -231,9 +231,10 @@ Beneficiarios
                 </button>
             </div>
             <div id="newAreaForBeneficiary" style="display: none;">
-                <div class="flex flex-wrap -mx-3 mb-2">
+                <div class="flex fle x-wrap -mx-3 mb-2">
                     <div class="w-full md:w-2/4 px-3 mb-2 md:mb-0">
                         <input type="hidden" name="beneficiary_id_area" id="beneficiary_id_area" value="">
+                        <input type="hidden" name="last_area" id="last_area" value="">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="area_id">
                             AREAS<span class="text-red-600 ">*</span>
                         </label>
@@ -247,7 +248,7 @@ Beneficiarios
                             <p class="text-red-500 text-xs italic"></p>
                     </div>
                     <div class="w-full md:w-1/4 px-3 mb-2 md:mb-0 md:mt-6">
-                        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-0" onclick="saveAreaBeneficiary()" title="Guardar area">
+                        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-0" id="saveButton" onclick="saveAreaBeneficiary()" title="Guardar area">
                             <i class="fa-solid fa-check"></i>
                         </button>
                         <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-0" onclick="viewFormArea()" title="Cancelar">
@@ -362,7 +363,8 @@ Beneficiarios
             url: controller,
             data: {beneficiary:beneficiary},
             success: (result)=>{
-                let beneficiaryAreas = JSON.parse(result)
+                let data = JSON.parse(result)
+                let beneficiaryAreas = data.areas;
                 document.getElementById('titleModalArea').innerHTML = beneficiaryName.toUpperCase()
                 let html;
                 if(beneficiaryAreas.length > 0){
@@ -373,10 +375,10 @@ Beneficiarios
                                     ${beneficiaryArea.area_name}
                                 </td>
                                 <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                    <button title="Editar area" class="inline-block px-2 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                                    <button title="Editar area" class="inline-block px-2 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" onclick="editArea(${beneficiaryArea.area_id})">
                                         <i class="fa-solid fa-pencil"></i>
                                     </button>
-                                    <button title="Borrar area" class="inline-block px-2 py-1.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">
+                                    <button title="Borrar area" class="inline-block px-2 py-1.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out" onclick="deleteArea(${beneficiaryArea.area_id},${data.kardex.kardex_id})">
                                         <i class="fa-solid fa-x"></i>
                                     </button>
                                 </td>
@@ -493,9 +495,24 @@ Beneficiarios
         })
     }
 
+    function closeModal() {
+        // Obtén una referencia al modal
+        var modal = document.getElementById("miModal");
+
+        // Función para cerrar el modal
+        function cerrarModal() {
+            modal.classList.add("hidden");
+        }
+
+        // Cierra el modal después de cierto tiempo (por ejemplo, 3 segundos)
+        setTimeout(cerrarModal, 3000); // Cambia el valor a la cantidad de milisegundos que desees
+
+    }
+
     function saveAreaBeneficiary(){
         let beneficiary = document.getElementById('beneficiary_id_area').value;
         let area = document.getElementById('area_id').value;
+        let last_area = document.getElementById('last_area').value;
         $('#AreaBeneficiaryTable').html("");
         let url = document.getElementById("base_url").value;
         let controller = `${url}/admin/save_area_beneficiary`
@@ -505,15 +522,59 @@ Beneficiarios
             data: {
                 beneficiary:beneficiary,
                 area:area,
+                last_area:last_area
             },
             success: (result)=>{
                 let name = document.getElementById('titleModalArea').innerHTML;
-                loadData(beneficiary,name);
+                beneficiaryArea(beneficiary,name);
                 viewFormArea();
-                clearInputs();
+                // document.getElementById('beneficiary_id_area').value = "";
+                document.getElementById('last_area').value = "";
+                document.getElementById('assingArea').checked = true;
             },
             error: (error)=>{}
         })
+    }
+
+    function editArea(area){
+        let url = document.getElementById("base_url").value;
+        let controller = `${url}/admin/edit_area_beneficiary`
+        let beneficiary = document.getElementById("beneficiary_id_area").value
+
+        document.getElementById("last_area").value = area
+        document.getElementById("area_id").value = area
+        viewFormArea()
+        let selectElement = document.getElementById("area_id");
+
+        for (let i = 0; i < selectElement.options.length; i++) {
+            if (selectElement.options[i].value === area) {
+                selectElement.options[i].selected = true;
+                break; // Termina el bucle una vez que se haya encontrado la opción
+            }
+        }
+    }
+    
+    function deleteArea(area,kBeneficiary){
+        let url = document.getElementById("base_url").value;
+        let controller = `${url}/admin/delete_area_beneficiary`
+
+        let beneficiary = document.getElementById('beneficiary_id_area').value;
+        if (confirm("¿Esta seguro qué quiere borrar esta area?")) {
+            $.ajax({
+                type: "POST",
+                url: controller,
+                data: {
+                    area:area,
+                    beneficiary:beneficiary,
+                    kBeneficiary:kBeneficiary
+                },
+                success: (result)=>{
+                    let name = document.getElementById('titleModalArea').innerHTML;
+                    beneficiaryArea(beneficiary,name);
+                },
+                error: (error)=>{}
+            })
+        }
     }
 </script>
 <script>

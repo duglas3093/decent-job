@@ -6,7 +6,7 @@
         </label>
         <input
             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-<?= session('errors.user_name') ? "red-500 mb-3":"gray-200 focus:border-gray-500" ?> rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
-            id="user_name" name="user_name" type="text" placeholder="Nombre(s)" value="<?= old('user_name') ?? (!isset($user) ? "":"{$user['user_name']})") ?>">
+            id="user_name" name="user_name" type="text" placeholder="Nombre(s)" value="<?= old('user_name') ?? (!isset($user) ? "" : "{$user['user_name']}") ?>">
             <p class="text-red-500 text-xs italic"><?= session('errors.user_name') ?></p>
     </div>
     <div class="w-full md:w-1/2 px-3 mb-2">

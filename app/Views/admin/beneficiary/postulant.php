@@ -23,7 +23,7 @@ Postulantes
                                 <h6 class="ligth:text-white text-xl">Postulantes: <?= count($beneficiaries) ?></h6>
                             </div>
                             <div class="absolute top-0 right-0">
-                                <button class="inline-block px-6 py-2.5 bg-yellow-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-yellow-500 hover:shadow-lg focus:bg-yellow-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-600 active:shadow-lg transition duration-150 ease-in-out">
+                                <button onclick="deletePostulants()" class="inline-block px-6 py-2.5 bg-yellow-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-yellow-500 hover:shadow-lg focus:bg-yellow-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-600 active:shadow-lg transition duration-150 ease-in-out">
                                     <i class="fa-solid fa-triangle-exclamation"></i>
                                     Eliminar postulaciones
                                 </button>
@@ -103,17 +103,22 @@ Postulantes
     </div>
 </main>
 <script>
-    // function approvePostulant(beneficiary) {
-    //     let url = document.getElementById("base_url").value;
-    //     let controller = `${url}/admin/approve_postulant`
-    //     $.ajax({
-    //         type: "POST",
-    //         url: controller,
-    //         data: {beneficiary:beneficiary},
-    //         success: (result)=>{},
-    //         error: (error)=>{}
-    //     })
-    // }
+    function deletePostulants(){
+        let url = document.getElementById("base_url").value;
+        let controller = `${url}/admin/delete_all_postulants`
+        let message = 'Se borraran todas las postulaciones'
+        if (confirm(message)) {
+            $.ajax({
+                type: "POST",
+                url: controller,
+                data: {},
+                success: (result)=>{
+                    location.reload()
+                },
+                error: (error)=>{}
+            })
+        }
+    }
 
     // function dropPostulant(beneficiary) {
     //     let url = document.getElementById("base_url").value;
