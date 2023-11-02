@@ -123,6 +123,30 @@
                             </li>
 
                             <li class="mt-0.2 w-full">
+                                <a class=" Light:text-white Light:o<pacity-80 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors <?= service('request')->uri->getPath() == 'admin/schedules' ? 'rounded-lg font-semibold text-slate-700  bg-blue-500/13':'' ?>" href="<?= base_url('admin/schedules') ?>">
+                                    <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                                        <i class="relative top-0 text-sm leading-normal text-cyan-500 fa-solid fa-clock"></i>
+                                    </div>
+                                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Horarios</span>
+                                </a>
+                            </li>
+                            <li class="mt-0.2 w-full">
+                                <a class=" Light:text-white Light:o<pacity-80 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors <?= service('request')->uri->getPath() == 'admin/social_network' ? 'rounded-lg font-semibold text-slate-700  bg-blue-500/13':'' ?>" href="<?= base_url('admin/social_network') ?>">
+                                    <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                                        <i class="relative top-0 text-sm leading-normal text-cyan-500 fa-brands fa-facebook"></i>
+                                    </div>
+                                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Redes Sociales</span>
+                                </a>
+                            </li>
+                            <li class="mt-0.2 w-full">
+                                <a class=" Light:text-white Light:o<pacity-80 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors <?= service('request')->uri->getPath() == 'admin/cities' ? 'rounded-lg font-semibold text-slate-700  bg-blue-500/13':'' ?>" href="<?= base_url('admin/cities') ?>">
+                                    <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                                        <i class="relative top-0 text-sm leading-normal text-cyan-500 fa-solid fa-tree-city"></i>
+                                    </div>
+                                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Ciudades</span>
+                                </a>
+                            </li>
+                            <li class="mt-0.2 w-full">
                                 <a class=" Light:text-white Light:o<pacity-80 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors <?= service('request')->uri->getPath() == 'admin/vulnerabilities' ? 'rounded-lg font-semibold text-slate-700  bg-blue-500/13':'' ?>" href="<?= base_url('admin/vulnerabilities') ?>">
                                     <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                         <i class="relative top-0 text-sm leading-normal text-cyan-500 fa-solid fa-notes-medical"></i>

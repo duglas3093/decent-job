@@ -3,10 +3,10 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Entities\Company;
+use App\Entities\SocialNetwork;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
-class CompanyController extends BaseController
+class SocialNetworkController extends BaseController
 {
     private $session;
     private const PAGINATION = 1000;
@@ -19,12 +19,13 @@ class CompanyController extends BaseController
     public function index(){
         $data['session'] = session()->get();
         $areaModel = model('AreaModel');
-        $companyModel = model('CompanyModel');
+        $socialMediaModel = model('SocialMediaModel');
         $data['areas'] = $areaModel->where('status_id', 1)->findAll();
-        $data['companies'] = $companyModel
+        $data['smedias'] = $socialMediaModel
+                            ->join('status s','s.status_id = social_medias.status_id','LEFT')
+                            ->select('social_medias.*, s.status_name')
                             ->findAll();
-                            // ->paginate(self::PAGINATION);
-        return view('admin/company/index',$data);
+        return view('admin/social_network/index',$data);
     }
     
     public function add(){
@@ -34,66 +35,64 @@ class CompanyController extends BaseController
         $statusModel = model('StatusModel');
         $data['status'] = $statusModel->where('status_category',1)->findAll();
         
-        return view('admin/company/add',$data);
+        return view('admin/social_network/add',$data);
     }
 
-    public function edit(int $company_id){
-        $companyModel = model('CompanyModel');
-        if(!$data['company'] = $companyModel->where('company_id', $company_id)->first()){
+    public function edit(int $sm_id){
+        $socialMediaModel = model('SocialMediaModel');
+        if(!$data['smedia'] = $socialMediaModel->where('sm_id', $sm_id)->first()){
             throw PageNotFoundException::forPageNotFound();
         }
         $data['session'] = session()->get();
         $areaModel = model('AreaModel');
         $data['areas'] = $areaModel->where('status_id', 1)->findAll();
-        // $statusModel = model('StatusModel');
-        // $data['status'] = $statusModel->where('status_category',1)->findAll();
-        return view('admin/company/edit',$data);
+        $statusModel = model('StatusModel');
+        $data['status'] = $statusModel->where('status_category',1)->findAll();
+        return view('admin/social_network/edit',$data);
     }
 
     public function store(){
         $validation = service('validation');
         $validation->setRules([
-            'company_name'          => ['label' => 'nombre','rules' => 'required'],
+            'sm_name'          => ['label' => 'Name','rules' => 'required'],
         ]);
 
         if(!$validation->withRequest($this->request)->run()){
             return redirect()->back()->withInput()->with('errors',$validation->getErrors());
         }
 
-        $company = new Company($this->request->getPost());
-        $companyModel = model('CompanyModel');
+        $smedia = new SocialNetwork($this->request->getPost());
+        $socialMediaModel = model('SocialMediaModel');
 
-        $companyModel->save($company);
-        return redirect()->route('admin/companies')->with('msg',[
+        $socialMediaModel->save($smedia);
+        return redirect()->route('admin/social_network')->with('msg',[
             'type' => 'green',
-            'body' => 'Nueva empresa registrada exitosamente!'
+            'body' => 'La nueva red social se registrado exitosamente!'
         ]);
     }
 
     public function update(){
         $validation = service('validation');
         $validation->setRules([
-            'company_name'          => ['label' => 'nombre','rules' => 'required'],
+            'sm_name'          => ['label' => 'descripion','rules' => 'required'],
         ]);
         
         if(!$validation->withRequest($this->request)->run()){
             return redirect()->back()->withInput()->with('errors',$validation->getErrors());
         }
         
-        $model = model('CompanyModel');
-        if(!$model->where('company_id', (int)trim($this->request->getVar('company_id')))->first()){
+        $model = model('SocialMediaModel');
+        if(!$model->where('sm_id', (int)trim($this->request->getVar('sm_id')))->first()){
             throw PageNotFoundException::forPageNotFound();
         }
         $model->save([
-            'company_id'            => trim($this->request->getVar('company_id')),
-            'company_name'          => trim($this->request->getVar('company_name')),
-            'company_phone'         => trim($this->request->getVar('company_phone')),
-            'company_description'   => trim($this->request->getVar('company_description')),
-            'company_direction'     => trim($this->request->getVar('company_direction')),
+            'sm_id'         => trim($this->request->getVar('sm_id')),
+            'sm_name'       => trim($this->request->getVar('sm_name')),
+            'status_id'     => trim($this->request->getVar('status_id'))
         ]);
-        return redirect()->route('admin/companies')->with('msg',[
+        return redirect()->route('admin/social_network')->with('msg',[
             'type'=>'green',
-            'body'=> 'La empresa se actualizo exitosamente.'
+            'body'=> 'La red social se actualizo exitosamente.'
         ]);   
     }
 }

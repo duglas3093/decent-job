@@ -29,6 +29,7 @@ class BeneficiaryController extends BaseController
                             ->join('kardices k','k.beneficiary_id = beneficiaries.beneficiary_id','LEFT')
                             ->select('beneficiaries.*, s.status_name, c.city_name,k.kardex_id')
                             ->where('beneficiaries.status_id', 1)
+                            ->orWhere('beneficiaries.status_id', 2)
                             ->orderBy('beneficiary_lastname')
                             ->paginate(self::PAGINATION);
         // $data['pager'] = $userModel->pager;
@@ -239,5 +240,26 @@ class BeneficiaryController extends BaseController
 
         $model->where('status_id', 9)->delete();
         echo "ok";
+    }
+
+    public function inactivePostulants(){
+        $beneficiary = $this->request->getPost('beneficiary');
+
+        $model = model('BeneficiaryModel');
+        if(!$model->where('beneficiary_id', $beneficiary)->first()){
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        $model->save([
+            'beneficiary_id'            => $beneficiary,
+            'status_id'                 => 2,
+        ]);
+
+        return json_encode("ok");
+
+        // return redirect()->route('admin/beneficiaries')->with('msg',[
+        //     'type'=>'green',
+        //     'body'=> 'El beneficiario se actualizo exitosamente.'
+        // ]);
     }
 }

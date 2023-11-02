@@ -62,7 +62,7 @@
         </label>
         <input
             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-<?= session('errors.beneficiary_email') ? "red-500 mb-3":"gray-200 focus:border-gray-500" ?> rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
-            id="beneficiary_email" name="beneficiary_email" type="email" placeholder="Email" value="<?= old('beneficiary_email') ?? (!isset($beneficiary) ? "":"{$beneficiary['beneficiary_email']}") ?>" required>
+            id="beneficiary_email" name="beneficiary_email" type="email" placeholder="Email" value="<?= old('beneficiary_email') ?? (!isset($beneficiary) ? "":"{$beneficiary['beneficiary_email']}") ?>">
             <p class="text-red-500 text-xs italic"><?= session('errors.beneficiary_email') ?></p>
     </div>
     <div class="w-full px-3 mb-2">

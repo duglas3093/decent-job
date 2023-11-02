@@ -9,7 +9,7 @@ use CodeIgniter\Exceptions\PageNotFoundException;
 class SuportController extends BaseController
 {
     private $session;
-    private const PAGINATION = 100;
+    private const PAGINATION = 1000;
     private const STATUS = 4;
 
     public function __construct(){

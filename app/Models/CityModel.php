@@ -15,7 +15,8 @@ class CityModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'city_name'
+        'city_name',
+        'status_id'
     ];
 
     // Dates

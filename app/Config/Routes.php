@@ -60,6 +60,7 @@ $routes->group('admin',['namespace' => 'App\Controllers\admin','filter'=>'auth:a
     $routes->post('store_beneficiary','BeneficiaryController::store');
     $routes->get('edit_beneficiary/(:num)','BeneficiaryController::edit/$1');
     $routes->post('update_beneficiary','BeneficiaryController::update');
+    $routes->post('change_inactive','BeneficiaryController::inactivePostulants');
 
     //Postulant
     $routes->get('postulants','BeneficiaryController::postulants');
@@ -135,6 +136,27 @@ $routes->group('admin',['namespace' => 'App\Controllers\admin','filter'=>'auth:a
     $routes->get('compromises','CompromiseController::index');
     $routes->get('edit_compromise/(:num)','CompromiseController::edit/$1');
     $routes->post('update_compromise','CompromiseController::update');
+
+     // schedules
+    $routes->get('schedules','ScheduleController::index');
+    $routes->get('add_schedule','ScheduleController::add');
+    $routes->post('store_schedule','ScheduleController::store');
+    $routes->get('edit_schedule/(:num)','ScheduleController::edit/$1');
+    $routes->post('update_schedule','ScheduleController::update');
+
+      // Social Network
+    $routes->get('social_network','SocialNetworkController::index');
+    $routes->get('add_social_network','SocialNetworkController::add');
+    $routes->post('store_social_network','SocialNetworkController::store');
+    $routes->get('edit_social_network/(:num)','SocialNetworkController::edit/$1');
+    $routes->post('update_social_network','SocialNetworkController::update');
+
+      // Cities
+    $routes->get('cities','CityController::index');
+    $routes->get('add_city','CityController::add');
+    $routes->post('store_city','CityController::store');
+    $routes->get('edit_city/(:num)','CityController::edit/$1');
+    $routes->post('update_city','CityController::update');
 });
 /*
  * --------------------------------------------------------------------
