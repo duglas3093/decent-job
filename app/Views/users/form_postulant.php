@@ -72,15 +72,23 @@ Formulario de Inscripción
                                 id="beneficiary_complement" name="beneficiary_complement" type="text" placeholder="Complemento" value="<?= old('beneficiary_complement') ?? (!isset($beneficiary) ? "":"{$beneficiary['beneficiary_complement']}") ?>">
                                 <p class="text-red-500 text-xs italic"><?= session('errors.beneficiary_complement') ?></p>
                         </div>
-                        <div class="w-full md:w-1/4 px-3 mb-3 md:mb-0">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="beneficiary_datebirth">
-                                Fecha de nacimiento
-                            </label>
-                            <input
-                                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-<?= session('errors.beneficiary_datebirth') ? "red-500 mb-3":"gray-200 focus:border-gray-500" ?> rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
-                                id="beneficiary_datebirth" name="beneficiary_datebirth" type="date" placeholder="Complemento" value="<?= old('beneficiary_datebirth') ?? (!isset($beneficiary) ? "":"{$beneficiary['beneficiary_datebirth']}") ?>" 
-                                >
-                                <p class="text-red-500 text-xs italic"><?= session('errors.beneficiary_datebirth') ?></p>
+                        <div class="w-full md:w-1/4 px-3 mb-3 md:mb-0" style="display: flex; align-items: flex-end;">
+                            <div>
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="beneficiary_datebirth">
+                                    Fecha de nacimiento<span class="text-red-600 ">*</span> 
+                                </label>
+                                <input
+                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-<?= session('errors.beneficiary_datebirth') ? "red-500 mb-3":"gray-200 focus:border-gray-500" ?> rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
+                                    id="beneficiary_datebirth" name="beneficiary_datebirth" type="date" placeholder="Complemento" value="<?= old('beneficiary_datebirth') ?? (!isset($beneficiary) ? "":"{$beneficiary['beneficiary_datebirth']}") ?>" onchange="calculateAge()" require 
+                                    >
+                                    <p class="text-red-500 text-xs italic"><?= session('errors.beneficiary_datebirth') ?></p>
+                            </div>
+                            <div class="ml-5">
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="beneficiary_datebirth">
+                                    Edad
+                                </label>
+                                <input id="age" name="age" type="text" value="0" disabled style="border:0">
+                            </div>
                         </div>
                         <div class="w-full md:w-1/4 px-3">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="beneficiary_celphone">
@@ -257,7 +265,7 @@ Formulario de Inscripción
                         <div class="w-full md:w-1/2 px-3 mb-2">
                             <div class="w-full px-3 mb-3 md:mb-2">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                    ¿Está usted de acuerdo con el compromiso de Emprendimiento?
+                                    ¿Está usted de acuerdo con el compromiso de Empleabilidad?
                                 </label>
                                 <div class="flex items-center mb-4">
                                     <input id="default-radio-1" type="radio" value="1" name="beneficiary_job" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 ligth:focus:ring-blue-600 ligth:ring-offset-gray-800 focus:ring-2 ligth:bg-gray-700 ligth:border-gray-600">
@@ -307,7 +315,23 @@ Formulario de Inscripción
         document.getElementById(ofView).style.display = 'none';
         document.getElementById(forView).style.display ='block';v                                       
     }
+
+    function calculateAge(){
+        console.log("test")
+        let date = new Date(Date.now());
+        let dateOfBirth = document.getElementById("beneficiary_datebirth").value
+        let currentYear = date.getFullYear();
+        let currentMonth = date.getMonth();
+        let currentDay = date.getDay();
+        let currentDate = `${currentYear}-${currentMonth}-${currentDay}`
+        
+        var date1 = moment(currentDate)
+        var date2 = moment(dateOfBirth)
+
+        document.getElementById("age").value = date1.diff(date2,'years')
+    }
 </script>
+<script src="http://momentjs.com/downloads/moment.min.js"></script>
 <!-- /.MultiStep Form -->
 <?= $this->endSection() ?>
 <?= $this->section('script') ?>
