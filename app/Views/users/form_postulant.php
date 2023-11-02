@@ -176,28 +176,58 @@ Formulario de Inscripción
                                 Días de trabajo
                             </label>
                             <div class="relative">
-                            <input class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 ml-2"
-                                id="lunes" name="lunes" type="checkbox">
-                                <label for="lunes">LUNES</label>
-                            <input class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 ml-2"
-                                id="martes" name="martes" type="checkbox">
-                                <label for="martes">MARTES</label> 
-                            <input class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 ml-2"
-                                id="miercoles" name="miercoles" type="checkbox">
-                                <label for="miercoles">MIERCOLES</label> 
-                            <input class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 ml-2"
-                                id="jueves" name="jueves" type="checkbox">
-                                <label for="jueves">JUEVES</label> 
-                            <input class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 ml-2"
-                                id="viernes" name="viernes" type="checkbox">
-                                <label for="viernes">VIERNES</label> 
-                            <input class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 ml-2"
-                                id="sabado" name="sabado" type="checkbox">
-                                <label for="sabado">SABADO</label> 
-                            <input class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 ml-2"
-                                id="domingo" name="domingo" type="checkbox">
-                                <label for="domingo">DOMINGO</label> 
+                                <input class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 ml-2"
+                                    id="lunes" name="lunes" type="checkbox">
+                                    <label for="lunes">LUNES</label>
+                                <input class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 ml-2"
+                                    id="martes" name="martes" type="checkbox">
+                                    <label for="martes">MARTES</label> 
+                                <input class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 ml-2"
+                                    id="miercoles" name="miercoles" type="checkbox">
+                                    <label for="miercoles">MIERCOLES</label> 
+                                <input class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 ml-2"
+                                    id="jueves" name="jueves" type="checkbox">
+                                    <label for="jueves">JUEVES</label> 
+                                <input class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 ml-2"
+                                    id="viernes" name="viernes" type="checkbox">
+                                    <label for="viernes">VIERNES</label> 
+                                <input class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 ml-2"
+                                    id="sabado" name="sabado" type="checkbox">
+                                    <label for="sabado">SABADO</label> 
+                                <input class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 ml-2"
+                                    id="domingo" name="domingo" type="checkbox">
+                                    <label for="domingo">DOMINGO</label> 
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="contactInformation" class="mt-5">
+                    <div class="pb-6 mb-5 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                        <div class="relative">
+                            <div class="absolute left-0 top-0">
+                                <h6 class="ligth:text-white text-lg">Informaci&oacute;n de contacto</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap -mx-3 mb-2">
+                        <div class="w-full md:w-1/3 px-3 mb-2 md:mb-0">
+                            <?php if(isset($beneficiary)): ?><input type="hidden" name="beneficiary_id" id="beneficiary_id" value="<?= $beneficiary['beneficiary_id'] ?>"><?php endif; ?>
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name_contact">
+                                Nombre <span class="text-red-600 ">*</span>
+                            </label>
+                            <input
+                                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-<?= session('errors.beneficiary_name') ? "red-500 mb-3":"gray-200 focus:border-gray-500" ?> rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
+                                id="name_contact" name="name_contact" type="text" placeholder="Nombre completo" value="" required>
+                                <p class="text-red-500 text-xs italic"><?= session('errors.beneficiary_name') ?></p>
+                        </div>
+                        <div class="w-full md:w-1/3 px-3 mb-2">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="phone_contact">
+                                Celular<span class="text-red-600 ">*</span>
+                            </label>
+                            <input
+                                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-<?= session('errors.phone_contact') ? "red-500 mb-3":"gray-200 focus:border-gray-500" ?> rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
+                                id="phone_contact" name="phone_contact" type="number" placeholder="Numero de contacto" value="" required>
+                                <p class="text-red-500 text-xs italic"><?= session('errors.beneficiary_lastname') ?></p>
                         </div>
                     </div>
                 </div>
