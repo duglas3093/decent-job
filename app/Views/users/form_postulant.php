@@ -176,7 +176,53 @@ Formulario de Inscripción
                                 Días de trabajo
                             </label>
                             <div class="relative">
-                                <input class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 ml-2"
+                                <ul class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex ligth:bg-gray-700 ligth:border-gray-600 ligth:text-white">
+                                    <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r ligth:border-gray-600">
+                                        <div class="flex items-center pl-3">
+                                            <input id="lunes" name="lunes" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 ligth:focus:ring-blue-600 ligth:ring-offset-gray-700 ligth:focus:ring-offset-gray-700 focus:ring-2 ligth:bg-gray-600 ligth:border-gray-500">
+                                            <label for="lunes" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 ligth:text-gray-300">LUNES</label>
+                                        </div>
+                                    </li>
+                                    <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r ligth:border-gray-600">
+                                        <div class="flex items-center pl-3">
+                                            <input id="martes" name="martes" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 ligth:focus:ring-blue-600 ligth:ring-offset-gray-700 ligth:focus:ring-offset-gray-700 focus:ring-2 ligth:bg-gray-600 ligth:border-gray-500">
+                                            <label for="martes" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 ligth:text-gray-300">MARTES</label>
+                                        </div>
+                                    </li>
+                                    <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r ligth:border-gray-600">
+                                        <div class="flex items-center pl-3">
+                                            <input id="miercoles" name="miercoles" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 ligth:focus:ring-blue-600 ligth:ring-offset-gray-700 ligth:focus:ring-offset-gray-700 focus:ring-2 ligth:bg-gray-600 ligth:border-gray-500">
+                                            <label for="miercoles" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 ligth:text-gray-300">MIERCOLES</label>
+                                        </div>
+                                    </li>
+                                    <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r ligth:border-gray-600">
+                                        <div class="flex items-center pl-3">
+                                            <input id="jueves" name="jueves" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 ligth:focus:ring-blue-600 ligth:ring-offset-gray-700 ligth:focus:ring-offset-gray-700 focus:ring-2 ligth:bg-gray-600 ligth:border-gray-500">
+                                            <label for="jueves" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 ligth:text-gray-300">JUEVES</label>
+                                        </div>
+                                    </li>
+                                    <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r ligth:border-gray-600">
+                                        <div class="flex items-center pl-3">
+                                            <input id="viernes" name="viernes" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 ligth:focus:ring-blue-600 ligth:ring-offset-gray-700 ligth:focus:ring-offset-gray-700 focus:ring-2 ligth:bg-gray-600 ligth:border-gray-500">
+                                            <label for="viernes" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 ligth:text-gray-300">VIERNES</label>
+                                        </div>
+                                    </li>
+                                    <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r ligth:border-gray-600">
+                                        <div class="flex items-center pl-3">
+                                            <input id="sabado" name="sabado" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 ligth:focus:ring-blue-600 ligth:ring-offset-gray-700 ligth:focus:ring-offset-gray-700 focus:ring-2 ligth:bg-gray-600 ligth:border-gray-500">
+                                            <label for="sabado" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 ligth:text-gray-300">SABADO</label>
+                                        </div>
+                                    </li>
+                                    <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r ligth:border-gray-600">
+                                        <div class="flex items-center pl-3">
+                                            <input id="domingo" name="domingo" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 ligth:focus:ring-blue-600 ligth:ring-offset-gray-700 ligth:focus:ring-offset-gray-700 focus:ring-2 ligth:bg-gray-600 ligth:border-gray-500">
+                                            <label for="domingo" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 ligth:text-gray-300">DOMINGO</label>
+                                        </div>
+                                    </li>
+                                    
+                                </ul>
+
+                                <!-- <input class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 ml-2"
                                     id="lunes" name="lunes" type="checkbox">
                                     <label for="lunes">LUNES</label>
                                 <input class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 ml-2"
@@ -196,8 +242,23 @@ Formulario de Inscripción
                                     <label for="sabado">SABADO</label> 
                                 <input class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 ml-2"
                                     id="domingo" name="domingo" type="checkbox">
-                                    <label for="domingo">DOMINGO</label> 
+                                    <label for="domingo">DOMINGO</label>  -->
                             </div>
+                        </div>
+                        <div class="w-full md:w-3/3 px-3 mb-6 md:mb-0 mt-2">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="area_id">
+                                Area a la que desea ingresar
+                            </label>                            
+                            <ul class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex ligth:bg-gray-700 ligth:border-gray-600 ligth:text-white">
+                                <?php foreach ($areas as $area): ?>
+                                <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r ligth:border-gray-600">
+                                    <div class="flex items-center pl-3">
+                                        <input id="area_<?= $area['area_id'] ?>" name="area_<?= $area['area_id'] ?>" onchange="showCompromise(`area_<?= $area['area_id'] ?>`)" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 ligth:focus:ring-blue-600 ligth:ring-offset-gray-700 ligth:focus:ring-offset-gray-700 focus:ring-2 ligth:bg-gray-600 ligth:border-gray-500">
+                                        <label for="area_<?= $area['area_id'] ?>" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 ligth:text-gray-300"><?= $area['area_name'] ?></label>
+                                    </div>
+                                </li>
+                                <?php endforeach; ?>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -232,7 +293,7 @@ Formulario de Inscripción
                     </div>
                 </div>
                 <hr class="mt-5 mb-5">
-                <div id="section2">
+                <div id="section2" style="display: none">
                     <div class="pb-6 pb-0 mb-5 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
                         <div class="relative">
                             <div class="absolute left-0 top-0">
@@ -279,7 +340,7 @@ Formulario de Inscripción
                     </div>
                 </div>
                 <hr class="mt-5 mb-5">
-                <div id="section3">
+                <div id="section3" style="display:none">
                     <div class="pb-6 pb-0 mb-5 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
                         <div class="relative">
                             <div class="absolute left-0 top-0">
@@ -331,7 +392,7 @@ Formulario de Inscripción
                         </div>
                     </div>
                 </div>
-                <div id="section3">
+                <div id="section4">
                     <div class="flex flex-wrap -mx-3 mb-2 mt-5 place-items-center">
                         <input type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded items-center" value="Enviar Formulario de Inscripción"/>
                     </div>
@@ -347,7 +408,6 @@ Formulario de Inscripción
     }
 
     function calculateAge(){
-        console.log("test")
         let date = new Date(Date.now());
         let dateOfBirth = document.getElementById("beneficiary_datebirth").value
         let currentYear = date.getFullYear();
@@ -359,6 +419,28 @@ Formulario de Inscripción
         var date2 = moment(dateOfBirth)
 
         document.getElementById("age").value = date1.diff(date2,'years')
+    }
+
+    function showCompromise(area) {
+        let check = document.getElementById(area).checked
+        switch (area) {
+            case "area_2":
+                document.getElementById("section3").style.display = check ? "block" : "none"
+                break;
+
+            case "area_3":
+                document.getElementById("section2").style.display = check ? "block" : "none"
+                break;
+        
+            default:
+                break;
+        }
+    }
+
+    window.onLoad = ()=>{
+        calculateAge()
+        showCompromise('area_2')
+        showCompromise('area_3')
     }
 </script>
 <script src="http://momentjs.com/downloads/moment.min.js"></script>
