@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Entities\Beneficiary;
 use App\Entities\Contact;
+use App\Entities\Kardex;
 use App\Entities\Postulant;
 
 class PostulantController extends BaseController
@@ -12,6 +13,7 @@ class PostulantController extends BaseController
     public function add(){
         $data['session'] = session()->get();
         $statusModel = model('StatusModel');
+        $areaModel = model('AreaModel');
         $cityModel = model('CityModel');
         $scheduleModel = model('ScheduleModel');
         $socialMediaModel = model('SocialMediaModel');
@@ -21,7 +23,7 @@ class PostulantController extends BaseController
         $data['schedules'] = $scheduleModel->where('status_id',1)->findAll();
         $data['cities'] = $cityModel->findAll();
         $data['compromises'] = $compromiseModel->findAll();
-        
+        $data['areas'] = $areaModel->where('status_id',1)->findAll();
         return view('users/form_postulant',$data);
     }
 
@@ -64,8 +66,7 @@ class PostulantController extends BaseController
         ];
         
         $postulantData = array_merge($formuser,$register);
-        // var_dump($postulantData);
-        
+        // var_dump($formuser);
         
         $postulant = new Beneficiary ($postulantData);
         $postulantModel = model('BeneficiaryModel');
@@ -74,6 +75,8 @@ class PostulantController extends BaseController
 
         $postulantId = $postulantModel->getInsertId();
 
+        // var_dump($postulantId);
+        
         $contactModel = model('ContactModel');
         $formData = [
             'beneficiary_id'    => $postulantId,
@@ -84,9 +87,60 @@ class PostulantController extends BaseController
         $contact = new Contact($formData);
         $contactModel->save($contact);
 
+        $areasPostulant = $this->assemblyAreas($formuser);
+        
+        // var_dump($areasPostulant);
+
+        if (count($areasPostulant) > 0) {
+            $this->saveAreaParticipant($postulantId, $areasPostulant);
+        }
+
         return redirect()->route('application_form')->with('msg',[
             'type' => 'green',
             'body' => 'El formulario se envio exitosamente!!!'
         ]);
+    }
+
+    function assemblyAreas($form){
+        $areas = [];
+        $areaModel = model('AreaModel');
+        $activeAreas = $areaModel->where('status_id',1)->select('area_id')->findAll();
+        foreach ($activeAreas as $activeArea) {
+            if(isset($form["area_{$activeArea['area_id']}"]) && $form["area_{$activeArea['area_id']}"] == "on"){
+                array_push($areas, $activeArea['area_id']);
+            }
+        }
+        echo json_encode($areas);
+        return $areas;
+    }
+
+    function saveAreaParticipant($beneficiary_id, $areasPostulant){
+        $kardexModel = model('KardexModel');
+
+        foreach ($areasPostulant as $ap) {
+            $area_id = $ap;
+            if(!$kardex = $kardexModel->where('beneficiary_id', $beneficiary_id)->select('kardices.kardex_id,kardices.beneficiary_area')->first()){
+                $formData = [
+                    'beneficiary_id'        => $beneficiary_id,
+                    'beneficiary_area'      => "$area_id",
+                ];
+                $kardex = new Kardex($formData);
+                $kardexModel->save($kardex);
+            }else{
+                if(!strstr($kardex['beneficiary_area'],"$area_id")){
+                        $formData = [
+                            'kardex_id'             => $kardex['kardex_id'],
+                            'beneficiary_id'        => $beneficiary_id,
+                            'beneficiary_area'      => "{$kardex['beneficiary_area']},$area_id",
+                        ];
+                        $kardexModel->save($formData);
+                }
+            }
+        }
+    }
+
+    function replaceStringElement($originalString, $searchElement, $replaceElement) {
+        $newString = str_replace($searchElement, $replaceElement, $originalString);        
+        return $newString;
     }
 }
