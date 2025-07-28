@@ -24,8 +24,8 @@ Kardex de NOMBRE_DEL_BENEFICIARIO
                     </div>
                     <div class="flex-auto px-0 pt-0 pb-2 mt-8">
                         <div class="overflow-x-auto ml-4 pr-8 pl-4 pt-4 pb-4" >
-                            <div class=" rounded overflow-hidden shadow-lg">
-                                <div class="px-6 py-4" id="imprimir">
+                            <div class=" rounded overflow-hidden shadow-lg" id="imprimir">
+                                <div class="px-6 py-4">
                                     <div class="grid grid-cols-12 gap-0">
                                         <div class="col-start-1 col-end-8">
                                             <h6 class="font-bold text-xl mb-2"><?= strtoupper("{$beneficiary['beneficiary_name']} {$beneficiary['beneficiary_lastname']}") ?></h6>
@@ -206,14 +206,12 @@ Kardex de NOMBRE_DEL_BENEFICIARIO
         const contentHTML = `
                             <html>
                                 <head>
-                                <title>Imprimir</title>
-                                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-                                <style>
-                                    /* Agrega estilos personalizados si es necesario */
-                                </style>
+                                    <title></title>
+                                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+                                    <style></style>
                                 </head>
                                 <body>
-                                ${contentDiv}
+                                    ${contentDiv}
                                 </body>
                             </html>
                             `;

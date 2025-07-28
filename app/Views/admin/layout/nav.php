@@ -7,7 +7,7 @@
         <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap Light:text-white text-slate-700" href="https://demos.creative-tim.com/argon-dashboard-tailwind/pages/dashboard.html" target="_blank">
         <img src="<?=base_url('img/LOGO-TRABAJO-DIGNO.jpeg')?>" class="inline h-full max-w-full transition-all duration-200 Light:hidden ease-nav-brand max-h-8" alt="main_logo" />
         <!-- <img src="<?=base_url('img/logo-ct.png')?>" class="hidden h-full max-w-full transition-all duration-200 Light:inline ease-nav-brand max-h-8" alt="main_logo" /> -->
-        <span class="ml-1 font-semibold transition-all duration-200 ease-nav-brand">Trabajo Digno</span>
+        <span class="ml-1 font-semibold transition-all duration-200 ease-nav-brand">Fundación Kallpa</span>
         </a>
     </div>
     
