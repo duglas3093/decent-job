@@ -157,6 +157,13 @@ $routes->group('admin',['namespace' => 'App\Controllers\admin','filter'=>'auth:a
     $routes->post('store_city','CityController::store');
     $routes->get('edit_city/(:num)','CityController::edit/$1');
     $routes->post('update_city','CityController::update');
+
+    // Financiers
+    $routes->get('financiers','FinancierController::index');
+    $routes->get('add_financier','FinancierController::add');
+    $routes->post('store_financier','FinancierController::store');
+    $routes->get('edit_financier/(:num)','FinancierController::edit/$1');
+    $routes->post('update_financier','FinancierController::update');
 });
 /*
  * --------------------------------------------------------------------

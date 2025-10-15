@@ -21,22 +21,19 @@ Beneficiarios
                                 </span> -->
                             </div>
                         <?php endif ?>
-                        <div class="relative">
-                            <div class="absolute left-0 top-0">
-                                <h6 class="ligth:text-white text-xl">Beneficiarios: <?= count($beneficiaries) ?></h6>
-                            </div>
-                            <div class="absolute top-0 right-0">
-                                <a href="<?= base_url("admin/add_beneficiary"); ?>" class="inline-block px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out">
-                                    <i class="fa-solid fa-plus"></i> 
-                                    Agregar Beneficiario 
-                                </a>
-                            </div>
+                        <div class="flex flex-wrap items-center justify-between">
+                            <h6 class="ligth:text-white text-xl">Beneficiarios: <?= count($beneficiaries) ?></h6>
+                            <a href="<?= base_url("admin/add_beneficiary"); ?>" class="inline-block px-4 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out">
+                                <i class="fa-solid fa-plus"></i>
+                                <span class="ml-1 hidden sm:inline">Agregar Beneficiario</span>
+                            </a>
                         </div>
                     </div>
-                    <div class="flex-auto px-0 pt-0 pb-2 mt-8">
+                    <div class="flex-auto px-0 pt-0 pb-2 mt-4">
                         <?= $this->include('admin/search/input') ?>
-                        <div class="p-3 overflow-x-auto">
-                            <table class="items-center w-full mb-0 align-top border-collapse ligth:border-white/40 text-slate-500 order-table table">
+                        <!-- Vista de Tabla para Escritorio -->
+                        <div class="p-0 overflow-x-auto hidden md:block">
+                            <table class="items-center w-full mb-0 align-top border-collapse ligth:border-white/40 text-slate-500 order-table table" id="table">
                                 <thead class="align-bottom">
                                     <tr class="">
                                         <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
@@ -144,6 +141,59 @@ Beneficiarios
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
+                        </div>
+
+                        <!-- Vista de Tarjetas para Móviles -->
+                        <div class="block md:hidden px-4" id="cards">
+                            <?php foreach($beneficiaries as $beneficiary): ?>
+                            <div class="card-item bg-white border border-gray-200 rounded-lg shadow-md p-4 mb-4 uppercase">
+                                <div class="flex justify-between items-start mb-2">
+                                    <div>
+                                        <h6 class="mb-1 text-sm font-bold leading-normal ligth:text-white">
+                                            <?= $beneficiary['beneficiary_lastname'] ?> <?= $beneficiary['beneficiary_name'] ?>
+                                        </h6>
+                                        <p class="mb-0 text-xs leading-tight text-slate-500">
+                                            <i class="fa-solid fa-id-card mr-1"></i> CI: <?= $beneficiary['beneficiary_ci'] ?>
+                                        </p>
+                                        <p class="mb-0 text-xs leading-tight text-slate-500">
+                                            <i class="fa-solid fa-cake-candles mr-1"></i> <?= ((new DateTime(date("Y-m-d")))->diff(new DateTime($beneficiary['beneficiary_datebirth'])))->y ?> Años
+                                        </p>
+                                    </div>
+                                    <span class="bg-gradient-to-tl <?= $beneficiary['status_name'] == 'Activo' ? "from-emerald-500 to-teal-400":"from-red-500 to-red-400" ?> px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
+                                        <?= $beneficiary['status_name'] ?>
+                                    </span>
+                                </div>
+
+                                <div class="text-xs text-slate-500 mb-3">
+                                    <span><i class="fa-solid fa-phone mr-1"></i> <?= $beneficiary['beneficiary_celphone'] ?></span>
+                                    <a class="text-green-500 ml-1" href="https://wa.me/+591<?= $beneficiary['beneficiary_celphone'] ?>" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+                                    <span class="ml-3"><i class="fa-solid fa-map-marker-alt mr-1"></i> <?= $beneficiary['city_name'] ?></span>
+                                </div>
+
+                                <hr class="my-2">
+
+                                <div class="grid grid-cols-3 gap-2 text-center">
+                                    <button onclick="beneficiaryArea(<?= $beneficiary['beneficiary_id'] ?>,'<?= $beneficiary['beneficiary_lastname'] ?> <?= $beneficiary['beneficiary_name'] ?>')" title="Asignar area" class="inline-block px-2 py-2 bg-amber-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-amber-700" data-te-toggle="modal" data-te-target="#assingArea" data-te-ripple-init data-te-ripple-color="light">
+                                        <i class="fa-solid fa-circle-user"></i>
+                                    </button>
+                                    <a href="<?= base_url("admin/edit_beneficiary/{$beneficiary['beneficiary_id']}") ?>" title="Editar Beneficiario" class="inline-block px-2 py-2 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </a>
+                                    <button onclick="loadData(<?= $beneficiary['beneficiary_id'] ?>,'<?= $beneficiary['beneficiary_lastname'] ?> <?= $beneficiary['beneficiary_name'] ?>')" title="Contacto" class="inline-block px-2 py-2 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700" data-te-toggle="modal" data-te-target="#contactModal" data-te-ripple-init data-te-ripple-color="light">
+                                        <i class="fa-solid fa-address-book"></i>
+                                    </button>
+                                    <a href="<?= base_url("admin/view_kardex_beneficiary/{$beneficiary['beneficiary_id']}") ?>" title="Ver Kardex" class="inline-block px-2 py-2 bg-cyan-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-cyan-700">
+                                        <i class="fa-solid fa-book"></i>
+                                    </a>
+                                    <button onclick="showVulnerabilities(<?= $beneficiary['beneficiary_id'] ?>)" title="Vulnerabilidad" class="inline-block px-2 py-2 bg-yellow-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-700" data-te-toggle="modal" data-te-target="#vulnerability_participant" data-te-ripple-init data-te-ripple-color="light">
+                                        <i class="fa-solid fa-user-injured"></i>
+                                    </button>
+                                    <button onclick="inactivePostulants(<?= $beneficiary['beneficiary_id'] ?>)" title="Cambiar a estado a inactivo" class="inline-block px-2 py-2 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700">
+                                        <i class="fa-solid fa-user-slash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                 </div>

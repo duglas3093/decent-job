@@ -12,27 +12,25 @@ Edición de beneficiario
             <div class="flex-none w-full max-w-full px-3">
                 <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl ligth:bg-slate-850 ligth:shadow-ligth-xl rounded-2xl bg-clip-border">
                     <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <div class="relative">
-                            <div class="absolute left-0 top-0">
-                                <h6 class="ligth:text-white text-xl">Informaci&oacute;n</h6>
-                            </div>
-                            <div class="absolute top-0 right-0">
-                                <button onclick="showVulnerabilities(<?= $beneficiary['beneficiary_id'] ?>)" title="Vulnerabilidad" class="inline-block px-6 py-2.5 bg-amber-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-amber-500 hover:shadow-lg focus:bg-amber-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-amber-600 active:shadow-lg transition duration-150 ease-in-out"
+                        <div class="flex flex-wrap items-start justify-between">
+                            <h6 class="ligth:text-white text-xl mb-4 md:mb-0">Informaci&oacute;n</h6>
+                            <div class="flex flex-col sm:flex-row gap-2">
+                                <button onclick="showVulnerabilities(<?= $beneficiary['beneficiary_id'] ?>)" title="Vulnerabilidad" class="inline-block px-4 py-2.5 bg-amber-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-amber-500"
                                             data-te-toggle="modal"
                                                 data-te-target="#vulnerability_participant"
                                                 data-te-ripple-init
                                                 data-te-ripple-color="light"
                                                 >
-                                    <i class="fa-solid fa-plus"></i> 
-                                    Vulnerabilidades
+                                    <i class="fa-solid fa-user-injured"></i> 
+                                    <span class="hidden sm:inline">Vulnerabilidades</span>
                                 </button>
-                                <a href="<?= base_url("admin/approve_postulant/{$beneficiary['beneficiary_id']}"); ?>" class="inline-block px-6 py-2.5 bg-green-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-green-500 hover:shadow-lg focus:bg-green-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-600 active:shadow-lg transition duration-150 ease-in-out">
-                                    <i class="fa-solid fa-plus"></i> 
-                                    Aceptar postulante
+                                <a href="<?= base_url("admin/approve_postulant/{$beneficiary['beneficiary_id']}"); ?>" class="inline-block px-4 py-2.5 bg-green-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-green-500">
+                                    <i class="fa-solid fa-check"></i> 
+                                    <span class="hidden sm:inline">Aceptar</span>
                                 </a>
-                                <a href="<?= base_url("admin/drop_postulant/{$beneficiary['beneficiary_id']}"); ?>" class="inline-block px-6 py-2.5 bg-red-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-red-500 hover:shadow-lg focus:bg-red-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-600 active:shadow-lg transition duration-150 ease-in-out">
-                                    <i class="fa-solid fa-plus"></i> 
-                                    Rechazar postulante
+                                <a href="<?= base_url("admin/drop_postulant/{$beneficiary['beneficiary_id']}"); ?>" class="inline-block px-4 py-2.5 bg-red-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-red-500">
+                                    <i class="fa-solid fa-times"></i> 
+                                    <span class="hidden sm:inline">Rechazar</span>
                                 </a>
                             </div>
                         </div>
@@ -40,89 +38,57 @@ Edición de beneficiario
                     <div class="flex-auto px-0 pt-0 pb-2 mt-8" id="imprimir">
                         <div class="overflow-x-auto ml-4 pr-8 pl-4 pt-4 pb-4" >
                             <div class=" rounded overflow-hidden shadow-lg">
-                                <div class="px-6 py-4">
-                                    <div class="grid grid-cols-12 gap-0">
-                                        <div class="col-start-1 col-end-8">
-                                            <h6 class="font-bold text-xl mb-2"><?= strtoupper("{$beneficiary['beneficiary_name']} {$beneficiary['beneficiary_lastname']}") ?></h6>
+                                <div class="px-6 py-4 text-md">
+                                    <h6 class="font-bold text-xl mb-2"><?= strtoupper("{$beneficiary['beneficiary_name']} {$beneficiary['beneficiary_lastname']}") ?></h6>
+                                    
+                                    <div class="flex flex-wrap -mx-2">
+                                        <p class="w-full sm:w-1/2 px-2 mb-2"><strong class="font-bold">Edad:</strong> <?= ((new DateTime(date("Y-m-d")))->diff(new DateTime($beneficiary['beneficiary_datebirth'])))->y ?> Años</p>
+                                        <p class="w-full sm:w-1/2 px-2 mb-2"><strong class="font-bold">C.I.:</strong> <?= "{$beneficiary['beneficiary_ci']} {$beneficiary['beneficiary_complement']}" ?></p>
+                                        <p class="w-full sm:w-1/2 px-2 mb-2"><strong class="font-bold">Celular:</strong> <?= $beneficiary['beneficiary_celphone'] ?></p>
+                                        <p class="w-full sm:w-1/2 px-2 mb-2"><strong class="font-bold">Fecha de Ingreso:</strong> <?= date('d-m-Y', strtotime($beneficiary['created_at'])) ?></p>
+                                        <p class="w-full sm:w-1/2 px-2 mb-2"><strong class="font-bold">Correo:</strong> <?= $beneficiary['beneficiary_email'] ?></p>
+                                        <p class="w-full sm:w-1/2 px-2 mb-2"><strong class="font-bold">Ciudad:</strong> <?= $beneficiary['city_name'] ?></p>
+                                        <p class="w-full px-2 mb-2"><strong class="font-bold">Dirección:</strong> <?= $beneficiary['beneficiary_direction'] ?></p>
+                                        <p class="w-full sm:w-1/2 px-2 mb-2"><strong class="font-bold">Horario:</strong> <?= $beneficiary['schedule_description'] ?></p>
+                                        <p class="w-full sm:w-1/2 px-2 mb-2"><strong class="font-bold">Días de Trabajo:</strong> ...</p>
+                                    </div>
+
+                                    <hr class="my-4">
+
+                                    <div class="space-y-3">
+                                        <div>
+                                            <p class="font-bold">Apoyo solicitado:</p>
+                                            <p class="pl-4">
+                                                <?= $beneficiary['beneficiary_entrepreneurship'] == 1 ? "Ayuda con su emprendimiento<br>":"" ?>
+                                                <?= $beneficiary['beneficiary_job'] == 1 ? "Ayuda a buscar trabajo":"" ?>
+                                            </p>
                                         </div>
-                                        <div class="col-start-9 col-end-12 ...">
-                                            <span class="font-bold text-md">Edad: </span>
-                                            <?= ((new DateTime(date("Y-m-d")))->diff(new DateTime($beneficiary['beneficiary_datebirth'])))->y ?> Años
+                                        <div>
+                                            <p class="font-bold">Idea de Negocio:</p>
+                                            <p class="pl-4"><?= $beneficiary['beneficiary_business'] ?></p>
                                         </div>
-                                        <div class="col-start-1 col-span-8 ">
-                                            <span class="font-bold text-md">C.I.: </span>
-                                            <?= "{$beneficiary['beneficiary_ci']} {$beneficiary['beneficiary_complement']}" ?>
+                                        <div>
+                                            <p class="font-bold">Habilidades:</p>
+                                            <p class="pl-4"><?= $beneficiary['beneficiary_skills'] ?></p>
                                         </div>
-                                        <div class="col-start-9 col-end-12 ">
-                                            <!-- <span class="font-bold text-md">REF: </span>
-                                            ... -->
+                                        <div>
+                                            <p class="font-bold">Experiencia Laboral:</p>
+                                            <p class="pl-4"><?= $beneficiary['beneficiary_experience'] ?></p>
                                         </div>
-                                        <div class="col-start-1 col-span-12 ">
-                                            <span class="font-bold text-md">CEL.: </span>
-                                            <?= $beneficiary['beneficiary_celphone'] ?>
+                                        <div>
+                                            <p class="font-bold">Áreas de interés para trabajar:</p>
+                                            <p class="pl-4"><?= $beneficiary['beneficiary_workarea'] ?></p>
                                         </div>
-                                        <div class="col-start-1 col-end-12 ">
-                                            <span class="font-bold text-md">FECHA DE INGRESO: </span>
-                                            <?= date('d-m-Y', strtotime($beneficiary['created_at'])) ?>
+                                        <div>
+                                            <p class="font-bold">Áreas donde NO le gustaría trabajar:</p>
+                                            <p class="pl-4"><?= $beneficiary['beneficiary_notworkarea'] ?></p>
                                         </div>
-                                        <div class="col-start-1 col-end-9 ">
-                                            <span class="font-bold text-md">CORREO: </span>
-                                            <?= $beneficiary['beneficiary_email'] ?>
-                                        </div>
-                                        <div class="col-start-9 col-end-12 ">
-                                            <span class="font-bold text-md">CIUDAD: </span>
-                                            <?= $beneficiary['city_name'] ?>
-                                        </div>
-                                        <div class="col-start-9 col-end-12 ">
-                                            <span class="font-bold text-md">DIRECCION: </span>
-                                            <?= $beneficiary['beneficiary_direction'] ?>
-                                        </div>
-                                        <div class="col-start-9 col-end-12 ">
-                                            <span class="font-bold text-md">HORARIO: </span>
-                                            <?= $beneficiary['schedule_description'] ?>
-                                        </div>
-                                        <div class="col-start-9 col-end-12 ">
-                                            <span class="font-bold text-md">DIAS DE TRABAJO: </span>
-                                            ...
-                                        </div>
-                                        <div class="col-start-2 col-end-12 ">
-                                            <span class="font-bold text-md">QUIERE: </span>
-                                            <?= $beneficiary['beneficiary_entrepreneurship'] == 1 ? "Ayuda con su emprendimiento<br>":"" ?>
-                                            <?= $beneficiary['beneficiary_job'] == 1 ? "Ayuda a buscar trabajo":"" ?>
-                                        </div>
-                                        <div class="col-start-2 col-end-12 ">
-                                            <span class="font-bold text-md">IDEA DE NEGOCIO: </span>
-                                            <?= $beneficiary['beneficiary_business'] ?>
-                                        </div>
-                                        <div class="col-start-2 col-end-12 ">
-                                            <span class="font-bold text-md">HABILIDADES: </span>
-                                            <?= $beneficiary['beneficiary_skills'] ?>
-                                        </div>
-                                        <div class="col-start-2 col-end-12 ">
-                                            <span class="font-bold text-md">EXPERIENCIA LABORAL: </span>
-                                            <?= $beneficiary['beneficiary_experience'] ?>
-                                        </div>
-                                        <div class="col-start-2 col-end-12 ">
-                                            <span class="font-bold text-md">DESEO: </span>
-                                            <?= $beneficiary['beneficiary_workarea'] ?>
-                                        </div>
-                                        <div class="col-start-2 col-end-12 ">
-                                            <span class="font-bold text-md">NO DESEO: </span>
-                                            <?= $beneficiary['beneficiary_notworkarea'] ?>
-                                        </div>
-                                        <div class="col-start-2 col-end-12 ">
-                                            <!-- <span class="font-bold text-md">OBSERVACIONES: </span>
-                                            ... -->
-                                        </div>
-                                        <div class="col-start-2 col-end-12 ">
-                                            <span class="font-bold text-md">MEDIO POR EL QUE CONOCIO EL PROYECTO: </span>
-                                            <?= $beneficiary['sm_name'] ?>
+                                        <div>
+                                            <p class="font-bold">Medio por el que conoció el proyecto:</p>
+                                            <p class="pl-4"><?= $beneficiary['sm_name'] ?></p>
                                         </div>
                                     </div>
-                                    <div class="grid grid-cols-12 gap-0 mt-5 mb-5">
-                                        <div class="col-start-1 col-end-12">
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>

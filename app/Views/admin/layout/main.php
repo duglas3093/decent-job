@@ -71,6 +71,31 @@
 
     <script src="https://cdn.tailwindcss.com/3.2.4"></script>
     <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>  
+
+    <script>
+        var sidenav = document.querySelector("aside");
+        var sidenav_trigger = document.querySelector("[sidenav-trigger]");
+        var sidenav_close_button = document.querySelector("[sidenav-close]");
+        var burger = sidenav_trigger.firstElementChild;
+        var top_bread = burger.firstElementChild;
+        var bottom_bread = burger.lastElementChild;
+
+        sidenav_trigger.addEventListener("click", function () {
+            sidenav.classList.toggle("-translate-x-full");
+            sidenav.classList.toggle("shadow-xl");
+        });
+        sidenav_close_button.addEventListener("click", function () {
+            sidenav_trigger.click();
+        });
+
+        window.addEventListener("click", function (e) {
+            if (!sidenav.contains(e.target) && !sidenav_trigger.contains(e.target) && !e.target.closest('[sidenav-trigger]')) {
+                if (!sidenav.classList.contains("-translate-x-full")) {
+                    sidenav.classList.add("-translate-x-full");
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>

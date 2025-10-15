@@ -14,28 +14,28 @@ Formulario de Inscripción
             <span class="block sm:inline"><?= session('msg.body ') ?></span>
         </div>
     <?php endif ?>
-    <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-        <div class="relative">
-            <div class="absolute left-0 top-0">
-                <h2 class="ligth:text-white text-3xl">Formulario de Inscripción Proyecto Trabajo Digno</h2>
-            </div><br><br>
+    <div class="p-6 pb-4 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+        <div class="text-center md:text-left">
+            <h2 class="ligth:text-white text-2xl md:text-3xl font-bold">
+                Formulario de Inscripción Proyecto Trabajo Digno
+            </h2>
             <p>Este formulario es requisito para el apoyo en la Búsqueda de Trabajo o para el apoyo en abrir su propio Negocio y/o Emprendimiento, su información es confidencial solo para fines del Proyecto Trabajo Digno</p>
         </div>
     </div>
-    <div class="flex-auto px-0 pt-0 pb-2 mt-8">
+    <div class="flex-auto px-0 pt-0 pb-2">
         <div class="overflow-x-auto ml-4 pr-8 pl-4 pt-2">
             <form class="w-full"  action="<?= base_url('store_postulant') ?>" method="POST" enctype="multipart/form-data">
                 <!-- MultiStep Form -->
-                <div id="section1">
-                    <div class="pb-6 mb-5 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <div class="relative">
+                <div id="section1" class="mt-4">
+                    <div class="pb-4 mb-5 border-b border-b-solid rounded-t-2xl border-b-transparent">
+                        <div class="relative ">
                             <div class="absolute left-0 top-0">
                                 <h6 class="ligth:text-white text-lg">Informaci&oacute;n Personal</h6>
                             </div>
                         </div>
                     </div>
                     <div class="flex flex-wrap -mx-3 mb-2">
-                        <div class="w-full md:w-1/2 px-3 mb-2 md:mb-0">
+                        <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
                             <?php if(isset($beneficiary)): ?><input type="hidden" name="beneficiary_id" id="beneficiary_id" value="<?= $beneficiary['beneficiary_id'] ?>"><?php endif; ?>
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="beneficiary_name">
                                 Nombre(s)<span class="text-red-600 ">*</span>
@@ -45,7 +45,7 @@ Formulario de Inscripción
                                 id="beneficiary_name" name="beneficiary_name" type="text" placeholder="Nombre(s)" value="<?= old('beneficiary_name') ?? (!isset($beneficiary) ? "":"{$beneficiary['beneficiary_name']}") ?>" required>
                                 <p class="text-red-500 text-xs italic"><?= session('errors.beneficiary_name') ?></p>
                         </div>
-                        <div class="w-full md:w-1/2 px-3 mb-2">
+                        <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="beneficiary_lastname">
                                 Apellido(s)<span class="text-red-600 ">*</span>
                             </label>
@@ -63,7 +63,7 @@ Formulario de Inscripción
                                 id="beneficiary_ci" name="beneficiary_ci" type="number" placeholder="Canet de identidad" value="<?= old('beneficiary_ci') ?? (!isset($beneficiary) ? "":"{$beneficiary['beneficiary_ci']}") ?>" required>
                                 <p class="text-red-500 text-xs italic"><?= session('errors.beneficiary_ci') ?></p>
                         </div>
-                        <div class="w-full md:w-1/4 px-3 mb-3 md:mb-0">
+                        <div class="w-full sm:w-1/2 md:w-1/4 px-3 mb-3 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="beneficiary_complement">
                                 Complemento
                             </label>
@@ -72,7 +72,7 @@ Formulario de Inscripción
                                 id="beneficiary_complement" name="beneficiary_complement" type="text" placeholder="Complemento" value="<?= old('beneficiary_complement') ?? (!isset($beneficiary) ? "":"{$beneficiary['beneficiary_complement']}") ?>">
                                 <p class="text-red-500 text-xs italic"><?= session('errors.beneficiary_complement') ?></p>
                         </div>
-                        <div class="w-full md:w-1/4 px-3 mb-3 md:mb-0" style="display: flex; align-items: flex-end;">
+                        <div class="w-full sm:w-1/2 md:w-1/4 px-3 mb-3 md:mb-0" style="display: flex; align-items: flex-end;">
                             <div>
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="beneficiary_datebirth">
                                     Fecha de nacimiento<span class="text-red-600 ">*</span> 
@@ -90,7 +90,7 @@ Formulario de Inscripción
                                 <input id="age" name="age" type="text" value="0" disabled style="border:0">
                             </div>
                         </div>
-                        <div class="w-full md:w-1/4 px-3">
+                        <div class="w-full md:w-1/4 px-3 mb-3 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="beneficiary_celphone">
                                 Celular
                             </label>
@@ -101,7 +101,7 @@ Formulario de Inscripción
                         </div>
                     </div>
                     <div class="flex flex-wrap -mx-3 mb-2">
-                        <div class="w-full md:w-2/4 px-3 mb-2">
+                        <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="beneficiary_email">
                                 Correo Electronico
                             </label>
@@ -111,7 +111,7 @@ Formulario de Inscripción
                                 >
                                 <p class="text-red-500 text-xs italic"><?= session('errors.beneficiary_email') ?></p>
                         </div>
-                        <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+                        <div class="w-full sm:w-1/2 md:w-1/4 px-3 mb-3 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city_id">
                                 Ciudad
                             </label>
@@ -124,7 +124,7 @@ Formulario de Inscripción
                                 </select>
                             </div>
                         </div>
-                        <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+                        <div class="w-full sm:w-1/2 md:w-1/4 px-3 mb-3 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="sm_id">
                                 Medio por el que nos conocio
                             </label>
@@ -140,7 +140,7 @@ Formulario de Inscripción
                         
                     </div>
                     <div class="flex flex-wrap -mx-3 mb-2">
-                        <div class="w-full px-3 mb-2">
+                        <div class="w-full px-3 mb-3 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="beneficiary_direction">
                                 Dirección
                             </label>
@@ -149,7 +149,7 @@ Formulario de Inscripción
                                 id="beneficiary_direction" name="beneficiary_direction" type="text" placeholder="Dirección del beneficiario" value="<?= old('beneficiary_direction') ?? (!isset($beneficiary) ? "":"{$beneficiary['beneficiary_direction']}") ?>">
                                 <p class="text-red-500 text-xs italic"><?= session('errors.beneficiary_direction') ?></p>
                         </div>
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/3 px-3 mb-3 md:mb-0 mt-4">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="schedule_id">
                                 Horario de trabajo
                             </label>
@@ -162,16 +162,16 @@ Formulario de Inscripción
                                 </select>
                             </div>
                         </div>
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <div class="w-full md:w-2/3 px-3 mb-3 md:mb-0 mt-4">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="beneficiary_grade">
                                 Ultimo grado que curso / Profesion
                             </label>
                             <input
                                 class="appearance-none block w-full bg-gray-200 text-gray-700 border border-<?= session('errors.beneficiary_grade') ? "red-500 mb-3":"gray-200 focus:border-gray-500" ?> rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
-                                id="beneficiary_grade" name="beneficiary_grade" type="text" placeholder="Dirección del beneficiario" value="<?= old('beneficiary_grade') ?? (!isset($beneficiary) ? "":"{$beneficiary['beneficiary_grade']}") ?>">
+                                id="beneficiary_grade" name="beneficiary_grade" type="text" placeholder="Ej: Bachiller, Licenciatura en..." value="<?= old('beneficiary_grade') ?? (!isset($beneficiary) ? "":"{$beneficiary['beneficiary_grade']}") ?>">
                                 <p class="text-red-500 text-xs italic"><?= session('errors.beneficiary_grade') ?></p>
                         </div>
-                        <div class="w-full md:w-3/3 px-3 mb-6 md:mb-0 mt-2">
+                        <div class="w-full px-3 mb-3 md:mb-0 mt-2">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="schedule_id">
                                 Días de trabajo
                             </label>
@@ -245,7 +245,7 @@ Formulario de Inscripción
                                     <label for="domingo">DOMINGO</label>  -->
                             </div>
                         </div>
-                        <div class="w-full md:w-3/3 px-3 mb-6 md:mb-0 mt-2">
+                        <div class="w-full px-3 mb-3 md:mb-0 mt-2">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="area_id">
                                 Area a la que desea ingresar
                             </label>                            

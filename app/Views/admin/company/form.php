@@ -37,12 +37,12 @@
             <p class="text-red-500 text-xs italic"><?= session('errors.company_direction') ?></p>
     </div>
 </div>
-<div class="flex flex-wrap -mx-3 mb-2 mt-5">
-    <div class="w-full md:w-1/4 px-3 mb-3 md:mb-0">
+<div class="flex flex-wrap -mx-3 mb-2 mt-4">
+    <div class="w-full px-3">
         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             <?= isset($company) ? "Actualizar":"Guardar"?>
         </button>
-        <a href="javascript:history.back()" class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <a href="javascript:history.back()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2 sm:mt-0 sm:ml-2">
             Cancelar
         </a>
     </div>
