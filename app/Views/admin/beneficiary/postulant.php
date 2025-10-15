@@ -18,22 +18,21 @@ Postulantes
                                 <span class="block sm:inline"><?= session('msg.body ') ?></span>
                             </div>
                         <?php endif ?>
-                        <div class="relative">
-                            <div class="absolute left-0 top-0">
-                                <h6 class="ligth:text-white text-xl">Postulantes: <?= count($beneficiaries) ?></h6>
-                            </div>
-                            <div class="absolute top-0 right-0">
-                                <button onclick="deletePostulants()" class="inline-block px-6 py-2.5 bg-yellow-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-yellow-500 hover:shadow-lg focus:bg-yellow-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-600 active:shadow-lg transition duration-150 ease-in-out">
+                        <div class="flex flex-wrap items-center justify-between">
+                            <h6 class="ligth:text-white text-xl">Postulantes: <?= count($beneficiaries) ?></h6>
+                            <?php if(count($beneficiaries) > 0): ?>
+                                <button onclick="deletePostulants()" class="inline-block px-4 py-2.5 bg-yellow-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-yellow-500">
                                     <i class="fa-solid fa-triangle-exclamation"></i>
-                                    Eliminar postulaciones
+                                    <span class="hidden sm:inline ml-1">Eliminar postulaciones</span>
                                 </button>
-                            </div>
+                            <?php endif; ?>
                         </div>
                     </div>
-                    <div class="flex-auto px-0 pt-0 pb-2 mt-8">
+                    <div class="flex-auto px-0 pt-0 pb-2 mt-4">
                         <?= $this->include('admin/search/input') ?>
-                        <div class="p-3 overflow-x-auto">
-                            <table class="items-center w-full mb-0 align-top border-collapse ligth:border-white/40 text-slate-500 order-table table">
+                        <!-- Vista de Tabla para Escritorio -->
+                        <div class="p-0 overflow-x-auto hidden md:block">
+                            <table class="items-center w-full mb-0 align-top border-collapse ligth:border-white/40 text-slate-500 order-table table" id="table">
                                 <thead class="align-bottom">
                                     <tr class="">
                                         <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
@@ -95,6 +94,38 @@ Postulantes
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
+                        </div>
+
+                        <!-- Vista de Tarjetas para Móviles -->
+                        <div class="block md:hidden px-4" id="cards">
+                            <?php if(count($beneficiaries) > 0): ?>
+                                <?php foreach($beneficiaries as $beneficiary): ?>
+                                <div class="card-item bg-white border border-gray-200 rounded-lg shadow-md p-4 mb-4 uppercase">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h6 class="mb-1 text-sm font-bold leading-normal ligth:text-white">
+                                                <?= $beneficiary['beneficiary_lastname'] ?> <?= $beneficiary['beneficiary_name'] ?>
+                                            </h6>
+                                            <p class="mb-1 text-xs leading-tight text-slate-500">
+                                                <i class="fa-solid fa-id-card mr-1"></i> CI: <?= $beneficiary['beneficiary_ci'] ?>
+                                            </p>
+                                            <p class="mb-2 text-xs leading-tight text-slate-500">
+                                                <i class="fa-solid fa-cake-candles mr-1"></i> <?= ((new DateTime(date("Y-m-d")))->diff(new DateTime($beneficiary['beneficiary_datebirth'])))->y ?> Años
+                                            </p>
+                                        </div>
+                                        <a href="<?= base_url("admin/info_postulant/{$beneficiary['beneficiary_id']}") ?>" title="Ver postulante" class="inline-block px-3 py-2 bg-sky-600 text-white font-medium text-lg leading-tight uppercase rounded shadow-md hover:bg-sky-700">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+                                    </div>
+                                    <hr class="my-2">
+                                    <div class="text-xs text-slate-500">
+                                        <span><i class="fa-solid fa-phone mr-1"></i> <?= $beneficiary['beneficiary_celphone'] ?></span>
+                                        <a class="text-green-500 ml-1" href="https://wa.me/+591<?= $beneficiary['beneficiary_celphone'] ?>" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+                                        <span class="ml-3"><i class="fa-solid fa-map-marker-alt mr-1"></i> <?= $beneficiary['city_name'] ?></span>
+                                    </div>
+                                </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
