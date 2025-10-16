@@ -7,7 +7,6 @@ Financiadores
 <?= $this->section('content') ?>
 <?= $this->include('admin/search/script') ?>
 <main class="relative h-full max-h-screen transition-all duration-200 ease-in-out xl:ml-68 rounded-xl">
-    <!-- <input type="hidden" value="<?= base_url(); ?>" id="base_url"> -->
     <div class="w-full px-6 py-2 mx-auto">
         <div class="flex flex-wrap -mx-3">
             <div class="flex-none w-full max-w-full px-3">
@@ -18,66 +17,69 @@ Financiadores
                                 <span class="block sm:inline"><?= session('msg.body ') ?></span>
                             </div>
                         <?php endif ?>
-                        <div class="relative">
-                            <div class="absolute left-0 top-0">
-                                <h6 class="ligth:text-white text-xl">Financiadores: <?= count($financiers) ?></h6>
-                            </div>
-                            <div class="absolute top-0 right-0">
-                                <a href="<?= base_url("admin/add_financier"); ?>" class="inline-block px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out">
-                                    <i class="fa-solid fa-plus"></i> 
-                                    Agregar Financiador 
-                                </a>
-                            </div>
+                        <div class="flex flex-wrap items-center justify-between">
+                            <h6 class="ligth:text-white text-xl">Financiadores: <?= count($financiers) ?></h6>
+                            <a href="<?= base_url("admin/add_financier"); ?>" class="inline-block px-4 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out">
+                                <i class="fa-solid fa-plus"></i>
+                                <span class="ml-1 hidden sm:inline">Agregar Financiador</span>
+                            </a>
                         </div>
                     </div>
-                    <div class="flex-auto px-0 pt-0 pb-2 mt-8">
+                    <div class="flex-auto px-0 pt-0 pb-2 mt-4">
                         <?= $this->include('admin/search/input') ?>
-                        <div class="p-3 overflow-x-auto">
-                            <table class="items-center w-full mb-0 align-top border-collapse ligth:border-white/40 text-slate-500 order-table table">
+                        
+                        <!-- Vista de Tabla para Escritorio -->
+                        <div class="p-0 overflow-x-auto hidden md:block">
+                            <table class="items-center w-full mb-0 align-top border-collapse ligth:border-white/40 text-slate-500 order-table table" id="table">
                                 <thead class="align-bottom">
-                                    <tr class="">
+                                    <tr>
                                         <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            FINANCIADOR
+                                            Financiador
                                         </th>
-                                        <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            ESTADO
+                                        <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                            Descripción
                                         </th>
-                                        <th class="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b border-collapse border-solid shadow-none ligth:border-white/40 ligth:text-white tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                        </th>
+                                        <th class="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b border-collapse border-solid shadow-none ligth:border-white/40 ligth:text-white tracking-none whitespace-nowrap text-slate-400 opacity-70"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach($financiers as $financier): ?>
                                     <tr class="uppercase">
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <div class="flex px-2 py-1">
-                                                <div class="flex flex-col justify-center">
-                                                    <h6 class="mb-0 text-sm leading-normal ligth:text-white">
-                                                        <span title="<?= $financier['financier_description'] ?>"><?=$financier['financier_project'] ?></span>
-                                                    </h6>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <!-- <td
-                                            class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <p class="mb-0 text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80">
-                                            </p>
-                                        </td> -->
-                                        <td class="p-2 text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <span class="bg-gradient-to-tl <?=$financier['status_name'] == 'Activo' ? "from-emerald-500 to-teal-400":"from-red-500 to-red-400" ?> px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                                <?=$financier['status_name'] ?>
-                                            </span>
+                                        <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
+                                            <h6 class="px-4 mb-0 text-sm leading-normal ligth:text-white"><?= $financier['financier_project'] ?></h6>
                                         </td>
                                         <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <a href="<?= base_url("admin/edit_financier/{$financier['financier_id']}") ?>" title="Editar Vulnerabilidad" class="inline-block px-2 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-                                                <i class="fa-solid fa-pencil"></i>
-                                            </a> 
+                                            <p class="mb-0 text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 normal-case"><?= substr($financier['financier_description'], 0, 100) . '...' ?></p>
+                                        </td>
+                                        <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
+                                            <a href="<?= base_url("admin/edit_financier/{$financier['financier_id']}") ?>" title="Editar Financiador" class="text-xs font-semibold leading-tight text-slate-400">
+                                                <i class="fa-solid fa-pencil text-blue-600 text-lg"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
+                        </div>
+
+                        <!-- Vista de Tarjetas para Móviles -->
+                        <div class="block md:hidden px-4" id="cards">
+                            <?php foreach($financiers as $financier): ?>
+                            <div class="card-item bg-white border border-gray-200 rounded-lg shadow-md p-4 mb-4 uppercase">
+                                <div class="flex justify-between items-start">
+                                    <h6 class="mb-1 text-sm font-bold leading-normal ligth:text-white pr-4">
+                                        <?= $financier['financier_project'] ?>
+                                    </h6>
+                                    <a href="<?= base_url("admin/edit_financier/{$financier['financier_id']}") ?>" title="Editar Financiador" class="inline-block px-2 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 flex-shrink-0">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </a>
+                                </div>
+                                <hr class="my-2">
+                                <p class="mb-0 text-xs font-semibold leading-tight normal-case text-slate-600">
+                                    <?= $financier['financier_description'] ?>
+                                </p>
+                            </div>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                 </div>

@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Entities\Financier;
 
 class FinancierController extends BaseController
 {
@@ -34,9 +35,9 @@ class FinancierController extends BaseController
         return view('admin/financier/add',$data);
     }
 
-    public function edit(int $vulnerability_id){
-        $vulnerabilityModel = model('VulnerabilityModel');
-        if(!$data['vulnerability'] = $vulnerabilityModel->where('vulnerability_id', $vulnerability_id)->first()){
+    public function edit(int $financier_id){
+        $financierModel = model('FinancierModel');
+        if(!$data['financier'] = $financierModel->where('financier_id', $financier_id)->first()){
             throw PageNotFoundException::forPageNotFound();
         }
         $data['session'] = session()->get();
@@ -44,13 +45,13 @@ class FinancierController extends BaseController
         $data['areas'] = $areaModel->where('status_id', 1)->findAll();
         $statusModel = model('StatusModel');
         $data['status'] = $statusModel->where('status_category',1)->findAll();
-        return view('admin/vulnerability/edit',$data);
+        return view('admin/financier/edit',$data);
     }
 
     public function store(){
         $validation = service('validation');
         $validation->setRules([
-            'vulnerability_name'    => ['label' => 'name','rules' => 'required'],
+            'financier_project'    => ['label' => 'name','rules' => 'required']
         ]);
 
         if(!$validation->withRequest($this->request)->run()){
@@ -63,37 +64,37 @@ class FinancierController extends BaseController
         ];
         
         $suportData = array_merge($form,$register);
-        $suport = new Vulnerability($suportData);
-        $vulnerabilityModel = model('VulnerabilityModel');
+        $suport = new Financier($suportData);
+        $financierModel = model('FinancierModel');
 
-        $vulnerabilityModel->save($suport);
-        return redirect()->route('admin/vulnerabilities')->with('msg',[
+        $financierModel->save($suport);
+        return redirect()->route('admin/financiers')->with('msg',[
             'type' => 'green',
-            'body' => 'Nueva vulnerabilidad registrada exitosamente!'
+            'body' => 'Nuevo financiador registrado exitosamente!'
         ]);
     }
 
     public function update(){
         $validation = service('validation');
         $validation->setRules([
-            'vulnerability_name'   => ['label' => 'descripción' ,'rules' => 'required'],
+            'financier_project'   => ['label' => 'descripción' ,'rules' => 'required'],
         ]);
         
         if(!$validation->withRequest($this->request)->run()){
             return redirect()->back()->withInput()->with('errors',$validation->getErrors());
         }
         
-        $model = model('VulnerabilityModel');
-        if(!$model->where('vulnerability_id', (int)trim($this->request->getVar('vulnerability_id')))->first()){
+        $model = model('FinancierModel');
+        if(!$model->where('financier_id', (int)trim($this->request->getVar('financier_id')))->first()){
             throw PageNotFoundException::forPageNotFound();
         }
         $model->save([
-            'vulnerability_id'              => trim($this->request->getVar('vulnerability_id')),
-            'vulnerability_name'            => trim($this->request->getVar('vulnerability_name')),
-            'vulnerability_description'     => trim($this->request->getVar('vulnerability_description')),
-            'status_id'                     => (int)trim($this->request->getVar('status_id')),
+            'financier_id'              => trim($this->request->getVar('financier_id')),
+            'financier_project'         => trim($this->request->getVar('financier_project')),
+            'financier_description'     => trim($this->request->getVar('financier_description')),
+            //'status_id'                 => (int)trim($this->request->getVar('status_id')),
         ]);
-        return redirect()->route('admin/vulnerabilities')->with('msg',[
+        return redirect()->route('admin/financiers')->with('msg',[
             'type'=>'green',
             'body'=> 'La vulnerabilidad se actualizo exitosamente.'
         ]);   
