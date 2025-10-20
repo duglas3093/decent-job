@@ -164,6 +164,14 @@ $routes->group('admin',['namespace' => 'App\Controllers\admin','filter'=>'auth:a
     $routes->post('store_financier','FinancierController::store');
     $routes->get('edit_financier/(:num)','FinancierController::edit/$1');
     $routes->post('update_financier','FinancierController::update');
+
+    //Questionnaries
+    $routes->get('questionnaries','QuestionnarieController::index');
+    $routes->get('add_questionnarie','QuestionnarieController::add');
+    $routes->post('store_questionnarie','QuestionnarieController::create');
+    $routes->get('edit_questionnarie/(:num)','QuestionnarieController::edit/$1');
+    $routes->post('update_questionnarie','QuestionnarieController::update');
+
 });
 /*
  * --------------------------------------------------------------------

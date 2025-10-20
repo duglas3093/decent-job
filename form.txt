@@ -1,0 +1,126 @@
+Formulario de Seguimiento Emprendedor
+
+1 Datos del Proyecto DB
+    Talitha Koum
+    Save the Childre
+    WSM
+2 Año del Proyecto DB
+3.Responsable del llenado * 
+4.Fecha del llenado DB
+
+DATOS DEL EMPRENDIMIENTO
+5.Nombre 
+6.Apellidos
+7.Documento de identidad (C.I.)
+8.Nombre de tu emprendimiento
+9.Seguimiento Numero
+    primero
+    Segundo
+    Tercero 
+10.Periodo de Seguimiento
+11.¿En qué etapa se encuentra tu emprendimiento actualmente?
+    Idea
+    En desarrollo
+    En marcha
+    En crecimiento
+12.Plan de Seguimiento 
+13.Objetivo de seguimiento
+14.Actividades Realizadas
+15.Observaciones
+16.Apoyo requerido
+
+INDICADORES DE PROCESO
+17.Ingresos generados en el periodo 
+18.¿Realizo ventas por redes?
+    Facebook
+    Instagram
+    WhatsApp
+    Tik tok
+    Ninguno
+19.¿Porque?
+20.Describe los principales logros alcanzados desde el último seguimiento
+21.Nivel de ventas alcanzadas en el periodo 
+22.Que herramientas utilizas para controlar tus ventas 
+23.¿Cuáles son los principales desafíos o dificultades que estás enfrentando actualmente?
+24.¿Qué tipo de apoyo consideras más necesario en este momento?
+    Asesoría técnica
+    Acceso a financiamiento
+    Capacitación
+    Red de contactos
+    Otro
+25.¿Te gustaría agendar una reunión de seguimiento?
+    Sí
+    No
+26.Autoevaluación del Emprendimiento 
+    Me siento motivado/a con el emprendimiento 1 al 5
+    Se como calcular mis ingresos y mis gastos 1 al 5
+    Me siento acompañado y apoyado 1 al 5
+    estoy aprendiendo cosas nuevas 1 al 5
+    quiero continuar con mi emprendimiento 1 al 5
+27.Fecha de siguiente seguimiento
+
+
+
+
+Formulario de Seguimiento Emprendedor
+
+1 Datos del Proyecto 
+    Talitha Koum
+    Save the Childre
+    WSM
+2 Año del Proyecto
+3.Responsable del llenado
+4.Fecha del llenado
+
+DATOS DEL EMPRENDIMIENTO
+5.Nombre
+6.Apellidos
+7.Documento de identidad (C.I.)
+8.Nombre de tu emprendimiento
+* 9.Seguimiento Numero
+    primero
+    Segundo
+    Tercero 
+* 10.Periodo de Seguimiento
+* 11.¿En qué etapa se encuentra tu emprendimiento actualmente?
+    Idea
+    En desarrollo
+    En marcha
+    En crecimiento
+* 12.Plan de Seguimiento 
+*13.Objetivo de seguimiento
+*14.Actividades Realizadas
+*15.Observaciones
+*16.Apoyo requerido
+
+INDICADORES DE PROCESO
+*17.Ingresos generados en el periodo 
+*18.¿Realizo ventas por redes?
+    Facebook
+    Instagram
+    WhatsApp
+    Tik tok
+    Ninguno
+* 19.¿Porque?
+*20.Describe los principales logros alcanzados desde el último seguimiento
+*21.Nivel de ventas alcanzadas en el periodo 
+*22.Que herramientas utilizas para controlar tus ventas 
+*23.¿Cuáles son los principales desafíos o dificultades que estás enfrentando actualmente?
+*24.¿Qué tipo de apoyo consideras más necesario en este momento?
+    Asesoría técnica
+    Acceso a financiamiento
+    Capacitación
+    Red de contactos
+    Otro
+*25.¿Te gustaría agendar una reunión de seguimiento?
+    Sí
+    No
+*26.Autoevaluación del Emprendimiento 
+    Me siento motivado/a con el emprendimiento 1 al 5
+    Se como calcular mis ingresos y mis gastos 1 al 5
+    Me siento acompañado y apoyado 1 al 5
+    estoy aprendiendo cosas nuevas 1 al 5
+    quiero continuar con mi emprendimiento 1 al 5
+*27.Fecha de siguiente seguimiento
+
+
