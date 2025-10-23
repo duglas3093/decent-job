@@ -1,7 +1,14 @@
 <?= $this->extend('admin/layout/main') ?>
 
+<?php
+// CLAVE: Extraemos la variable del array principal para simplificar el acceso en esta vista.
+$data = $questionnaire['questionnaire'] ?? null;
+$pageTitle = $data['title'] ?? 'Cuestionario';
+$questionnaireId = $data['id'] ?? '';
+?>
+
 <?= $this->section('title') ?>
-Editar Cuestionario: <?= esc($questionnaire['title'] ?? 'Cuestionario') ?>
+Editar Cuestionario: <?= esc($pageTitle) ?>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -11,17 +18,14 @@ Editar Cuestionario: <?= esc($questionnaire['title'] ?? 'Cuestionario') ?>
             <div class="flex-none w-full max-w-full px-3">
                 <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl rounded-2xl bg-clip-border">
                     <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <h6 class="text-xl">Editar Cuestionario: <?= esc($questionnaire['title'] ?? 'Cargando...') ?></h6>
+                        <h6 class="text-xl">Editar Cuestionario: <?= esc($pageTitle) ?></h6>
                     </div>
                     <div class="flex-auto px-0 pt-0 pb-2">
                         <div class="p-6">
                             <form id="questionnaireForm" class="w-full"> 
-                                <input type="hidden" id="questionnaireId" value="<?= esc($questionnaire['id'] ?? '') ?>">
+                                <input type="hidden" id="questionnaireId" value="<?= esc($questionnaireId) ?>">
                                 
-                                <!-- El ID del cuestionario se añade aquí para que el script lo pueda encontrar -->
-                                <input type="hidden" id="questionnaireId" value="<?= esc($questionnaire['questionnaire']['id'] ?? '') ?>">
-                                <?= $this->include('admin/questionnarie/form') ?>
-                                
+                                <?= $this->include('admin/questionnarie/form', ['questionnaireData' => $data]) ?>
                             </form>
                         </div>
                     </div>
@@ -30,14 +34,4 @@ Editar Cuestionario: <?= esc($questionnaire['title'] ?? 'Cuestionario') ?>
         </div>
     </div>
 </main>
-<?= $this->endSection() ?>
-
-<?= $this->section('scripts') ?>
-    
-<script>
-    // Inyecta los datos del cuestionario desde PHP a una variable global de JavaScript.
-    // El script en form.php usará esta variable para poblar el formulario.
-    window.questionnaireData = <?= json_encode($questionnaire['questionnaire'] ?? null) ?>;
-</script>
-
 <?= $this->endSection() ?>
