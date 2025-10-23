@@ -26,8 +26,9 @@ class BeneficiaryController extends BaseController
         $data['beneficiaries'] = $beneficiaryModel
                             ->join('status s','s.status_id = beneficiaries.status_id','LEFT')
                             ->join('cities c','c.city_id = beneficiaries.city_id','LEFT')
+                            ->join('financiers f','f.financier_id = beneficiaries.financier_id','LEFT')
                             ->join('kardices k','k.beneficiary_id = beneficiaries.beneficiary_id','LEFT')
-                            ->select('beneficiaries.*, s.status_name, c.city_name,k.kardex_id')
+                            ->select('beneficiaries.*, s.status_name, c.city_name,k.kardex_id, financier_project')
                             ->where('beneficiaries.status_id', 1)
                             ->orWhere('beneficiaries.status_id', 2)
                             ->orderBy('beneficiary_lastname')
@@ -58,11 +59,11 @@ class BeneficiaryController extends BaseController
         $data['areas'] = $areaModel->where('status_id', 1)->findAll();
         $statusModel = model('StatusModel');
         $cityModel = model('CityModel');
-        $scheduleModel = model('ScheduleModel');
+        $financierModel = model('FinancierModel');
         $socialMediaModel = model('SocialMediaModel');
         $data['status'] = $statusModel->where('status_category',1)->findAll();
         $data['social_medias'] = $socialMediaModel->where('status_id',1)->findAll();
-        $data['schedules'] = $scheduleModel->where('status_id',1)->findAll();
+        $data['financiers'] = $financierModel->where('status_id',1)->findAll();
         $data['cities'] = $cityModel->findAll();
         
         return view('admin/beneficiary/add',$data);
@@ -79,9 +80,9 @@ class BeneficiaryController extends BaseController
         $statusModel = model('StatusModel');
         $cityModel = model('CityModel');
         $scheduleModel = model('ScheduleModel');
-        $socialMediaModel = model('SocialMediaModel');
+        $financierModel = model('FinancierModel');
         $data['status'] = $statusModel->where('status_category',1)->findAll();
-        $data['social_medias'] = $socialMediaModel->where('status_id',1)->findAll();
+        $data['financiers'] = $financierModel->where('status_id',1)->findAll();
         $data['schedules'] = $scheduleModel->where('status_id',1)->findAll();
         $data['cities'] = $cityModel->findAll();
         return view('admin/beneficiary/edit',$data);
@@ -125,8 +126,8 @@ class BeneficiaryController extends BaseController
             'beneficiary_datebirth'     => ['label' => 'fecha de nacimiento' ,'rules' => 'required_with[user_email]'],
             'beneficiary_direction'     => ['label' => 'dirección' ,'rules' => 'required_with[user_email]'],
             'city_id'                   => ['label' => 'ciudad' ,'rules' => 'required'],
-            'schedule_id'               => ['label' => 'horario' ,'rules' => 'required'],
-            'sm_id'                     => ['label' => 'sm' ,'rules' => 'required'],
+            'financier_id'              => ['label' => 'financiador' ,'rules' => 'required'],
+            'beneficiary_gestion'       => ['label' => 'gestion' ,'rules' => 'required'],
             // 'status_id'             => ['label' => 'rol' ,'rules' => 'required'],
         ]);
 
@@ -140,6 +141,7 @@ class BeneficiaryController extends BaseController
         ];
         
         $beneficiaryData = array_merge($formuser,$register);
+        print_r($beneficiaryData);
         $beneficiary = new Beneficiary ($beneficiaryData);
         $beneficiaryModel = model('BeneficiaryModel');
 
@@ -161,8 +163,8 @@ class BeneficiaryController extends BaseController
             'beneficiary_datebirth'     => ['label' => 'fecha de nacimiento' ,'rules' => 'required_with[user_email]'],
             'beneficiary_direction'     => ['label' => 'dirección' ,'rules' => 'required_with[user_email]'],
             'city_id'                   => ['label' => 'ciudad' ,'rules' => 'required'],
-            'schedule_id'               => ['label' => 'horario' ,'rules' => 'required'],
-            'sm_id'                     => ['label' => 'sm' ,'rules' => 'required'],
+            'financier_id'              => ['label' => 'financiador' ,'rules' => 'required'],
+            'beneficiary_gestion'       => ['label' => 'gestion' ,'rules' => 'required'],
         ]);
         
         if(!$validation->withRequest($this->request)->run()){
@@ -186,9 +188,9 @@ class BeneficiaryController extends BaseController
             'beneficiary_datebirth'     => trim($this->request->getVar('beneficiary_datebirth')),
             'beneficiary_direction'     => trim($this->request->getVar('beneficiary_direction')),
             'city_id'                   => trim($this->request->getVar('city_id')),
-            'schedule_id'               => trim($this->request->getVar('schedule_id')),
-            'sm_id'                     => trim($this->request->getVar('sm_id')),
-            'status_id'                 => (int)trim($this->request->getVar('status_id')),
+            'beneficiary_gestion'       => trim($this->request->getVar('beneficiary_gestion')),
+            'financier_id'              => trim($this->request->getVar('financier_id')),
+            'status_id'                 => (int)trim($this->request->getVar(index: 'status_id')),
         ]);
         return redirect()->route('admin/beneficiaries')->with('msg',[
             'type'=>'green',

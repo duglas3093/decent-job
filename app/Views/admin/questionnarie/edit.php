@@ -18,6 +18,8 @@ Editar Cuestionario: <?= esc($questionnaire['title'] ?? 'Cuestionario') ?>
                             <form id="questionnaireForm" class="w-full"> 
                                 <input type="hidden" id="questionnaireId" value="<?= esc($questionnaire['id'] ?? '') ?>">
                                 
+                                <!-- El ID del cuestionario se añade aquí para que el script lo pueda encontrar -->
+                                <input type="hidden" id="questionnaireId" value="<?= esc($questionnaire['questionnaire']['id'] ?? '') ?>">
                                 <?= $this->include('admin/questionnarie/form') ?>
                                 
                             </form>
@@ -32,4 +34,10 @@ Editar Cuestionario: <?= esc($questionnaire['title'] ?? 'Cuestionario') ?>
 
 <?= $this->section('scripts') ?>
     
+<script>
+    // Inyecta los datos del cuestionario desde PHP a una variable global de JavaScript.
+    // El script en form.php usará esta variable para poblar el formulario.
+    window.questionnaireData = <?= json_encode($questionnaire['questionnaire'] ?? null) ?>;
+</script>
+
 <?= $this->endSection() ?>

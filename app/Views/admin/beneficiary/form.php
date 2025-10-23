@@ -78,7 +78,7 @@
 <div class="flex flex-wrap -mx-3 mb-2">
     <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city_id">
-            Ciudad
+            Municipio de dominicilio
         </label>
         <div class="relative">
             <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -95,14 +95,14 @@
         </div>
     </div>
     <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="schedule_id">
-            Horario de trabajo
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="financier_id">
+            Financiador
         </label>
         <div class="relative">
             <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id="schedule_id" name="schedule_id">
-                <?php foreach ($schedules as $schedule): ?>
-                <option value="<?= $schedule['schedule_id'] ?>" <?= !isset($beneficiary) ? "": ($beneficiary['schedule_id'] == $schedule['schedule_id'] ? "selected":"") ?>><?= $schedule['schedule_description'] ?></option>
+                id="financier_id" name="financier_id">
+                <?php foreach ($financiers as $financier): ?>
+                <option value="<?= $financier['financier_id'] ?>" <?= !isset($beneficiary) ? "": ($beneficiary['financier_id'] == $financier['financier_id'] ? "selected":"") ?>><?= $financier['financier_project'] ?></option>
                 <?php endforeach; ?>
             </select>
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -113,21 +113,13 @@
         </div>
     </div>
     <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="sm_id">
-            Medio por el que nos conocio
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="beneficiary_gestion">
+            Año de gestion
         </label>
-        <div class="relative">
-            <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id="sm_id" name="sm_id">
-                <?php foreach ($social_medias as $sm): ?>
-                <option value="<?= $sm['sm_id'] ?>" <?= !isset($beneficiary) ? "": ($beneficiary['sm_id'] == $sm['sm_id'] ? "selected":"") ?>><?= $sm['sm_name'] ?></option>
-                <?php endforeach; ?>
-            </select>
-            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                </svg>
-            </div>
+        <input
+            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-<?= session('errors.beneficiary_gestion') ? "red-500 mb-3":"gray-200 focus:border-gray-500" ?> rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
+            id="beneficiary_gestion" name="beneficiary_gestion" type="date" placeholder="Gestion" value="<?= old('beneficiary_gestion') ?? (!isset($beneficiary) ? "":"{$beneficiary['beneficiary_gestion']}") ?>">
+            <p class="text-red-500 text-xs italic"><?= session('errors.beneficiary_gestion') ?></p>
         </div>
     </div>
     <?php if (isset($beneficiary)): ?>

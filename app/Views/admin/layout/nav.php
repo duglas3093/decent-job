@@ -5,7 +5,7 @@
     <div class="h-19">
         <i class="absolute top-0 right-0 p-4 opacity-50 cursor-pointer fas fa-times Light:text-white text-slate-400 xl:hidden" sidenav-close></i>
         <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap Light:text-white text-slate-700" href="https://demos.creative-tim.com/argon-dashboard-tailwind/pages/dashboard.html" target="_blank">
-        <img src="<?=base_url('img/LOGO-TRABAJO-DIGNO.jpeg')?>" class="inline h-full max-w-full transition-all duration-200 ease-nav-brand max-h-8" alt="main_logo" />
+        <img src="https://trabajo-digno.org/wp-content/uploads/2023/06/KALLPAOGBL.jpg" class="inline h-full max-w-full transition-all duration-200 ease-nav-brand max-h-8" alt="main_logo" />
         <!-- <img src="<?=base_url('img/logo-ct.png')?>" class="hidden h-full max-w-full transition-all duration-200 Light:inline ease-nav-brand max-h-8" alt="main_logo" /> -->
         <span class="ml-1 font-semibold transition-all duration-200 ease-nav-brand">Fundación Kallpa</span>
         </a>

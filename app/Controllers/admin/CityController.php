@@ -22,8 +22,7 @@ class CityController extends BaseController
         $cityModel = model('CityModel');
         $data['areas'] = $areaModel->where('status_id', 1)->findAll();
         $data['cities'] = $cityModel
-                            ->join('status s','s.status_id = cities.status_id','LEFT')
-                            ->select('cities.*, s.status_name')
+                            ->select('cities.*')
                             ->findAll();
         return view('admin/city/index',$data);
     }
@@ -87,8 +86,7 @@ class CityController extends BaseController
         }
         $model->save([
             'city_id'       => trim($this->request->getVar('city_id')),
-            'city_name'     => trim($this->request->getVar('city_name')),
-            'status_id'     => trim($this->request->getVar('status_id'))
+            'city_name'     => trim($this->request->getVar('city_name'))
         ]);
         return redirect()->route('admin/cities')->with('msg',[
             'type'=>'green',
