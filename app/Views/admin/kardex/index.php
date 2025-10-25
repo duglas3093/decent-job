@@ -5,6 +5,11 @@ Kardex de NOMBRE_DEL_BENEFICIARIO
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
+
+<?php
+    //cambiar por el id del cuestionario que se llenara mas adelante en produccion
+    $questionnaire_id_to_fill = 4 //questionnaire 2 
+?>
 <main class="relative h-full max-h-screen transition-all duration-200 ease-in-out xl:ml-68 rounded-xl">
     <div class="w-full px-6 py-0 mx-auto">
         <div class="flex flex-wrap -mx-3">
@@ -133,6 +138,11 @@ Kardex de NOMBRE_DEL_BENEFICIARIO
                                     </div>
                                     <div class="grid gap-0 mt-5 mb-5">
                                         <div class="col-start-1 col-end-12">
+                                            <a href="<?= base_url("admin/questionnarie/fill/{$beneficiary['beneficiary_id']}/{$questionnaire_id_to_fill}"); ?>" 
+                                                class="inline-block px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out"
+                                                title="Nuevo seguimiento">
+                                                <i class="fa-solid fa-plus"></i>
+                                                Nuevo seguimiento</a>
                                             <table class="items-center w-full mb-0 align-top border-collapse ligth:border-white/40 text-gray-500 order-table table ">
                                                 <thead>
                                                     <tr>
@@ -145,40 +155,22 @@ Kardex de NOMBRE_DEL_BENEFICIARIO
                                                         <th class="px-6 py-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-gray-400 opacity-70">
                                                             FECHA
                                                         </th>
-                                                        <th class="px-6 py-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-gray-400 opacity-70">
-                                                            ACTIVIDAD
-                                                        </th>
-                                                        <th class="px-6 py-2 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-gray-400 opacity-70">
-                                                            DESCRIPCIÓN
-                                                        </th>
-                                                        <th class="px-6 py-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-gray-400 opacity-70">
-                                                            ESTADO
-                                                        </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <?php
                                                         $cont = 1;
-                                                        foreach ($activities as $activity): 
+                                                        foreach ($submissions as $submission): 
                                                     ?>
                                                     <tr>
                                                         <td class="align-middle bg-transparent border-b shadow-transparent whitespace-normal">
                                                             <?= $cont ?>
                                                         </td>
                                                         <td class="align-middle bg-transparent border-b shadow-transparent whitespace-normal">
-                                                            <?= $activity['area_name'] ?>
+                                                            <?= $submission['questionnarie_title'] ?>
                                                         </td>
                                                         <td class="align-middle bg-transparent border-b shadow-transparent">
-                                                            <?= $created = date('d-m-Y', strtotime($activity['created_at'])) ?>
-                                                        </td>
-                                                        <td class="align-middle bg-transparent border-b shadow-transparent whitespace-normal">
-                                                            <?= $activity['support_name'] ?>
-                                                        </td>
-                                                        <td class="align-middle bg-transparent border-b shadow-transparent whitespace-normal">
-                                                            <?= $activity['detkar_description'] ?>
-                                                        </td>
-                                                        <td class="align-middle bg-transparent border-b shadow-transparent whitespace-normal">
-                                                            <?= $activity['status_name'] ?>
+                                                            <?= $created = date('d-m-Y', strtotime($submission['submitted_at'])) ?>
                                                         </td>
                                                     </tr>
                                                     <?php

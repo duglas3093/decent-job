@@ -7,6 +7,9 @@ use App\Controllers\BaseController;
 use App\Models\QuestionModel;
 use App\Models\QuestionnariesModel;
 use App\Models\ResponseOptionModel;
+use App\Models\SubmissionModel;
+use App\Models\UserResponseModel;
+use CodeIgniter\Exceptions\PageNotFoundException;
 
 class QuestionnarieController extends BaseController
 {
@@ -18,6 +21,8 @@ class QuestionnarieController extends BaseController
     protected $questionnaireModel;
     protected $questionModel;
     protected $responseOptionModel;
+    protected $submissionModel;
+    protected $userResponseModel;
     protected $db;
 
     public function __construct()
@@ -26,6 +31,8 @@ class QuestionnarieController extends BaseController
         $this->questionnaireModel = new QuestionnariesModel();
         $this->questionModel = new QuestionModel();
         $this->responseOptionModel = new ResponseOptionModel();
+        $this->submissionModel = new SubmissionModel();
+        $this->userResponseModel = new UserResponseModel();
         $this->db = \Config\Database::connect();
     }
 
@@ -262,6 +269,111 @@ class QuestionnarieController extends BaseController
         } catch (\Exception $e) {
             $this->db->transRollback();
             log_message('error', 'Update Error: ' . $e->getMessage()); 
+            return $this->response->setStatusCode(500)->setJSON(['error' => 'Error del servidor: ' . $e->getMessage()]);
+        }
+    }
+
+    public function fill(int $beneficiaryId, int $questionnaireId){
+        $questionnaireModel = $this->questionnaireModel;    
+        $questionnaire = $questionnaireModel->find($questionnaireId);
+
+        if (!$questionnaire) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+        
+        $rawDetails = $this->db->table('questionnaries q')
+                                ->select('q.questionnarie_id, q.questionnarie_title, q.questionnarie_description,q.status_id,
+                                        p.question_id, p.question_text, p.response_type, p.display_order,
+                                        o.response_option_id, o.option_text, o.option_value')
+                                ->join('questions p', 'p.questionnarie_id = q.questionnarie_id', 'left')
+                                ->join('response_options o', 'o.question_id = p.question_id', 'left')
+                                ->where('q.questionnarie_id', $questionnaireId)
+                                ->orderBy('p.display_order', 'ASC')
+                                ->get()
+                                ->getResultArray();
+        
+        $data['questionnaire'] = $this->assembleDataForFrontend($rawDetails)['questionnaire'];
+        
+        $data['beneficiary_id'] = $beneficiaryId;
+        $data['session'] = session()->get();
+        $areaModel = model('AreaModel');
+        $data['areas'] = $areaModel->where('status_id', 1)->findAll();
+        
+        return view('admin/questionnarie/fill_submission', $data);
+    }
+
+    public function store_submission(){
+        $data = $this->request->getJSON(true);
+
+        $beneficiaryId = $data['beneficiary_id'] ?? null;
+        $questionnaireId = $data['questionnaire_id'] ?? null;
+        $responses = $data['responses'] ?? [];
+
+        if (empty($beneficiaryId) || empty($questionnaireId) || empty($responses)) {
+            return $this->response->setStatusCode(400)->setJSON(['error' => 'Datos insuficientes. Se requieren beneficiary_id, questionnaire_id y respuestas.']);
+        }
+
+        $userId = $beneficiaryId; 
+        $this->db->transBegin();
+
+        try {
+            $submissionData = [
+                'user_id' => $userId,
+                'questionnaire_id' => $questionnaireId,
+                'status' => 'Completed', // Se asume completado al enviar
+            ];
+            
+            $submissionModel = model('SubmissionModel');
+            $submissionModel->insert($submissionData);
+            $submissionId = $submissionModel->insertID(); // ID clave para vincular las respuestas
+
+            $userResponseModel = model('UserResponseModel');
+            $batchInsertData = [];
+
+            foreach ($responses as $response) {
+                $questionId = $response['question_id'];
+                
+                if (isset($response['option_ids']) && is_array($response['option_ids'])) {
+                    
+                    foreach ($response['option_ids'] as $optionId) {
+                        $batchInsertData[] = [
+                            'submission_id' => $submissionId,
+                            'question_id'   => $questionId,
+                            'option_id'     => $optionId, // Guarda el ID de la opción seleccionada
+                            'response_value'=> null,
+                        ];
+                    }
+                } 
+                elseif (isset($response['value'])) {
+                    $finalValue = is_array($response['value']) ? json_encode($response['value']) : (string)$response['value'];
+                    $batchInsertData[] = [
+                        'submission_id' => $submissionId,
+                        'question_id'   => $questionId,
+                        'option_id'     => null,
+                        'response_value'=> $finalValue,
+                    ];
+                }
+            }
+            
+            if (!empty($batchInsertData)) {
+                $userResponseModel->insertBatch($batchInsertData);
+            }
+
+            if ($this->db->transStatus() === false) {
+                $this->db->transRollback();
+                return $this->response->setStatusCode(500)->setJSON(['error' => 'La Submission falló. Rollback ejecutado.']);
+            } else {
+                $this->db->transCommit();
+                return $this->response->setJSON([
+                    'status' => 'success', 
+                    'message' => 'Respuestas guardadas con éxito.', 
+                    'id' => $submissionId
+                ]);
+            }
+
+        } catch (\Exception $e) {
+            $this->db->transRollback();
+            log_message('error', 'Submission Store Error: ' . $e->getMessage()); 
             return $this->response->setStatusCode(500)->setJSON(['error' => 'Error del servidor: ' . $e->getMessage()]);
         }
     }

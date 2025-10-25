@@ -171,7 +171,8 @@ $routes->group('admin',['namespace' => 'App\Controllers\admin','filter'=>'auth:a
     $routes->post('store_questionnarie','QuestionnarieController::create');
     $routes->get('edit_questionnarie/(:num)','QuestionnarieController::edit/$1');
     $routes->post('update_questionnarie','QuestionnarieController::update');
-
+    $routes->get('questionnarie/fill/(:num)/(:num)', 'QuestionnarieController::fill/$1/$2');
+    $routes->post('store_submission','QuestionnarieController::store_submission');
 });
 /*
  * --------------------------------------------------------------------

@@ -8,13 +8,17 @@ use CodeIgniter\Exceptions\PageNotFoundException;
 
 class KardexController extends BaseController
 {
+   
+
     public function viewKardex($beneficiary_id){
+        
         $data['session'] = session()->get();
         $areaModel = model('AreaModel');
-        $kardexModel = model('KardexModel');
         $beneficiaryModel = model('BeneficiaryModel');
-        $kardexDetailModel = model('KardexDetailModel');
-        
+        $submissionModel = model('SubmissionModel'); // Usamos el nuevo modelo
+        $questionnaireModel = model('QuestionnariesModel');
+
+        // 1. Obtener los datos del beneficiario (esto se mantiene igual)
         $data['beneficiary'] = $beneficiaryModel->join('schedules s','s.schedule_id = beneficiaries.schedule_id','LEFT')
                                                 ->join('cities c','c.city_id = beneficiaries.city_id','LEFT')
                                                 ->join('social_medias sm','sm.sm_id = beneficiaries.sm_id','LEFT')
@@ -22,27 +26,26 @@ class KardexController extends BaseController
                                                 ->where('beneficiary_id', $beneficiary_id)
                                                 ->first();
                                                 
-        if($data['kardex'] = $kardexModel->where('beneficiary_id', $beneficiary_id)->first()){
-            // throw PageNotFoundException::forPageNotFound();
-            $data['activities'] = $kardexDetailModel->join('kardices k','k.kardex_id = kardexdetails.kardex_id','LEFT')
-                                                    ->join('status s',' s.status_id = kardexdetails.status_id','LEFT')
-                                                    ->join('supports su', 'su.support_id = kardexdetails.support_id','LEFT')
-                                                    ->join('areas a', 'a.area_id = kardexdetails.area_id','LEFT')
-                                                    ->select('kardexdetails.*, s.status_name, a.area_name, su.support_name')
-                                                    ->orderBy('a.area_name','ASC')
-                                                    ->orderBy('kardexdetails.created_at','ASC')
-                                                    ->where('k.beneficiary_id',$beneficiary_id)
-                                                    ->findAll();
-        }else{
-            $data['activities'] = [];
+        if (empty($data['beneficiary'])) {
+             // Lanza excepción si el beneficiario no existe
+            throw PageNotFoundException::forPageNotFound();
         }
+
+        // 2. Obtener el historial de cuestionarios llenados (Submissions)
+        // Obtenemos todos los intentos de llenado (submissions) de este usuario.
+        $data['submissions'] = $submissionModel
+                                                ->where('submissions.user_id', $beneficiary_id) // Asumimos que beneficiary_id es el mismo que user_id en submissions
+                                                ->join('questionnaries q', 'q.questionnarie_id = submissions.questionnaire_id', 'LEFT')
+                                                ->select('submissions.submission_id AS submission_id, submissions.submitted_at, submissions.status, 
+                                                            q.questionnarie_title, q.questionnarie_id')
+                                                ->orderBy('submissions.submitted_at', 'DESC') // Los más recientes primero
+                                                ->findAll();
                                                 
-
-        $data['session'] = session()->get();
+        // Las siguientes líneas deben ir al final para preparar la vista
         $data['areas'] = $areaModel->where('status_id', 1)->findAll();
-
         
-        return view('admin/kardex/index',$data);
+        // El nombre de la vista debe cambiar para reflejar el contenido (ej. questionnaire_history)
+        return view('admin/kardex/index', $data);
     }
 
     public function kardexBeneficiary(){
