@@ -5,13 +5,13 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 
 use App\Models\QuestionModel;
-use App\Models\QuestionnariesModel;
+use App\Models\QuestionnairesModel;
 use App\Models\ResponseOptionModel;
 use App\Models\SubmissionModel;
 use App\Models\UserResponseModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
-class QuestionnarieController extends BaseController
+class QuestionnaireController extends BaseController
 {
 
     private $session;
@@ -27,8 +27,8 @@ class QuestionnarieController extends BaseController
 
     public function __construct()
     {
-        // 1. Inicializar Modelos y Conexión a la BD
-        $this->questionnaireModel = new QuestionnariesModel();
+        
+        $this->questionnaireModel = new QuestionnairesModel();
         $this->questionModel = new QuestionModel();
         $this->responseOptionModel = new ResponseOptionModel();
         $this->submissionModel = new SubmissionModel();
@@ -38,14 +38,14 @@ class QuestionnarieController extends BaseController
 
     public function index(){
         $areaModel = model('AreaModel');
-        $questionnariesModel = model('QuestionnariesModel');
+        $QuestionnairesModel = model('QuestionnairesModel');
         $data['session'] = session()->get();
         $data['areas'] = $areaModel->where('status_id', 1)->findAll();
-        $data['questionnaries'] = $questionnariesModel
-                            ->join('status s','s.status_id = questionnaries.status_id','LEFT')
-                            ->select('questionnaries.*, s.status_name')
+        $data['questionnaires'] = $QuestionnairesModel
+                            ->join('status s','s.status_id = questionnaires.status_id','LEFT')
+                            ->select('questionnaires.*, s.status_name')
                             ->paginate(self::PAGINATION);
-        return view('admin/questionnarie/index',$data);
+        return view('admin/questionnaire/index',$data);
     }
 
     public function add(){
@@ -55,7 +55,7 @@ class QuestionnarieController extends BaseController
         $statusModel = model('StatusModel');
         $data['status'] = $statusModel->where('status_category',1)->findAll();
         
-        return view('admin/questionnarie/add',$data);
+        return view('admin/questionnaire/add',$data);
     }
 
     public function create(){
@@ -69,8 +69,8 @@ class QuestionnarieController extends BaseController
 
         try {
             $questionnaireData = [
-                'questionnarie_title'       => $data['title'] ?? 'Cuestionario Temporal',
-                'questionnarie_description' => $data['description'] ?? '',
+                'questionnaire_title'       => $data['title'] ?? 'Cuestionario Temporal',
+                'questionnaire_description' => $data['description'] ?? '',
                 'status_id'                 => 1,
             ];
             $this->questionnaireModel->insert($questionnaireData);
@@ -78,7 +78,7 @@ class QuestionnarieController extends BaseController
 
             foreach ($data['questions'] as $questionData) {
                 $questionInsert = [
-                    'questionnarie_id' => $questionnaireId,
+                    'questionnaire_id' => $questionnaireId,
                     'question_text'    => $questionData['text'],
                     'response_type'    => $questionData['type'],
                     'display_order'    => $questionData['order'] ?? 0,
@@ -117,13 +117,13 @@ class QuestionnarieController extends BaseController
     }
 
     public function edit(int $questionnaireId){ 
-        $rawDetails = $this->db->table('questionnaries q')
-                                ->select('q.questionnarie_id, q.questionnarie_title, q.questionnarie_description, q.status_id, 
+        $rawDetails = $this->db->table('questionnaires q')
+                                ->select('q.questionnaire_id, q.questionnaire_title, q.questionnaire_description, q.status_id, 
                                             p.question_id, p.question_text, p.response_type, p.display_order,
                                             o.response_option_id, o.option_text, o.option_value')
-                                ->join('questions p', 'p.questionnarie_id = q.questionnarie_id', 'left')
+                                ->join('questions p', 'p.questionnaire_id = q.questionnaire_id', 'left')
                                 ->join('response_options o', 'o.question_id = p.question_id', 'left')
-                                ->where('q.questionnarie_id', $questionnaireId)
+                                ->where('q.questionnaire_id', $questionnaireId)
                                 ->orderBy('p.display_order', 'ASC')
                                 ->get()
                                 ->getResultArray();
@@ -134,7 +134,7 @@ class QuestionnarieController extends BaseController
         $data['areas'] = $areaModel->where('status_id', 1)->findAll();
         $data['session'] = session()->get();
 
-        return view('admin/questionnarie/edit', $data);
+        return view('admin/questionnaire/edit', $data);
     }
 
     private function assembleDataForFrontend(array $rawDetails): array
@@ -144,9 +144,9 @@ class QuestionnarieController extends BaseController
         }
         
         $questionnaire = [
-            'id' => $rawDetails[0]['questionnarie_id'],
-            'title' => $rawDetails[0]['questionnarie_title'],
-            'description' => $rawDetails[0]['questionnarie_description'],
+            'id' => $rawDetails[0]['questionnaire_id'],
+            'title' => $rawDetails[0]['questionnaire_title'],
+            'description' => $rawDetails[0]['questionnaire_description'],
             'status_id' => $rawDetails[0]['status_id'],
             'questions' => []
         ];
@@ -182,7 +182,6 @@ class QuestionnarieController extends BaseController
 
     public function update()
     {
-        // 1. Obtener y parsear el JSON de la solicitud
         $data = $this->request->getJSON(true);
 
         $questionnaireId = $data['id'] ?? null;
@@ -194,12 +193,12 @@ class QuestionnarieController extends BaseController
 
         try {
             $questionnaireData = [
-                'questionnarie_title'       => $data['title'] ?? 'Cuestionario Temporal',
-                'questionnarie_description' => $data['description'] ?? '',
+                'questionnaire_title'       => $data['title'] ?? 'Cuestionario Temporal',
+                'questionnaire_description' => $data['description'] ?? '',
             ];
             $this->questionnaireModel->update($questionnaireId, $questionnaireData);
             
-            $existingQuestionIds = $this->questionModel->where('questionnarie_id', $questionnaireId)
+            $existingQuestionIds = $this->questionModel->where('questionnaire_id', $questionnaireId)
                                                         ->findColumn('question_id') ?? [];
             $incomingQuestionIds = array_filter(array_column($data['questions'], 'id'));
             $questionsToDelete = array_diff($existingQuestionIds, $incomingQuestionIds);
@@ -211,7 +210,7 @@ class QuestionnarieController extends BaseController
             foreach ($data['questions'] as $questionData) {
                 $qId = $questionData['id'] ?? null;
                 $questionInsertUpdate = [
-                    'questionnarie_id' => $questionnaireId,
+                    'questionnaire_id' => $questionnaireId,
                     'question_text'    => $questionData['text'],
                     'response_type'    => $questionData['type'],
                     'display_order'    => $questionData['order'] ?? 0,
@@ -257,7 +256,6 @@ class QuestionnarieController extends BaseController
 
             }
             
-            // 6. Finalizar la Transacción
             if ($this->db->transStatus() === false) {
                 $this->db->transRollback();
                 return $this->response->setStatusCode(500)->setJSON(['error' => 'La actualización falló durante una inserción/eliminación. Rollback ejecutado.']);
@@ -281,13 +279,13 @@ class QuestionnarieController extends BaseController
             throw PageNotFoundException::forPageNotFound();
         }
         
-        $rawDetails = $this->db->table('questionnaries q')
-                                ->select('q.questionnarie_id, q.questionnarie_title, q.questionnarie_description,q.status_id,
+        $rawDetails = $this->db->table('questionnaires q')
+                                ->select('q.questionnaire_id, q.questionnaire_title, q.questionnaire_description,q.status_id,
                                         p.question_id, p.question_text, p.response_type, p.display_order,
                                         o.response_option_id, o.option_text, o.option_value')
-                                ->join('questions p', 'p.questionnarie_id = q.questionnarie_id', 'left')
+                                ->join('questions p', 'p.questionnaire_id = q.questionnaire_id', 'left')
                                 ->join('response_options o', 'o.question_id = p.question_id', 'left')
-                                ->where('q.questionnarie_id', $questionnaireId)
+                                ->where('q.questionnaire_id', $questionnaireId)
                                 ->orderBy('p.display_order', 'ASC')
                                 ->get()
                                 ->getResultArray();
@@ -299,68 +297,83 @@ class QuestionnarieController extends BaseController
         $areaModel = model('AreaModel');
         $data['areas'] = $areaModel->where('status_id', 1)->findAll();
         
-        return view('admin/questionnarie/fill_submission', $data);
+        return view('admin/questionnaire/fill_submission', $data);
     }
 
-    public function store_submission(){
+    public function store_submission()
+    {
+        
         $data = $this->request->getJSON(true);
 
         $beneficiaryId = $data['beneficiary_id'] ?? null;
         $questionnaireId = $data['questionnaire_id'] ?? null;
         $responses = $data['responses'] ?? [];
 
+        
         if (empty($beneficiaryId) || empty($questionnaireId) || empty($responses)) {
             return $this->response->setStatusCode(400)->setJSON(['error' => 'Datos insuficientes. Se requieren beneficiary_id, questionnaire_id y respuestas.']);
         }
 
+        
         $userId = $beneficiaryId; 
+        
+        
         $this->db->transBegin();
 
         try {
+            
             $submissionData = [
                 'user_id' => $userId,
                 'questionnaire_id' => $questionnaireId,
-                'status' => 'Completed', // Se asume completado al enviar
+                'status' => 'Completed', 
             ];
             
             $submissionModel = model('SubmissionModel');
             $submissionModel->insert($submissionData);
-            $submissionId = $submissionModel->insertID(); // ID clave para vincular las respuestas
+            $submissionId = $submissionModel->insertID(); 
 
             $userResponseModel = model('UserResponseModel');
             $batchInsertData = [];
 
+            
             foreach ($responses as $response) {
                 $questionId = $response['question_id'];
+                
                 
                 if (isset($response['option_ids']) && is_array($response['option_ids'])) {
                     
                     foreach ($response['option_ids'] as $optionId) {
-                        $batchInsertData[] = [
-                            'submission_id' => $submissionId,
-                            'question_id'   => $questionId,
-                            'option_id'     => $optionId, // Guarda el ID de la opción seleccionada
-                            'response_value'=> null,
-                        ];
+                        if (!empty($optionId)) { 
+                            $batchInsertData[] = [
+                                'submission_id' => $submissionId,
+                                'question_id'   => $questionId,
+                                'option_id'     => (int)$optionId, 
+                                'response_value'=> null,          
+                            ];
+                        }
                     }
                 } 
+                
                 elseif (isset($response['value'])) {
                     $finalValue = is_array($response['value']) ? json_encode($response['value']) : (string)$response['value'];
                     $batchInsertData[] = [
                         'submission_id' => $submissionId,
                         'question_id'   => $questionId,
-                        'option_id'     => null,
-                        'response_value'=> $finalValue,
+                        'option_id'     => null,          
+                        'response_value'=> $finalValue,   
                     ];
                 }
-            }
+            } 
+            
             
             if (!empty($batchInsertData)) {
                 $userResponseModel->insertBatch($batchInsertData);
             }
 
+            
             if ($this->db->transStatus() === false) {
                 $this->db->transRollback();
+                log_message('error', 'Submission store transaction failed for Submission ID: ' . ($submissionId ?? 'N/A'));
                 return $this->response->setStatusCode(500)->setJSON(['error' => 'La Submission falló. Rollback ejecutado.']);
             } else {
                 $this->db->transCommit();
@@ -373,7 +386,7 @@ class QuestionnarieController extends BaseController
 
         } catch (\Exception $e) {
             $this->db->transRollback();
-            log_message('error', 'Submission Store Error: ' . $e->getMessage()); 
+            log_message('error', 'Submission Store Exception: ' . $e->getMessage() . ' | Data: ' . print_r($data, true)); 
             return $this->response->setStatusCode(500)->setJSON(['error' => 'Error del servidor: ' . $e->getMessage()]);
         }
     }

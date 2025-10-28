@@ -25,7 +25,7 @@ Editar Cuestionario: <?= esc($pageTitle) ?>
                             <form id="questionnaireForm" class="w-full"> 
                                 <input type="hidden" id="questionnaireId" value="<?= esc($questionnaireId) ?>">
                                 
-                                <?= $this->include('admin/questionnarie/form', ['questionnaireData' => $data]) ?>
+                                <?= $this->include('admin/questionnaire/form', ['questionnaireData' => $data]) ?>
                             </form>
                         </div>
                     </div>

@@ -4,19 +4,19 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class QuestionnariesModel extends Model
+class QuestionnairesModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'questionnaries';
-    protected $primaryKey       = 'questionnarie_id';
+    protected $table            = 'questionnaires';
+    protected $primaryKey       = 'questionnaire_id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'questionnarie_title',
-        'questionnarie_description',
+        'questionnaire_title',
+        'questionnaire_description',
         'status_id'
     ];
 

@@ -165,14 +165,18 @@ $routes->group('admin',['namespace' => 'App\Controllers\admin','filter'=>'auth:a
     $routes->get('edit_financier/(:num)','FinancierController::edit/$1');
     $routes->post('update_financier','FinancierController::update');
 
-    //Questionnaries
-    $routes->get('questionnaries','QuestionnarieController::index');
-    $routes->get('add_questionnarie','QuestionnarieController::add');
-    $routes->post('store_questionnarie','QuestionnarieController::create');
-    $routes->get('edit_questionnarie/(:num)','QuestionnarieController::edit/$1');
-    $routes->post('update_questionnarie','QuestionnarieController::update');
-    $routes->get('questionnarie/fill/(:num)/(:num)', 'QuestionnarieController::fill/$1/$2');
-    $routes->post('store_submission','QuestionnarieController::store_submission');
+    //Questionnaires
+    $routes->get('questionnaires','QuestionnaireController::index');
+    $routes->get('add_questionnaire','QuestionnaireController::add');
+    $routes->post('store_questionnaire','QuestionnaireController::create');
+    $routes->get('edit_questionnaire/(:num)','QuestionnaireController::edit/$1');
+    $routes->post('update_questionnaire','QuestionnaireController::update');
+    $routes->get('questionnaire/fill/(:num)/(:num)', 'QuestionnaireController::fill/$1/$2');
+    $routes->post('store_submission','QuestionnaireController::store_submission');
+
+
+    $routes->get('submission/edit/(:num)', 'SubmissionController::edit/$1'); // $1 es submission_id
+    $routes->get('submission/view/(:num)', 'SubmissionController::view/$1'); // $1 es submission_id
 });
 /*
  * --------------------------------------------------------------------

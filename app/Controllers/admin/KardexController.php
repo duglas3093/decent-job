@@ -16,7 +16,7 @@ class KardexController extends BaseController
         $areaModel = model('AreaModel');
         $beneficiaryModel = model('BeneficiaryModel');
         $submissionModel = model('SubmissionModel'); // Usamos el nuevo modelo
-        $questionnaireModel = model('QuestionnariesModel');
+        $questionnaireModel = model('QuestionnairesModel');
 
         // 1. Obtener los datos del beneficiario (esto se mantiene igual)
         $data['beneficiary'] = $beneficiaryModel->join('schedules s','s.schedule_id = beneficiaries.schedule_id','LEFT')
@@ -35,9 +35,9 @@ class KardexController extends BaseController
         // Obtenemos todos los intentos de llenado (submissions) de este usuario.
         $data['submissions'] = $submissionModel
                                                 ->where('submissions.user_id', $beneficiary_id) // Asumimos que beneficiary_id es el mismo que user_id en submissions
-                                                ->join('questionnaries q', 'q.questionnarie_id = submissions.questionnaire_id', 'LEFT')
+                                                ->join('questionnaires q', 'q.questionnaire_id = submissions.questionnaire_id', 'LEFT')
                                                 ->select('submissions.submission_id AS submission_id, submissions.submitted_at, submissions.status, 
-                                                            q.questionnarie_title, q.questionnarie_id')
+                                                            q.questionnaire_title, q.questionnaire_id')
                                                 ->orderBy('submissions.submitted_at', 'DESC') // Los más recientes primero
                                                 ->findAll();
                                                 

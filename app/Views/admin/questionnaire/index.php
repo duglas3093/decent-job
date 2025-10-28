@@ -18,8 +18,8 @@ Cuestionarios
                             </div>
                         <?php endif ?>
                         <div class="flex flex-wrap items-center justify-between">
-                            <h6 class="ligth:text-white text-xl">Cuestionarios: <?= count($questionnaries) ?></h6>
-                            <a href="<?= base_url("admin/add_questionnarie"); ?>" class="inline-block px-4 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out">
+                            <h6 class="ligth:text-white text-xl">Cuestionarios: <?= count($questionnaires) ?></h6>
+                            <a href="<?= base_url("admin/add_questionnaire"); ?>" class="inline-block px-4 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out">
                                 <i class="fa-solid fa-plus"></i>
                                 <span class="ml-1 hidden sm:inline">Crear Cuestionario</span>
                             </a>
@@ -46,21 +46,21 @@ Cuestionarios
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach($questionnaries as $questionnarie): ?>
+                                    <?php foreach($questionnaires as $questionnaire): ?>
                                     <tr class="uppercase">
                                         <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <h6 class="px-4 mb-0 text-sm leading-normal ligth:text-white"><?= $questionnarie['questionnarie_title'] ?></h6>
+                                            <h6 class="px-4 mb-0 text-sm leading-normal ligth:text-white"><?= $questionnaire['questionnaire_title'] ?></h6>
                                         </td>
                                         <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <p class="mb-0 text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 normal-case"><?= $questionnarie['questionnarie_description'] ?></p>
+                                            <p class="mb-0 text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 normal-case"><?= $questionnaire['questionnaire_description'] ?></p>
                                         </td>
                                         <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <span class="bg-gradient-to-tl <?= $questionnarie['status_name'] == 'Activo' ? 'from-emerald-500 to-teal-400' : 'from-slate-600 to-slate-300' ?> px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                                <?= $questionnarie['status_name'] ?>
+                                            <span class="bg-gradient-to-tl <?= $questionnaire['status_name'] == 'Activo' ? 'from-emerald-500 to-teal-400' : 'from-slate-600 to-slate-300' ?> px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
+                                                <?= $questionnaire['status_name'] ?>
                                             </span>
                                         </td>
                                         <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <a href="<?= base_url("admin/edit_questionnarie/{$questionnarie['questionnarie_id']}") ?>" title="Editar Cuestionario" class="text-xs font-semibold leading-tight text-slate-400">
+                                            <a href="<?= base_url("admin/edit_questionnaire/{$questionnaire['questionnaire_id']}") ?>" title="Editar Cuestionario" class="text-xs font-semibold leading-tight text-slate-400">
                                                 <i class="fa-solid fa-pencil text-blue-600 text-lg"></i>
                                             </a>
                                         </td>
@@ -72,17 +72,17 @@ Cuestionarios
 
                         <!-- Vista de Tarjetas para Móviles -->
                         <div class="block md:hidden px-4" id="cards">
-                            <?php foreach($questionnaries as $questionnarie): ?>
+                            <?php foreach($questionnaires as $questionnaire): ?>
                             <div class="card-item bg-white border border-gray-200 rounded-lg shadow-md p-4 mb-4 uppercase">
                                 <div class="flex justify-between items-start">
-                                    <h6 class="mb-1 text-sm font-bold leading-normal ligth:text-white"><?= $questionnarie['questionnarie_title'] ?></h6>
-                                    <a href="<?= base_url("admin/edit_questionnarie/{$questionnarie['questionnarie_id']}") ?>" title="Editar Cuestionario" class="inline-block px-2 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700">
+                                    <h6 class="mb-1 text-sm font-bold leading-normal ligth:text-white"><?= $questionnaire['questionnaire_title'] ?></h6>
+                                    <a href="<?= base_url("admin/edit_questionnaire/{$questionnaire['questionnaire_id']}") ?>" title="Editar Cuestionario" class="inline-block px-2 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700">
                                         <i class="fa-solid fa-pencil"></i>
                                     </a>
                                 </div>
-                                <p class="mb-2 text-xs font-semibold leading-tight normal-case text-slate-600"><?= $questionnarie['questionnarie_description'] ?></p>
-                                <span class="bg-gradient-to-tl <?= $questionnarie['status_name'] == 'Activo' ? 'from-emerald-500 to-teal-400' : 'from-slate-600 to-slate-300' ?> px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                    <?= $questionnarie['status_name'] ?>
+                                <p class="mb-2 text-xs font-semibold leading-tight normal-case text-slate-600"><?= $questionnaire['questionnaire_description'] ?></p>
+                                <span class="bg-gradient-to-tl <?= $questionnaire['status_name'] == 'Activo' ? 'from-emerald-500 to-teal-400' : 'from-slate-600 to-slate-300' ?> px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
+                                    <?= $questionnaire['status_name'] ?>
                                 </span>
                             </div>
                             <?php endforeach; ?>

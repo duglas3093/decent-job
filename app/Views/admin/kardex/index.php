@@ -138,7 +138,7 @@ Kardex de NOMBRE_DEL_BENEFICIARIO
                                     </div>
                                     <div class="grid gap-0 mt-5 mb-5">
                                         <div class="col-start-1 col-end-12">
-                                            <a href="<?= base_url("admin/questionnarie/fill/{$beneficiary['beneficiary_id']}/{$questionnaire_id_to_fill}"); ?>" 
+                                            <a href="<?= base_url("admin/questionnaire/fill/{$beneficiary['beneficiary_id']}/{$questionnaire_id_to_fill}"); ?>" 
                                                 class="inline-block px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out"
                                                 title="Nuevo seguimiento">
                                                 <i class="fa-solid fa-plus"></i>
@@ -155,6 +155,9 @@ Kardex de NOMBRE_DEL_BENEFICIARIO
                                                         <th class="px-6 py-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-gray-400 opacity-70">
                                                             FECHA
                                                         </th>
+                                                        <th class="px-6 py-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-gray-400 opacity-70">
+                                                            Acciones
+                                                        </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -167,10 +170,23 @@ Kardex de NOMBRE_DEL_BENEFICIARIO
                                                             <?= $cont ?>
                                                         </td>
                                                         <td class="align-middle bg-transparent border-b shadow-transparent whitespace-normal">
-                                                            <?= $submission['questionnarie_title'] ?>
+                                                            <?= $submission['questionnaire_title'] ?>
                                                         </td>
                                                         <td class="align-middle bg-transparent border-b shadow-transparent">
                                                             <?= $created = date('d-m-Y', strtotime($submission['submitted_at'])) ?>
+                                                        </td>
+                                                        <td class="align-middle bg-transparent border-b shadow-transparent whitespace-nowrap text-center">
+                                                            <a href="<?= base_url("admin/submission/edit/{$submission['submission_id']}"); ?>" 
+                                                                class="inline-block px-3 py-1.5 bg-yellow-500 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-yellow-600 transition duration-150 ease-in-out" 
+                                                                title="Corregir Respuestas">
+                                                                <i class="fa-solid fa-edit"></i> Editar
+                                                            </a>
+
+                                                            <a href="<?= base_url("admin/submission/view/{$submission['submission_id']}"); ?>" 
+                                                                class="inline-block px-3 py-1.5 bg-gray-500 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-gray-600 transition duration-150 ease-in-out ml-2" 
+                                                                title="Ver Respuestas (Solo Lectura)">
+                                                                <i class="fa-solid fa-eye"></i> Ver
+                                                            </a>
                                                         </td>
                                                     </tr>
                                                     <?php

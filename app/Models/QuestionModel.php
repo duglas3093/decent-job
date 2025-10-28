@@ -15,7 +15,7 @@ class QuestionModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'questionnarie_id',
+        'questionnaire_id',
         'question_text',
         'response_type',
         'display_order',

@@ -160,9 +160,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (isEditMode) {
                 // Concatenamos el root con la ruta específica
-                apiUrl = BASE_URL_ROOT + '/admin/update_questionnarie'; 
+                apiUrl = BASE_URL_ROOT + '/admin/update_questionnaire'; 
             } else {
-                apiUrl = BASE_URL_ROOT + '/admin/store_questionnarie';
+                apiUrl = BASE_URL_ROOT + '/admin/store_questionnaire';
             }
 
             const questionItems = questionsContainer.querySelectorAll('.question-item');
@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // Redirigir a la lista después de un momento
                     setTimeout(() => {
-                        window.location.href = BASE_URL_ROOT + '/admin/questionnaries';
+                        window.location.href = BASE_URL_ROOT + '/admin/questionnaires';
                     }, 2000);
 
                 } else {
