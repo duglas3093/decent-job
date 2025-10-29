@@ -95,7 +95,6 @@ $button_text = $is_read_only ? 'Respuestas en Modo Lectura' : 'Guardar Correccio
                                                                 <label for="option_<?= $o['id'] ?>" class="ml-2 text-gray-700 <?= $is_checked ? 'font-semibold text-blue-700' : '' ?>"><?= esc($o['text']) ?></label>
                                                             </div>
                                                         <?php endforeach; ?>
-
                                                     <?php endif; ?>
                                                 </div>
                                             </div>
@@ -124,4 +123,102 @@ $button_text = $is_read_only ? 'Respuestas en Modo Lectura' : 'Guardar Correccio
         </div>
     </div>
 </main>
+<script>
+    const IS_READ_ONLY = <?= json_encode($is_read_only) ?>;
+    const SUBMISSION_ID = document.getElementById('submissionId').value;
+    const BENEFICIARY_ID = document.getElementById('beneficiaryId').value;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const submissionForm = document.getElementById('submissionForm');
+        const submitButton = document.getElementById('submitSubmissionBtn');
+        const statusMessage = document.getElementById('statusMessage');
+
+        if (!IS_READ_ONLY && submissionForm && submitButton) {
+            
+            submissionForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                submitButton.disabled = true;
+                submitButton.textContent = 'Guardando Cambios...';
+                statusMessage.classList.add('hidden'); 
+
+                const updatedResponses = [];
+                document.querySelectorAll('.question-block').forEach(block => {
+                    const qId = block.dataset.questionId;
+                    const qType = block.dataset.type;
+                    let value = null;
+                    let optionIds = [];
+
+                    if (qType === 'SINGLE_SELECT') {
+                        const selected = block.querySelector(`input[name="q_${qId}"]:checked`);
+                        if (selected) {
+                            optionIds.push(selected.value);
+                        }
+                    } else if (qType === 'MULTIPLE_CHOICE') {
+                        block.querySelectorAll(`input[name="q_${qId}[]"]:checked`).forEach(checkbox => {
+                            optionIds.push(checkbox.value);
+                        });
+                    } else { 
+                        const inputElement = block.querySelector(`input[name="q_${qId}"]`);
+                        if (inputElement) { 
+                            value = inputElement.value.trim();
+                        }
+                    }
+                    
+                    if (optionIds.length > 0) {
+                            updatedResponses.push({
+                                question_id: qId,
+                                option_ids: optionIds 
+                            });
+                    } else if (value !== null && value !== "") { 
+                        updatedResponses.push({
+                            question_id: qId,
+                            value: value 
+                        });
+                    }
+                });
+
+                const submissionUpdateData = {
+                    submission_id: SUBMISSION_ID,
+                    responses: updatedResponses    
+                };
+
+                try {
+                    const apiUrl = `<?= base_url('admin/submission/update') ?>`; 
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: JSON.stringify(submissionUpdateData)
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        statusMessage.className = 'p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg';
+                        statusMessage.textContent = result.message || '¡Respuestas actualizadas con éxito!';
+                        setTimeout(() => {
+                            window.location.href = `<?= base_url('admin/view_kardex_beneficiary/') ?>/${BENEFICIARY_ID}`; 
+                        }, 1500);
+
+                    } else {
+                        statusMessage.className = 'p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg';
+                        statusMessage.textContent = 'Error al actualizar: ' + (result.error || 'Error desconocido.');
+                    }
+
+                } catch (error) {
+                    statusMessage.className = 'p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg';
+                    statusMessage.textContent = 'Error de conexión con el servidor.';
+                    console.error('Fetch Error:', error);
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Guardar Correcciones';
+                    statusMessage.classList.remove('hidden');
+                }
+            });
+        }
+    });
+</script>
 <?= $this->endSection() ?>

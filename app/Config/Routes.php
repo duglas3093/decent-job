@@ -177,6 +177,7 @@ $routes->group('admin',['namespace' => 'App\Controllers\admin','filter'=>'auth:a
 
     $routes->get('submission/edit/(:num)', 'SubmissionController::edit/$1'); // $1 es submission_id
     $routes->get('submission/view/(:num)', 'SubmissionController::view/$1'); // $1 es submission_id
+    $routes->post('submission/update','SubmissionController::update');
 });
 /*
  * --------------------------------------------------------------------
