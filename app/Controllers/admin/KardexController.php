@@ -19,11 +19,9 @@ class KardexController extends BaseController
         $questionnaireModel = model('QuestionnairesModel');
 
         // 1. Obtener los datos del beneficiario (esto se mantiene igual)
-        $data['beneficiary'] = $beneficiaryModel->join('schedules s','s.schedule_id = beneficiaries.schedule_id','LEFT')
-                                                ->join('cities c','c.city_id = beneficiaries.city_id','LEFT')
-                                                ->join('social_medias sm','sm.sm_id = beneficiaries.sm_id','LEFT')
-                                                ->select('beneficiaries.*, s.schedule_description, c.city_name, sm_name')
-                                                ->where('beneficiary_id', $beneficiary_id)
+        $data['beneficiary'] = $beneficiaryModel->join('financiers f','f.financier_id = new_beneficiary.financier_id','LEFT')
+                                                ->select('new_beneficiary.*, f.financier_project')
+                                                ->where('new_beneficiary.beneficiary_id', $beneficiary_id)
                                                 ->first();
                                                 
         if (empty($data['beneficiary'])) {

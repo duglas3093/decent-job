@@ -68,7 +68,7 @@ document.getElementById('submissionForm').addEventListener('submit', async funct
             statusMessage.className = 'p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg';
             statusMessage.textContent = result.message || '¡Seguimiento guardado con éxito!';
             setTimeout(() => {
-                window.location.href = `<?= base_url('admin/kardex/viewKardex/') ?>/${BENEFICIARY_ID}`;
+                window.location.href = BASE_URL_ROOT + `/admin/view_kardex_beneficiary/${BENEFICIARY_ID}`;
             }, 1500);
 
         } else {

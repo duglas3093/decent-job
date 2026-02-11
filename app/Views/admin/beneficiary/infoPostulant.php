@@ -15,7 +15,7 @@ Edición de beneficiario
                         <div class="flex flex-wrap items-start justify-between">
                             <h6 class="ligth:text-white text-xl mb-4 md:mb-0">Informaci&oacute;n</h6>
                             <div class="flex flex-col sm:flex-row gap-2">
-                                <button onclick="showVulnerabilities(<?= $beneficiary['beneficiary_id'] ?>)" title="Vulnerabilidad" class="inline-block px-4 py-2.5 bg-amber-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-amber-500"
+                                <button onclick="showVulnerabilities(<?= $beneficiary['beneficiary_id'] ?>)" title="Vulnerabilidad" style="display: none;" class="inline-block px-4 py-2.5 bg-amber-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-amber-500"
                                             data-te-toggle="modal"
                                                 data-te-target="#vulnerability_participant"
                                                 data-te-ripple-init
@@ -35,64 +35,336 @@ Edición de beneficiario
                             </div>
                         </div>
                     </div>
+                    <!-- ---------------------------------------------------------------------------------------------------- -->
                     <div class="flex-auto px-0 pt-0 pb-2 mt-8" id="imprimir">
-                        <div class="overflow-x-auto ml-4 pr-8 pl-4 pt-4 pb-4" >
-                            <div class=" rounded overflow-hidden shadow-lg">
-                                <div class="px-6 py-4 text-md">
-                                    <h6 class="font-bold text-xl mb-2"><?= strtoupper("{$beneficiary['beneficiary_name']} {$beneficiary['beneficiary_lastname']}") ?></h6>
-                                    
-                                    <div class="flex flex-wrap -mx-2">
-                                        <p class="w-full sm:w-1/2 px-2 mb-2"><strong class="font-bold">Edad:</strong> <?= ((new DateTime(date("Y-m-d")))->diff(new DateTime($beneficiary['beneficiary_datebirth'])))->y ?> Años</p>
-                                        <p class="w-full sm:w-1/2 px-2 mb-2"><strong class="font-bold">C.I.:</strong> <?= "{$beneficiary['beneficiary_ci']} {$beneficiary['beneficiary_complement']}" ?></p>
-                                        <p class="w-full sm:w-1/2 px-2 mb-2"><strong class="font-bold">Celular:</strong> <?= $beneficiary['beneficiary_celphone'] ?></p>
-                                        <p class="w-full sm:w-1/2 px-2 mb-2"><strong class="font-bold">Fecha de Ingreso:</strong> <?= date('d-m-Y', strtotime($beneficiary['created_at'])) ?></p>
-                                        <p class="w-full sm:w-1/2 px-2 mb-2"><strong class="font-bold">Correo:</strong> <?= $beneficiary['beneficiary_email'] ?></p>
-                                        <p class="w-full sm:w-1/2 px-2 mb-2"><strong class="font-bold">Ciudad:</strong> <?= $beneficiary['city_name'] ?></p>
-                                        <p class="w-full px-2 mb-2"><strong class="font-bold">Dirección:</strong> <?= $beneficiary['beneficiary_direction'] ?></p>
-                                        <p class="w-full sm:w-1/2 px-2 mb-2"><strong class="font-bold">Horario:</strong> <?= $beneficiary['schedule_description'] ?></p>
-                                        <p class="w-full sm:w-1/2 px-2 mb-2"><strong class="font-bold">Días de Trabajo:</strong> ...</p>
-                                    </div>
-
-                                    <hr class="my-4">
-
-                                    <div class="space-y-3">
+                        <div class="overflow-x-auto ml-4 pr-8 pl-4 pt-4 pb-4">
+                            <div class="bg-white rounded-lg shadow-lg border border-gray-200">
+                                
+                                <div class="px-8 py-6 bg-gray-50 border-b border-gray-200">
+                                    <div class="flex flex-wrap justify-between items-start">
                                         <div>
-                                            <p class="font-bold">Apoyo solicitado:</p>
-                                            <p class="pl-4">
-                                                <?= $beneficiary['beneficiary_entrepreneurship'] == 1 ? "Ayuda con su emprendimiento<br>":"" ?>
-                                                <?= $beneficiary['beneficiary_job'] == 1 ? "Ayuda a buscar trabajo":"" ?>
+                                            <h6 class="font-bold text-2xl text-indigo-700 mb-1">
+                                                <?= strtoupper("{$beneficiary['beneficiary_names']} {$beneficiary['beneficiary_lastnames']}") ?>
+                                            </h6>
+                                            <p class="text-gray-500 text-sm">
+                                                <i class="fas fa-id-card mr-1"></i> 
+                                                C.I.: <?= "{$beneficiary['beneficiary_ci']} {$beneficiary['beneficiary_ci_extension']}" ?>
                                             </p>
                                         </div>
-                                        <div>
-                                            <p class="font-bold">Idea de Negocio:</p>
-                                            <p class="pl-4"><?= $beneficiary['beneficiary_business'] ?></p>
-                                        </div>
-                                        <div>
-                                            <p class="font-bold">Habilidades:</p>
-                                            <p class="pl-4"><?= $beneficiary['beneficiary_skills'] ?></p>
-                                        </div>
-                                        <div>
-                                            <p class="font-bold">Experiencia Laboral:</p>
-                                            <p class="pl-4"><?= $beneficiary['beneficiary_experience'] ?></p>
-                                        </div>
-                                        <div>
-                                            <p class="font-bold">Áreas de interés para trabajar:</p>
-                                            <p class="pl-4"><?= $beneficiary['beneficiary_workarea'] ?></p>
-                                        </div>
-                                        <div>
-                                            <p class="font-bold">Áreas donde NO le gustaría trabajar:</p>
-                                            <p class="pl-4"><?= $beneficiary['beneficiary_notworkarea'] ?></p>
-                                        </div>
-                                        <div>
-                                            <p class="font-bold">Medio por el que conoció el proyecto:</p>
-                                            <p class="pl-4"><?= $beneficiary['sm_name'] ?></p>
+                                        <div class="text-right">
+                                            <span class="bg-indigo-100 text-indigo-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
+                                                Gestión <?= $beneficiary['beneficiary_financier_year'] ?>
+                                            </span>
+                                            <p class="text-sm font-bold text-gray-600 mt-1">
+                                                <?= isset($beneficiary['financier_name']) ? $beneficiary['financier_name'] : 'Financiador: ' . $beneficiary['financier_project'] ?>
+                                            </p>
                                         </div>
                                     </div>
+                                    
+                                    <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                        <div>
+                                            <span class="block text-gray-500 text-xs font-bold uppercase">Edad</span>
+                                            <span class="font-medium text-gray-900">
+                                                <?= ((new DateTime(date("Y-m-d")))->diff(new DateTime($beneficiary['beneficiary_birthdate'])))->y ?> Años
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <span class="block text-gray-500 text-xs font-bold uppercase">Celular</span>
+                                            <span class="font-medium text-gray-900"><?= $beneficiary['beneficiary_cellphone'] ?></span>
+                                        </div>
+                                        <div>
+                                            <span class="block text-gray-500 text-xs font-bold uppercase">Municipio</span>
+                                            <span class="font-medium text-gray-900">
+                                                <?= $beneficiary['beneficiary_municipality'] === 'Otro' ? $beneficiary['beneficiary_other_municipality'] : $beneficiary['beneficiary_municipality'] ?>
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <span class="block text-gray-500 text-xs font-bold uppercase">Fecha Registro</span>
+                                            <span class="font-medium text-gray-900">
+                                                <?= date('d/m/Y', strtotime($beneficiary['beneficiary_created_at'])) ?>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="px-8 py-6 space-y-8">
+
+                                    <section>
+                                        <h5 class="text-indigo-600 font-bold uppercase text-xs tracking-wider border-b border-gray-200 pb-2 mb-4">
+                                            1. Ubicación y Contacto
+                                        </h5>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div>
+                                                <p class="mb-2"><span class="font-bold text-gray-600 text-xs block">Referencia Personal:</span> <?= $beneficiary['beneficiary_ref_name'] ?? 'N/A' ?> (<?= $beneficiary['beneficiary_ref_phone'] ?? 'S/N' ?>)</p>
+                                                <p class="mb-2"><span class="font-bold text-gray-600 text-xs block">Coordenadas:</span> <?= $beneficiary['beneficiary_latitude'] ?>, <?= $beneficiary['beneficiary_longitude'] ?></p>
+                                            </div>
+                                            <div class="h-40 w-full rounded-lg overflow-hidden border border-gray-300 z-0">
+                                                <div id="map-readonly" style="height: 100%; width: 100%;"></div>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    <section>
+                                        <h5 class="text-indigo-600 font-bold uppercase text-xs tracking-wider border-b border-gray-200 pb-2 mb-4">
+                                            2. Datos del Emprendimiento
+                                        </h5>
+                                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                            <div>
+                                                <span class="font-bold text-gray-600 text-xs block">Rubro:</span>
+                                                <?= $beneficiary['beneficiary_entrepreneurship_type'] ?>
+                                            </div>
+                                            <div>
+                                                <span class="font-bold text-gray-600 text-xs block">Canal de Venta:</span>
+                                                <?= $beneficiary['beneficiary_sales_channel'] ?>
+                                                <?php if($beneficiary['beneficiary_sales_channel'] == 'Venta por internet'): ?>
+                                                    <span class="text-xs text-gray-500 block">(<?= $beneficiary['beneficiary_online_specify'] ?>)</span>
+                                                <?php endif; ?>
+                                            </div>
+                                            <div>
+                                                <span class="font-bold text-gray-600 text-xs block">Dirección de Venta:</span>
+                                                <?= $beneficiary['beneficiary_sales_address'] ?>
+                                            </div>
+                                            <div class="col-span-full">
+                                                <span class="font-bold text-gray-600 text-xs block">Descripción:</span>
+                                                <p class="text-gray-800 bg-gray-50 p-3 rounded text-sm mt-1">
+                                                    <?= $beneficiary['beneficiary_entrepreneurship_description'] ?>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    <section>
+                                        <h5 class="text-indigo-600 font-bold uppercase text-xs tracking-wider border-b border-gray-200 pb-2 mb-4">
+                                            3. Formación y Experiencia
+                                        </h5>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 text-sm">
+                                            <p><span class="font-bold text-gray-600">Tiempo del negocio:</span> <?= $beneficiary['beneficiary_business_age'] ?></p>
+                                            <p><span class="font-bold text-gray-600">Horario estudio:</span> <?= $beneficiary['beneficiary_study_schedule'] ?></p>
+                                            
+                                            <div class="col-span-full">
+                                                <span class="font-bold text-gray-600 block">Motivación:</span> 
+                                                <?= $beneficiary['beneficiary_start_motivation'] ?>
+                                            </div>
+
+                                            <div>
+                                                <span class="font-bold text-gray-600">¿Tiene Cursos?:</span> 
+                                                <?= $beneficiary['beneficiary_has_course'] ?>
+                                                <?php if($beneficiary['beneficiary_has_course'] == 'Si'): ?>
+                                                    <span class="text-gray-500 italic"> - <?= $beneficiary['beneficiary_course_name'] ?></span>
+                                                <?php endif; ?>
+                                            </div>
+
+                                            <div>
+                                                <span class="font-bold text-gray-600">¿Experiencia Previa?:</span> 
+                                                <?= $beneficiary['beneficiary_has_experience'] ?>
+                                                <?php if($beneficiary['beneficiary_has_experience'] == 'Si'): ?>
+                                                    <span class="text-gray-500 italic"> - <?= $beneficiary['beneficiary_experience_source'] ?></span>
+                                                <?php endif; ?>
+                                            </div>
+
+                                            <div class="col-span-full">
+                                                <span class="font-bold text-gray-600">Otras Actividades:</span>
+                                                <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded ml-2">
+                                                    <?= $beneficiary['beneficiary_other_activities'] ?? 'Ninguna' ?>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    <section>
+                                        <h5 class="text-indigo-600 font-bold uppercase text-xs tracking-wider border-b border-gray-200 pb-2 mb-4">
+                                            4. Financiamiento y Activos
+                                        </h5>
+                                        <div class="overflow-x-auto">
+                                            <table class="min-w-full text-sm text-left text-gray-500">
+                                                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                                    <tr>
+                                                        <th class="px-4 py-2">Concepto</th>
+                                                        <th class="px-4 py-2">Respuesta</th>
+                                                        <th class="px-4 py-2">Detalle</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="border-b">
+                                                        <td class="px-4 py-2 font-medium">Institución compró algo</td>
+                                                        <td class="px-4 py-2"><?= $beneficiary['beneficiary_inst_bought'] ?></td>
+                                                        <td class="px-4 py-2"><?= $beneficiary['beneficiary_inst_bought'] == 'Si' ? "{$beneficiary['beneficiary_inst_bought_name']} ({$beneficiary['beneficiary_inst_bought_what']})" : '-' ?></td>
+                                                    </tr>
+                                                    <tr class="border-b">
+                                                        <td class="px-4 py-2 font-medium">Institución dio dinero</td>
+                                                        <td class="px-4 py-2"><?= $beneficiary['beneficiary_inst_money'] ?></td>
+                                                        <td class="px-4 py-2"><?= $beneficiary['beneficiary_inst_money'] == 'Si' ? "{$beneficiary['beneficiary_inst_money_name']} - {$beneficiary['beneficiary_inst_money_amount']}" : '-' ?></td>
+                                                    </tr>
+                                                    <tr class="border-b">
+                                                        <td class="px-4 py-2 font-medium">Inversión Propia</td>
+                                                        <td class="px-4 py-2"><?= $beneficiary['beneficiary_self_bought'] ?></td>
+                                                        <td class="px-4 py-2"><?= $beneficiary['beneficiary_self_bought'] == 'Si' ? $beneficiary['beneficiary_self_bought_what'] : '-' ?></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="mt-4 bg-yellow-50 p-3 rounded border border-yellow-100 text-sm">
+                                            <span class="font-bold text-yellow-800">Necesidad Urgente:</span> 
+                                            <?= $beneficiary['beneficiary_urgent_needs'] ?> - <?= $beneficiary['beneficiary_urgent_specify'] ?>
+                                        </div>
+                                    </section>
+
+                                    <section>
+                                        <h5 class="text-indigo-600 font-bold uppercase text-xs tracking-wider border-b border-gray-200 pb-2 mb-4">
+                                            5. Economía y Personal
+                                        </h5>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                            <div>
+                                                <p><span class="font-bold text-gray-600">Calcula Costos:</span> <?= $beneficiary['beneficiary_calc_cost'] ?></p>
+                                                <?php if($beneficiary['beneficiary_calc_cost'] == 'Si'): ?>
+                                                    <p class="text-xs text-gray-500 pl-2"><?= $beneficiary['beneficiary_calc_cost_detail'] ?></p>
+                                                <?php endif; ?>
+                                            </div>
+                                            <div>
+                                                <p><span class="font-bold text-gray-600">Lleva Contabilidad:</span> <?= $beneficiary['beneficiary_accounting'] ?></p>
+                                                <?php if($beneficiary['beneficiary_accounting'] == 'Si'): ?>
+                                                    <p class="text-xs text-gray-500 pl-2"><?= $beneficiary['beneficiary_accounting_detail'] ?></p>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-4 p-4 rounded bg-gray-50 border border-gray-200">
+                                            <?php if($beneficiary['beneficiary_has_workers'] == 'Si'): ?>
+                                                <h6 class="font-bold text-gray-700 mb-2 border-b pb-1">Cuenta con Trabajadores:</h6>
+                                                <div class="grid grid-cols-2 gap-4 text-sm">
+                                                    <div>
+                                                        <p><strong>Mujeres:</strong> <?= $beneficiary['beneficiary_women_count'] ?> (<?= $beneficiary['beneficiary_women_age'] ?>)</p>
+                                                    </div>
+                                                    <div>
+                                                        <p><strong>Hombres:</strong> <?= $beneficiary['beneficiary_men_count'] ?> (<?= $beneficiary['beneficiary_men_age'] ?>)</p>
+                                                    </div>
+                                                    <div class="col-span-full">
+                                                        <p><strong>Reciben Remuneración:</strong> <?= $beneficiary['beneficiary_remuneration'] ?></p>
+                                                    </div>
+                                                </div>
+                                            <?php else: ?>
+                                                <div class="flex items-center text-sm">
+                                                    <span class="font-bold text-gray-700 mr-2">No tiene trabajadores.</span>
+                                                    <span>Ingreso Mensual Aprox: <strong class="text-green-600"><?= $beneficiary['beneficiary_monthly_income'] ?></strong></span>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </section>
+
+                                    <section>
+                                        <h5 class="text-indigo-600 font-bold uppercase text-xs tracking-wider border-b border-gray-200 pb-2 mb-4">
+                                            6. Análisis y Expectativas
+                                        </h5>
+                                        <div class="grid grid-cols-1 gap-4 text-sm">
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <div><span class="font-bold text-gray-600">Competencia Cerca:</span> <?= $beneficiary['beneficiary_competitors_nearby'] ?></div>
+                                                <div><span class="font-bold text-gray-600">Frecuencia Venta:</span> <?= $beneficiary['beneficiary_sales_frequency'] ?></div>
+                                            </div>
+                                            
+                                            <div>
+                                                <span class="font-bold text-gray-600 block">Propuesta de Valor:</span>
+                                                <p class="text-gray-800"><?= $beneficiary['beneficiary_value_proposition'] ?></p>
+                                            </div>
+                                            <div>
+                                                <span class="font-bold text-gray-600 block">Desafíos Actuales:</span>
+                                                <p class="text-gray-800"><?= $beneficiary['beneficiary_business_challenges'] ?></p>
+                                            </div>
+                                            
+                                            <div class="mt-2 pt-2 border-t border-dashed border-gray-300">
+                                                <div class="mb-2">
+                                                    <span class="font-bold text-indigo-700 block text-xs uppercase">Meta Corto Plazo</span>
+                                                    <?= $beneficiary['beneficiary_short_term_goal'] ?>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <span class="font-bold text-indigo-700 block text-xs uppercase">Meta Largo Plazo</span>
+                                                    <?= $beneficiary['beneficiary_long_term_goals'] ?>
+                                                </div>
+                                                <div>
+                                                    <span class="font-bold text-indigo-700 block text-xs uppercase">Apoyo Solicitado</span>
+                                                    <?= $beneficiary['beneficiary_support_needed'] ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    
+                                    <section class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                                        <div>
+                                            <h5 class="text-indigo-600 font-bold uppercase text-xs tracking-wider border-b border-gray-200 pb-2 mb-2">Legal</h5>
+                                            <ul class="list-disc pl-5">
+                                                <li>Derechos Laborales: <strong><?= $beneficiary['beneficiary_labor_rights_knowledge'] ?></strong></li>
+                                                <li>Leyes Económicas: <strong><?= $beneficiary['beneficiary_activity_laws_knowledge'] ?></strong></li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h5 class="text-indigo-600 font-bold uppercase text-xs tracking-wider border-b border-gray-200 pb-2 mb-2">Género</h5>
+                                            <p><span class="font-bold">Cuidado de niños:</span> <?= $beneficiary['beneficiary_care_children'] ?></p>
+                                            <?php if($beneficiary['beneficiary_care_children'] == 'Si'): ?>
+                                                <p class="text-gray-500 italic">Relación: <?= $beneficiary['beneficiary_care_children_relation'] ?></p>
+                                            <?php endif; ?>
+                                        </div>
+                                    </section>
 
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+                    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            // Obtenemos coordenadas de PHP
+                            const lat = <?= $beneficiary['beneficiary_latitude'] ?? 0 ?>;
+                            const lng = <?= $beneficiary['beneficiary_longitude'] ?? 0 ?>;
+
+                            if (lat != 0 && lng != 0) {
+                                var map = L.map('map-readonly', {
+                                    center: [lat, lng],
+                                    zoom: 15,
+                                    dragging: false,       // Desactivar arrastre
+                                    touchZoom: false,      // Desactivar zoom táctil
+                                    scrollWheelZoom: false,// Desactivar scroll
+                                    doubleClickZoom: false,// Desactivar doble click
+                                    boxZoom: false,
+                                    zoomControl: false     // Ocultar controles de zoom
+                                });
+
+                                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                    attribution: '&copy; OpenStreetMap'
+                                }).addTo(map);
+
+                                L.marker([lat, lng]).addTo(map);
+                            } else {
+                                document.getElementById('map-readonly').innerHTML = '<div class="flex items-center justify-center h-full bg-gray-100 text-gray-400 text-xs">Sin ubicación registrada</div>';
+                            }
+                        });
+                    </script>
+
+                    <style>
+                        @media print {
+                            body * {
+                                visibility: hidden;
+                            }
+                            #imprimir, #imprimir * {
+                                visibility: visible;
+                            }
+                            #imprimir {
+                                position: absolute;
+                                left: 0;
+                                top: 0;
+                                width: 100%;
+                                margin: 0;
+                                padding: 0;
+                            }
+                            /* Ajuste para que el mapa se vea al imprimir */
+                            .leaflet-container {
+                                width: 100% !important;
+                                height: 200px !important;
+                            }
+                        }
+                    </style>                    
+                    <!-- ---------------------------------------------------------------------------------------------------- -->
                 </div>
             </div>
         </div>

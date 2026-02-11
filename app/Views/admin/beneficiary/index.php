@@ -46,9 +46,6 @@ Beneficiarios
                                             EDAD
                                         </th> -->
                                         <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            CIUDAD
-                                        </th>
-                                        <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                             ESTADO
                                         </th>
                                         <th class="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b border-collapse border-solid shadow-none ligth:border-white/40 ligth:text-white tracking-none whitespace-nowrap text-slate-400 opacity-70">
@@ -70,11 +67,11 @@ Beneficiarios
                                                 </div> -->
                                                 <div class="flex flex-col justify-center">
                                                     <h6 class="mb-0 text-sm leading-normal ligth:text-white">
-                                                        <?= $beneficiary['beneficiary_lastname'] ?> <?= $beneficiary['beneficiary_name'] ?>
-                                                        (<?= ((new DateTime(date("Y-m-d")))->diff(new DateTime($beneficiary['beneficiary_datebirth'])))->y ?> Años)
+                                                        <?= $beneficiary['beneficiary_lastnames'] ?> <?= $beneficiary['beneficiary_names'] ?>
+                                                        (<?= ((new DateTime(date("Y-m-d")))->diff(new DateTime($beneficiary['beneficiary_birthdate'])))->y ?> Años)
                                                     </h6>
                                                     <p class="mb-0 text-xs leading-tight ligth:git text-black ligth:opacity-80 text-slate-400">
-                                                        CI:<?= $beneficiary['beneficiary_ci'] ?> Telf.: <?= $beneficiary['beneficiary_celphone'] ?> <a class="text-green-500" href="https://wa.me/+591<?= $beneficiary['beneficiary_celphone'] ?>" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+                                                        CI:<?= $beneficiary['beneficiary_ci'] ?> Telf.: <?= $beneficiary['beneficiary_cellphone'] ?> <a class="text-green-500" href="https://wa.me/+591<?= $beneficiary['beneficiary_cellphone'] ?>" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
                                                     </p>
                                                 </div>
                                             </div>
@@ -91,17 +88,12 @@ Beneficiarios
                                             </span>
                                         </td> -->
                                         <td class="p-2 text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <span class="text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 text-slate-400">
-                                                <?= $beneficiary['city_name'] ?>
-                                            </span>    
-                                        </td>
-                                        <td class="p-2 text-center align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
                                             <span class="bg-gradient-to-tl <?= $beneficiary['status_name'] == 'Activo' ? "from-emerald-500 to-teal-400":"from-red-500 to-red-400" ?> px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                                 <?= $beneficiary['status_name'] ?>
                                             </span>
                                         </td>
                                         <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
-                                            <button onclick="beneficiaryArea(<?= $beneficiary['beneficiary_id'] ?>,'<?= $beneficiary['beneficiary_lastname'] ?> <?= $beneficiary['beneficiary_name'] ?>')" title="Asignar area" class="inline-block px-2 py-1.5 bg-amber-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-amber-700 hover:shadow-lg focus:bg-amber-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-amber-800 active:shadow-lg transition duration-150 ease-in-out"
+                                            <button onclick="beneficiaryArea(<?= $beneficiary['beneficiary_id'] ?>,'<?= $beneficiary['beneficiary_lastnames'] ?> <?= $beneficiary['beneficiary_names'] ?>')" title="Asignar area" class="inline-block px-2 py-1.5 bg-amber-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-amber-700 hover:shadow-lg focus:bg-amber-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-amber-800 active:shadow-lg transition duration-150 ease-in-out"
                                             data-te-toggle="modal"
                                                 data-te-target="#assingArea"
                                                 data-te-ripple-init
@@ -112,7 +104,7 @@ Beneficiarios
                                             <a href="<?= base_url("admin/edit_beneficiary/{$beneficiary['beneficiary_id']}") ?>" title="Editar Beneficiario" class="inline-block px-2 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
                                                 <i class="fa-solid fa-pencil"></i>
                                             </a> 
-                                            <button onclick="loadData(<?= $beneficiary['beneficiary_id'] ?>,'<?= $beneficiary['beneficiary_lastname'] ?> <?= $beneficiary['beneficiary_name'] ?>')" title="Contacto" class="inline-block px-2 py-1.5 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out"
+                                            <button onclick="loadData(<?= $beneficiary['beneficiary_id'] ?>,'<?= $beneficiary['beneficiary_lastnames'] ?> <?= $beneficiary['beneficiary_names'] ?>')" title="Contacto" class="inline-block px-2 py-1.5 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out"
                                             data-te-toggle="modal"
                                                 data-te-target="#contactModal"
                                                 data-te-ripple-init
@@ -151,13 +143,13 @@ Beneficiarios
                                 <div class="flex justify-between items-start mb-2">
                                     <div>
                                         <h6 class="mb-1 text-sm font-bold leading-normal ligth:text-white">
-                                            <?= $beneficiary['beneficiary_lastname'] ?> <?= $beneficiary['beneficiary_name'] ?>
+                                            <?= $beneficiary['beneficiary_lastnames'] ?> <?= $beneficiary['beneficiary_names'] ?>
                                         </h6>
                                         <p class="mb-0 text-xs leading-tight text-slate-500">
                                             <i class="fa-solid fa-id-card mr-1"></i> CI: <?= $beneficiary['beneficiary_ci'] ?>
                                         </p>
                                         <p class="mb-0 text-xs leading-tight text-slate-500">
-                                            <i class="fa-solid fa-cake-candles mr-1"></i> <?= ((new DateTime(date("Y-m-d")))->diff(new DateTime($beneficiary['beneficiary_datebirth'])))->y ?> Años
+                                            <i class="fa-solid fa-cake-candles mr-1"></i> <?= ((new DateTime(date("Y-m-d")))->diff(new DateTime($beneficiary['beneficiary_birthdate'])))->y ?> Años
                                         </p>
                                     </div>
                                     <span class="bg-gradient-to-tl <?= $beneficiary['status_name'] == 'Activo' ? "from-emerald-500 to-teal-400":"from-red-500 to-red-400" ?> px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
@@ -166,21 +158,20 @@ Beneficiarios
                                 </div>
 
                                 <div class="text-xs text-slate-500 mb-3">
-                                    <span><i class="fa-solid fa-phone mr-1"></i> <?= $beneficiary['beneficiary_celphone'] ?></span>
-                                    <a class="text-green-500 ml-1" href="https://wa.me/+591<?= $beneficiary['beneficiary_celphone'] ?>" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
-                                    <span class="ml-3"><i class="fa-solid fa-map-marker-alt mr-1"></i> <?= $beneficiary['city_name'] ?></span>
+                                    <span><i class="fa-solid fa-phone mr-1"></i> <?= $beneficiary['beneficiary_cellphone'] ?></span>
+                                    <a class="text-green-500 ml-1" href="https://wa.me/+591<?= $beneficiary['beneficiary_cellphone'] ?>" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
                                 </div>
 
                                 <hr class="my-2">
 
                                 <div class="grid grid-cols-3 gap-2 text-center">
-                                    <button onclick="beneficiaryArea(<?= $beneficiary['beneficiary_id'] ?>,'<?= $beneficiary['beneficiary_lastname'] ?> <?= $beneficiary['beneficiary_name'] ?>')" title="Asignar area" class="inline-block px-2 py-2 bg-amber-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-amber-700" data-te-toggle="modal" data-te-target="#assingArea" data-te-ripple-init data-te-ripple-color="light">
+                                    <button onclick="beneficiaryArea(<?= $beneficiary['beneficiary_id'] ?>,'<?= $beneficiary['beneficiary_lastnames'] ?> <?= $beneficiary['beneficiary_names'] ?>')" title="Asignar area" class="inline-block px-2 py-2 bg-amber-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-amber-700" data-te-toggle="modal" data-te-target="#assingArea" data-te-ripple-init data-te-ripple-color="light">
                                         <i class="fa-solid fa-circle-user"></i>
                                     </button>
                                     <a href="<?= base_url("admin/edit_beneficiary/{$beneficiary['beneficiary_id']}") ?>" title="Editar Beneficiario" class="inline-block px-2 py-2 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700">
                                         <i class="fa-solid fa-pencil"></i>
                                     </a>
-                                    <button onclick="loadData(<?= $beneficiary['beneficiary_id'] ?>,'<?= $beneficiary['beneficiary_lastname'] ?> <?= $beneficiary['beneficiary_name'] ?>')" title="Contacto" class="inline-block px-2 py-2 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700" data-te-toggle="modal" data-te-target="#contactModal" data-te-ripple-init data-te-ripple-color="light">
+                                    <button onclick="loadData(<?= $beneficiary['beneficiary_id'] ?>,'<?= $beneficiary['beneficiary_lastnames'] ?> <?= $beneficiary['beneficiary_names'] ?>')" title="Contacto" class="inline-block px-2 py-2 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700" data-te-toggle="modal" data-te-target="#contactModal" data-te-ripple-init data-te-ripple-color="light">
                                         <i class="fa-solid fa-address-book"></i>
                                     </button>
                                     <a href="<?= base_url("admin/view_kardex_beneficiary/{$beneficiary['beneficiary_id']}") ?>" title="Ver Kardex" class="inline-block px-2 py-2 bg-cyan-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-cyan-700">

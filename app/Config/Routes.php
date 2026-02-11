@@ -34,7 +34,7 @@ $routes->get('/', 'Home::index');
 $routes->get('application_form', 'PostulantController::add');
 $routes->post('store_postulant', 'PostulantController::store');
 
-$routes->group('auth',['namespace'=>'App\Controllers\Auth'],function($routes){
+$routes->group('auth',['namespace'=>'App\Controllers\auth'],function($routes){
     $routes->get('register','Register::index',['as'=>'register']);
     $routes->post('store','Register::store');
     $routes->get('login','Login::index',['as'=>'login']);

@@ -11,6 +11,8 @@ class ReportController extends BaseController{
 
     public function index(){
         $areaModel = model('AreaModel');
+        $financierModel = model('FinancierModel');
+
         $vulnerabilityModel = model('VulnerabilityModel');
         $supportModel = model('SuportModel');
         $companyModel = model('CompanyModel');
@@ -18,7 +20,7 @@ class ReportController extends BaseController{
 
         $data['session'] = session()->get();
         $data['areas'] = $areaModel->where('status_id', 1)->findAll();
-        $data['report_areas'] = $areaModel->findAll();
+        $data['financiers'] = $financierModel->findAll();
         $data['vulnerabilities'] = $vulnerabilityModel->where('status_id', 1)->findAll();
         $data['supports'] = $supportModel->where('status_id', 1)->findAll();
         $data['companies'] = $companyModel->findAll();
@@ -27,42 +29,53 @@ class ReportController extends BaseController{
     }
 
     public function getReport(){
-        $db = \Config\Database::connect();
+    $db = \Config\Database::connect();
+    
+    $financier_id = $this->request->getPost('financier_id'); // Asegúrate que el nombre coincida con tu AJAX
+    $dateInit     = $this->request->getPost('dateInit');
+    $dateEnd      = $this->request->getPost('dateEnd');
 
-        $area_id = $this->request->getPost('area');
-        // $support_id = $this->request->getPost('support');
-        $dateInit = $this->request->getPost('dateInit');
-        $dateEnd = $this->request->getPost('dateEnd');
-
-        $date1 = $dateInit != '' ? "AND kd.created_at >= '$dateInit'" : "";
-        $date2 = $dateEnd != '' ? "AND kd.created_at <= '$dateEnd'" : "";
-
-        $query = "SELECT 
-                    CASE 
-                        WHEN b.updated_at >= '$dateInit' THEN 'Nuevo' 
-                        ELSE 'Antiguo' 
-                    END AS tbeneficiary,
-                    b.beneficiary_id,
-                    b.beneficiary_id,
-                    b.beneficiary_name,
-                    b.beneficiary_lastname,
-                    CONCAT(b.beneficiary_ci, b.beneficiary_complement) AS carnet,
-                    s.support_name,
-                    GROUP_CONCAT(st.status_name SEPARATOR '<br>') AS status,
-                    GROUP_CONCAT(s.support_name SEPARATOR '<br>') AS tipo,
-                    group_concat(kd.updated_at separator '<br>') as updated
-                FROM kardexdetails kd
-                LEFT JOIN kardices k ON k.kardex_id = kd.kardex_id
-                LEFT JOIN beneficiaries b ON b.beneficiary_id = k.beneficiary_id
-                LEFT JOIN supports s ON kd.support_id = s.support_id
-                LEFT JOIN status st ON kd.status_id = st.status_id
-                WHERE kd.area_id IS NOT NULL
-                    AND kd.area_id = $area_id
-                    $date1
-                    $date2
-                GROUP BY b.beneficiary_id;";
-        
-        $reports = $db->query($query)->getResultArray();
-        echo json_encode($reports);
+    // Construcción de filtros
+    $whereConditions = "b.beneficiary_deleted_at IS NULL";
+    
+    if (!empty($financier_id) && $financier_id != '0') {
+        $whereConditions .= " AND b.financier_id = " . $db->escape($financier_id);
     }
+    
+    // Filtro por fecha de registro (Opcional: Si quieres ver quiénes entraron en esas fechas)
+    if (!empty($dateInit) && !empty($dateEnd)) {
+        $whereConditions .= " AND b.beneficiary_created_at BETWEEN " . $db->escape($dateInit) . " AND " . $db->escape($dateEnd . ' 23:59:59');
+    }
+
+    $query = "SELECT 
+                b.beneficiary_names,
+                b.beneficiary_lastnames,
+                b.beneficiary_ci,
+                b.beneficiary_ci_extension,
+                b.beneficiary_gender,
+                b.beneficiary_financier_year, -- Gestión (Año)
+                
+                -- Campo de dinero (Si es nulo o vacío, devolvemos 0 o texto)
+                IFNULL(b.beneficiary_inst_money_amount, '0') as monto_recibido,
+                
+                -- Estado (Mapeo directo)
+                CASE 
+                    WHEN b.status_id = 1 THEN 'ACTIVO' 
+                    ELSE 'INACTIVO' 
+                END AS estado_texto,
+                b.status_id,
+                
+                -- Datos del Financiador (JOIN)
+                f.financier_project
+
+            FROM new_beneficiary b
+            LEFT JOIN financiers f ON f.financier_id = b.financier_id
+            
+            WHERE $whereConditions
+            
+            ORDER BY b.beneficiary_lastnames ASC";
+
+    $reports = $db->query($query)->getResultArray();
+    echo json_encode($reports);
+}
 }

@@ -315,7 +315,7 @@ class QuestionnaireController extends BaseController
         }
 
         
-        $userId = $beneficiaryId; 
+        $userId = 1; 
         
         
         $this->db->transBegin();
@@ -323,7 +323,7 @@ class QuestionnaireController extends BaseController
         try {
             
             $submissionData = [
-                'user_id' => $userId,
+                'user_id' => $beneficiaryId,
                 'questionnaire_id' => $questionnaireId,
                 'status' => 'Completed', 
             ];

@@ -12,94 +12,86 @@ class PostulantController extends BaseController
 {
     public function add(){
         $data['session'] = session()->get();
-        $statusModel = model('StatusModel');
         $areaModel = model('AreaModel');
-        $cityModel = model('CityModel');
-        $scheduleModel = model('ScheduleModel');
-        $socialMediaModel = model('SocialMediaModel');
-        $compromiseModel = model('CompromiseModel');
-        $data['status'] = $statusModel->where('status_category',1)->findAll();
-        $data['social_medias'] = $socialMediaModel->where('status_id',1)->findAll();
-        $data['schedules'] = $scheduleModel->where('status_id',1)->findAll();
-        $data['cities'] = $cityModel->findAll();
-        $data['compromises'] = $compromiseModel->findAll();
+        $financierModel = model('FinancierModel');
+        $data['financiers'] = $financierModel->where('status_id',1)->findAll();
         $data['areas'] = $areaModel->where('status_id',1)->findAll();
         return view('users/form_postulant',$data);
     }
 
-    public function store(){
-        $validation = service('validation');
+    public function store()
+{
+    $validation = service('validation');
 
-        $validation->setRules([
-            'beneficiary_name'          => ['label' => 'nombre(s)','rules' => 'required'],
-            'beneficiary_lastname'      => ['label' => 'apellido(s)' ,'rules' => 'required|alpha_space'],
-            'beneficiary_ci'            => ['label' => 'Carnet Identidad' ,'rules' => 'required|is_unique[beneficiaries.beneficiary_ci]|integer'],
+    // 1. Reglas de Validación (Ajustadas a los nuevos names)
+    // Nota: La unicidad del CI la manejamos en el try-catch para soportar la combinación CI + Extensión
+    $validation->setRules([
+        'beneficiary_names'        => ['label' => 'Nombres', 'rules' => 'required|min_length[2]'],
+        'beneficiary_lastnames'    => ['label' => 'Apellidos', 'rules' => 'required|min_length[2]'],
+        'beneficiary_ci'           => ['label' => 'Carnet Identidad', 'rules' => 'required|numeric'],
+        'beneficiary_ci_extension' => ['label' => 'Extensión CI', 'rules' => 'required'],
+        'financier_id'             => ['label' => 'Financiador', 'rules' => 'required'],
+    ]);
+
+    // 2. Si falla la validación, volver atrás
+    if (!$validation->withRequest($this->request)->run()) {
+        return redirect()->back()
+            ->withInput()
+            ->with('errors', $validation->getErrors())
+            ->with('msg', ['type' => 'red', 'body' => 'Por favor corrija los errores del formulario.']);
+    }
+
+    // 3. Obtener todos los datos del POST
+    $data = $this->request->getPost();
+
+    // 4. Tratamiento de Datos Especiales
+
+    // A) Checkboxes de "Otras Actividades"
+    // Vienen como array ['Estudiar', 'Trabajar'], debemos guardarlos como string "Estudiar, Trabajar"
+    if (isset($data['beneficiary_other_activities']) && is_array($data['beneficiary_other_activities'])) {
+        $data['beneficiary_other_activities'] = implode(', ', $data['beneficiary_other_activities']);
+    } else {
+        $data['beneficiary_other_activities'] = null; // O cadena vacía ''
+    }
+
+    // B) Fechas de creación (Opcional, si no usas useTimestamps del modelo)
+    // $data['beneficiary_created_at'] = date('Y-m-d H:i:s');
+
+    // 5. Instanciar el Nuevo Modelo
+    $model = new \App\Models\BeneficiaryModel();
+
+    try {
+        // 6. Guardar
+        // El método save() determina automáticamente si es insert o update
+        $model->save($data);
+        
+        // (Opcional) Obtener el ID insertado si necesitas hacer algo más
+        $newId = $model->getInsertID();
+
+        // 7. Redireccionar con Éxito
+        return redirect()->route('application_form')->with('msg', [
+            'type' => 'green',
+            'body' => '¡El diagnóstico se guardó exitosamente!'
         ]);
 
-        if(!$validation->withRequest($this->request)->run()){
-            return redirect()->back()->withInput()->with('errors',$validation->getErrors());
+    } catch (\Exception $e) {
+        // 8. Manejo de Errores de Base de Datos
+        
+        // Código 1062 es "Duplicate entry" en MySQL
+        if (strpos($e->getMessage(), '1062') !== false) {
+            return redirect()->back()->withInput()->with('msg', [
+                'type' => 'red',
+                'body' => 'Error: Ya existe un beneficiario registrado con ese CI y Extensión.'
+            ]);
         }
 
-        $formuser = $this->request->getPost();
-        
-        $workWeek = "";
-
-        $workWeek .= isset($formuser['lunes'])      ? ($formuser['lunes']     == "on" ? "1,":"") : "";
-        $workWeek .= isset($formuser['martes'])     ? ($formuser['martes']    == "on" ? "2,":"") : "";
-        $workWeek .= isset($formuser['miercoles'])  ? ($formuser['miercoles'] == "on" ? "3,":"") : "";
-        $workWeek .= isset($formuser['jueves'])     ? ($formuser['jueves']    == "on" ? "4,":"") : "";
-        $workWeek .= isset($formuser['viernes'])    ? ($formuser['viernes']   == "on" ? "5,":"") : "";
-        $workWeek .= isset($formuser['sabado'])     ? ($formuser['sabado']    == "on" ? "6,":"") : "";
-        $workWeek .= isset($formuser['domingo'])    ? ($formuser['domingo']   == "on" ? "7":"") : "";
-        
-        unset($formuser['lunes']);
-        unset($formuser['martes']);
-        unset($formuser['miercoles']);
-        unset($formuser['jueves']);
-        unset($formuser['viernes']);
-        unset($formuser['sabado']);
-        unset($formuser['domingo']);
-        
-        $register = [
-            'beneficiary_workweek' => $workWeek,
-            'status_id'     => 9,//9 En espera
-        ];
-        
-        $postulantData = array_merge($formuser,$register);
-        // var_dump($formuser);
-        
-        $postulant = new Beneficiary ($postulantData);
-        $postulantModel = model('BeneficiaryModel');
-
-        $postulantModel->insert($postulant);
-
-        $postulantId = $postulantModel->getInsertId();
-
-        // var_dump($postulantId);
-        
-        $contactModel = model('ContactModel');
-        $formData = [
-            'beneficiary_id'    => $postulantId,
-            'contact_name'      => $postulantData['name_contact'],
-            'contact_phone'     => $postulantData['phone_contact'],
-        ];
-
-        $contact = new Contact($formData);
-        $contactModel->save($contact);
-
-        $areasPostulant = $this->assemblyAreas($formuser);
-        
-        // var_dump($areasPostulant);
-
-        if (count($areasPostulant) > 0) {
-            $this->saveAreaParticipant($postulantId, $areasPostulant);
-        }
-
-        return redirect()->route('application_form')->with('msg',[
-            'type' => 'green',
-            'body' => 'El formulario se envio exitosamente!!!'
+        // Otros errores
+        return redirect()->back()->withInput()->with('msg', [
+            'type' => 'red',
+            'body' => 'Ocurrió un error al guardar: ' . $e->getMessage()
         ]);
     }
+}
 
     function assemblyAreas($form){
         $areas = [];

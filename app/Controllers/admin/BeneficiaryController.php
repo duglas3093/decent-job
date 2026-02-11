@@ -24,14 +24,13 @@ class BeneficiaryController extends BaseController
         $data['vulnerabilities'] = $vulnerabilityModel->where('status_id', 1)->findAll();
         $beneficiaryModel = model('BeneficiaryModel');
         $data['beneficiaries'] = $beneficiaryModel
-                            ->join('status s','s.status_id = beneficiaries.status_id','LEFT')
-                            ->join('cities c','c.city_id = beneficiaries.city_id','LEFT')
-                            ->join('financiers f','f.financier_id = beneficiaries.financier_id','LEFT')
-                            ->join('kardices k','k.beneficiary_id = beneficiaries.beneficiary_id','LEFT')
-                            ->select('beneficiaries.*, s.status_name, c.city_name,k.kardex_id, financier_project')
-                            ->where('beneficiaries.status_id', 1)
-                            ->orWhere('beneficiaries.status_id', 2)
-                            ->orderBy('beneficiary_lastname')
+                            ->join('status s','s.status_id = new_beneficiary.status_id','LEFT')
+                            ->join('financiers f','f.financier_id = new_beneficiary.financier_id','LEFT')
+                            ->join('kardices k','k.beneficiary_id = new_beneficiary.beneficiary_id','LEFT')
+                            ->select('new_beneficiary.*, s.status_name, k.kardex_id, financier_project')
+                            ->where('new_beneficiary.status_id', 1)
+                            ->orWhere('new_beneficiary.status_id', 2)
+                            ->orderBy('beneficiary_lastnames')
                             ->paginate(self::PAGINATION);
         // $data['pager'] = $userModel->pager;
         return view('admin/beneficiary/index',$data);
@@ -43,12 +42,11 @@ class BeneficiaryController extends BaseController
         $data['areas'] = $areaModel->where('status_id', 1)->findAll();
         $beneficiaryModel = model('BeneficiaryModel');
         $data['beneficiaries'] = $beneficiaryModel
-                            ->join('status s','s.status_id = beneficiaries.status_id','LEFT')
-                            ->join('cities c','c.city_id = beneficiaries.city_id','LEFT')
-                            ->join('kardices k','k.beneficiary_id = beneficiaries.beneficiary_id','LEFT')
-                            ->select('beneficiaries.*, s.status_name, c.city_name,k.kardex_id')
-                            ->where('beneficiaries.status_id', 9)
-                            ->orderBy('beneficiary_lastname')
+                            ->join('status s','s.status_id = new_beneficiary.status_id','LEFT')
+                            ->join('kardices k','k.beneficiary_id = new_beneficiary.beneficiary_id','LEFT')
+                            ->select('new_beneficiary.*, s.status_name, k.kardex_id')
+                            ->where('new_beneficiary.status_id', 9)
+                            ->orderBy('beneficiary_lastnames')
                             ->paginate(self::PAGINATION);
         return view('admin/beneficiary/postulant',$data);
     }
@@ -93,10 +91,8 @@ class BeneficiaryController extends BaseController
         if(!$beneficiary = $beneficiaryModel->where('beneficiary_id', $beneficiary_id)->first()){
             throw PageNotFoundException::forPageNotFound();
         }
-        $data['beneficiary'] = $beneficiaryModel->join('schedules s','s.schedule_id = beneficiaries.schedule_id','LEFT')
-                                                ->join('cities c','c.city_id = beneficiaries.city_id','LEFT')
-                                                ->join('social_medias sm','sm.sm_id = beneficiaries.sm_id','LEFT')
-                                                ->select('beneficiaries.*, s.schedule_description, c.city_name, sm_name')
+        $data['beneficiary'] = $beneficiaryModel->join('financiers f','f.financier_id = new_beneficiary.financier_id','LEFT')
+                                                ->select('new_beneficiary.*, f.financier_project')
                                                 ->where('beneficiary_id', $beneficiary_id)
                                                 ->first();
         $data['session'] = session()->get();
@@ -213,7 +209,7 @@ class BeneficiaryController extends BaseController
 
         return redirect()->route('admin/postulants')->with('msg',[
             'type'=>'green',
-            'body'=> "El postulante {$beneficiary['beneficiary_name']} {$beneficiary['beneficiary_lastname']} ha sido aceptado exitosamente."
+            'body'=> "El postulante {$beneficiary['beneficiary_names']} {$beneficiary['beneficiary_lastnames']} ha sido aceptado exitosamente."
         ]);
     }
     
@@ -233,7 +229,7 @@ class BeneficiaryController extends BaseController
         // ]);
         return redirect()->route('admin/postulants')->with('msg',[
             'type'=>'red',
-            'body'=> "El postulante {$beneficiary['beneficiary_name']} {$beneficiary['beneficiary_lastname']} ha sido rechazado."
+            'body'=> "El postulante {$beneficiary['beneficiary_names']} {$beneficiary['beneficiary_lastnames']} ha sido rechazado."
         ]);
     }
 
