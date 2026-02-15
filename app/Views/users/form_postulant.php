@@ -163,29 +163,41 @@ Diagnóstico Emprendedor
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="municipality">
                             Municipio
                         </label>
-                        <div class="relative">
-                            <select class="block appearance-none w-full bg-gray-100 border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-indigo-500"
-                                    id="  municipality" name="beneficiary_municipality" onchange="toggleOtherMunicipality(this)">
+
+                        <div id="wrapper_select_municipality" class="relative">
+                            <select class="block appearance-none w-full bg-gray-100 border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 transition-colors"
+                                    id="municipality" 
+                                    name="beneficiary_municipality" 
+                                    onchange="transformToInput(this, 'wrapper_select_municipality', 'wrapper_input_municipality', 'input_municipality_custom')">
                                 <option value="" selected>Seleccione...</option>
                                 <option value="Cochabamba">Cochabamba</option>
                                 <option value="Sacaba">Sacaba</option>
                                 <option value="Quillacollo">Quillacollo</option>
                                 <option value="Tiquipaya">Tiquipaya</option>
                                 <option value="Colcapirua">Colcapirua</option>
-                                <option value="Otro">Otro</option>
+                                <option value="Otro">Otro...</option>
                             </select>
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                             </div>
                         </div>
-                    </div>
 
-                    <div id="other_municipality_container" class="hidden">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="other_municipality">
-                            Especifique otro municipio
-                        </label>
-                        <input class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 transition-all duration-300"
-                            id="other_municipality" name="beneficiary_other_municipality" type="text" placeholder="Escriba el municipio">
+                        <div id="wrapper_input_municipality" class="hidden flex items-center gap-2">
+                            <div class="relative w-full">
+                                <input type="text" 
+                                    id="input_municipality_custom" 
+                                    class="appearance-none block w-full bg-white text-gray-700 border border-indigo-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 shadow-sm"
+                                    placeholder="Especifique el municipio...">
+                            </div>
+                            <button type="button" 
+                                    onclick="revertToSelect('municipality', 'wrapper_select_municipality', 'wrapper_input_municipality', 'input_municipality_custom')"
+                                    class="bg-red-100 hover:bg-red-200 text-red-600 rounded-full p-2 transition-colors duration-200 focus:outline-none"
+                                    title="Volver a la lista">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
 
                     <div class="col-span-full mt-4">
@@ -220,38 +232,67 @@ Diagnóstico Emprendedor
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="entrepreneurship_type">
                             Tipo de Emprendimiento <span class="text-red-500">*</span>
                         </label>
-                        <div class="relative">
+                        
+                        <div id="wrapper_select_entrepreneurship" class="relative">
                             <select class="block appearance-none w-full bg-gray-100 border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 transition-colors"
-                                    id="entrepreneurship_type" name="beneficiary_entrepreneurship_type" required>
+                                    id="entrepreneurship_type" 
+                                    name="beneficiary_entrepreneurship_type" 
+                                    required
+                                    onchange="transformToInput(this, 'wrapper_select_entrepreneurship', 'wrapper_input_entrepreneurship', 'input_entrepreneurship_custom')">
                                 <option value="" disabled selected>Seleccione una opción</option>
-                                <option value="Gastronomico" <?= old('entrepreneurship_type') == 'Gastronomico' ? 'selected' : '' ?>>Gastronómico</option>
-                                <option value="Textil" <?= old('entrepreneurship_type') == 'Textil' ? 'selected' : '' ?>>Textil</option>
-                                <option value="Servicios" <?= old('entrepreneurship_type') == 'Servicios' ? 'selected' : '' ?>>Servicios</option>
-                                <option value="Artesano" <?= old('entrepreneurship_type') == 'Artesano' ? 'selected' : '' ?>>Artesano</option>
-                                <option value="Otro" <?= old('entrepreneurship_type') == 'Otro' ? 'selected' : '' ?>>Otro</option>
+                                <option value="Gastronomico" <?= old('beneficiary_entrepreneurship_type') == 'Gastronomico' ? 'selected' : '' ?>>Gastronómico</option>
+                                <option value="Textil" <?= old('beneficiary_entrepreneurship_type') == 'Textil' ? 'selected' : '' ?>>Textil</option>
+                                <option value="Servicios" <?= old('beneficiary_entrepreneurship_type') == 'Servicios' ? 'selected' : '' ?>>Servicios</option>
+                                <option value="Artesano" <?= old('beneficiary_entrepreneurship_type') == 'Artesano' ? 'selected' : '' ?>>Artesano</option>
+                                <option value="Otro">Otro...</option>
                             </select>
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                             </div>
                         </div>
+
+                        <div id="wrapper_input_entrepreneurship" class="hidden flex items-center gap-2">
+                            <div class="relative w-full">
+                                <input type="text" 
+                                    id="input_entrepreneurship_custom" 
+                                    class="appearance-none block w-full bg-white text-gray-700 border border-indigo-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 shadow-sm"
+                                    placeholder="Especifique el tipo de emprendimiento...">
+                            </div>
+                            <button type="button" 
+                                    onclick="revertToSelect('entrepreneurship_type', 'wrapper_select_entrepreneurship', 'wrapper_input_entrepreneurship', 'input_entrepreneurship_custom')"
+                                    class="bg-red-100 hover:bg-red-200 text-red-600 rounded-full p-2 transition-colors duration-200 focus:outline-none"
+                                    title="Volver a la lista">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
 
                     <div>
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="sales_channel">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             ¿Cómo ofrece sus servicios? <span class="text-red-500">*</span>
                         </label>
-                        <div class="relative">
-                            <select class="block appearance-none w-full bg-gray-100 border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 transition-colors"
-                                    id="sales_channel" name="beneficiary_sales_channel" onchange="toggleOnlineChannel(this)" required>
-                                <option value="" disabled selected>Seleccione una opción</option>
-                                <option value="Tienda fisica" <?= old('sales_channel') == 'Tienda fisica' ? 'selected' : '' ?>>Tienda física</option>
-                                <option value="Venta ambulante" <?= old('sales_channel') == 'Venta ambulante' ? 'selected' : '' ?>>Venta ambulante</option>
-                                <option value="Venta por internet" <?= old('sales_channel') == 'Venta por internet' ? 'selected' : '' ?>>Venta por internet</option>
-                                <option value="Otro" <?= old('sales_channel') == 'Otro' ? 'selected' : '' ?>>Otro</option>
+                        
+                        <div id="wrapper_select_sales" class="relative">
+                            <select class="block w-full bg-gray-100 border border-gray-300 text-gray-700 py-3 px-4 rounded focus:outline-none focus:bg-white focus:border-indigo-500"
+                                    id="sales_channel" 
+                                    name="beneficiary_sales_channel" 
+                                    required
+                                    onchange="transformToInput(this, 'wrapper_select_sales', 'wrapper_input_sales', 'input_sales_custom')">
+                                <option value="" disabled selected>Seleccione...</option>
+                                <option value="Tienda fisica">Tienda física</option>
+                                <option value="Venta ambulante">Venta ambulante</option>
+                                <option value="Venta por internet">Venta por internet</option>
+                                <option value="Otro">Otro...</option>
                             </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                             </div>
+
+                        <div id="wrapper_input_sales" class="hidden flex items-center gap-2">
+                            <input type="text" id="input_sales_custom" class="w-full border-indigo-500 rounded py-3 px-4" placeholder="Especifique canal...">
+                            <button type="button" onclick="revertToSelect('sales_channel', 'wrapper_select_sales', 'wrapper_input_sales', 'input_sales_custom')" class="bg-red-100 text-red-600 rounded-full p-2">
+                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"><path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"/></svg>
+                            </button>
                         </div>
                     </div>
 
@@ -1032,6 +1073,68 @@ Diagnóstico Emprendedor
                 otherContainer.classList.add('hidden');
                 otherInput.removeAttribute('required');
             }
+        }
+    </script>
+    <script>
+        /**
+         * Función cuando se selecciona "Otro"
+         * 1. Oculta el Select.
+         * 2. Muestra el Input.
+         * 3. Le quita el 'name' al select y se lo pone al input (para que el backend reciba lo escrito).
+         */
+        function transformToInput(selectElement, selectWrapperId, inputWrapperId, inputId) {
+            if (selectElement.value === 'Otro') {
+                const selectWrapper = document.getElementById(selectWrapperId);
+                const inputWrapper = document.getElementById(inputWrapperId);
+                const textInput = document.getElementById(inputId);
+
+                // 1. Guardamos el nombre original en un atributo temporal
+                const fieldName = selectElement.getAttribute('name');
+                selectElement.setAttribute('data-original-name', fieldName);
+
+                // 2. Intercambio de atributos (La magia para el Backend)
+                selectElement.removeAttribute('name'); // El select deja de enviarse
+                selectElement.removeAttribute('required'); 
+                
+                textInput.setAttribute('name', fieldName); // El input toma el nombre
+                textInput.setAttribute('required', 'required'); // El input ahora es obligatorio
+
+                // 3. Cambio visual
+                selectWrapper.classList.add('hidden');
+                inputWrapper.classList.remove('hidden');
+                inputWrapper.classList.add('animate-fade-in');
+                
+                textInput.focus();
+            }
+        }
+
+        /**
+         * Función para cancelar/volver al select
+         * 1. Oculta el Input.
+         * 2. Muestra el Select.
+         * 3. Devuelve el 'name' al select.
+         */
+        function revertToSelect(selectId, selectWrapperId, inputWrapperId, inputId) {
+            const selectElement = document.getElementById(selectId);
+            const selectWrapper = document.getElementById(selectWrapperId);
+            const inputWrapper = document.getElementById(inputWrapperId);
+            const textInput = document.getElementById(inputId);
+
+            // 1. Recuperamos el nombre original
+            const fieldName = selectElement.getAttribute('data-original-name');
+
+            // 2. Intercambio inverso
+            textInput.removeAttribute('name');
+            textInput.removeAttribute('required');
+            textInput.value = ''; // Limpiamos lo que escribió
+
+            selectElement.setAttribute('name', fieldName);
+            selectElement.setAttribute('required', 'required');
+            selectElement.value = ""; // Reseteamos el select al placeholder
+
+            // 3. Cambio visual
+            inputWrapper.classList.add('hidden');
+            selectWrapper.classList.remove('hidden');
         }
     </script>
 <?= $this->endSection() ?>

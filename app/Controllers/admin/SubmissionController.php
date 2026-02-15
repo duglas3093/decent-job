@@ -11,6 +11,7 @@ class SubmissionController extends BaseController
     protected $questionModel;
     protected $responseOptionModel;
     protected $userResponseModel;
+    protected $beneficiaryModel;
     protected $db;
 
     public function __construct()
@@ -19,6 +20,7 @@ class SubmissionController extends BaseController
         $this->questionModel = model('QuestionModel');
         $this->responseOptionModel = model('ResponseOptionModel');
         $this->userResponseModel = model('UserResponseModel');
+        $this->beneficiaryModel = model('BeneficiaryModel');
         $this->db = \Config\Database::connect();
     }
     private function getSubmissionDetails(int $submissionId): ?array
@@ -174,6 +176,7 @@ class SubmissionController extends BaseController
         $data['session'] = session()->get();
         $areaModel = model('AreaModel');
         $data['areas'] = $areaModel->where('status_id', 1)->findAll();
+        $data['beneficiary'] = $this->beneficiaryModel->where('beneficiary_id', $data['submission']['user_id'])->find();
 
         return view('admin/submission/edit_view', $data); 
     }

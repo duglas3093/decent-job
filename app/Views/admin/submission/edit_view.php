@@ -21,17 +21,26 @@ $button_text = $is_read_only ? 'Respuestas en Modo Lectura' : 'Guardar Correccio
     <div class="w-full px-6 py-2 mx-auto">
         <div class="flex flex-wrap -mx-3">
             <div class="flex-none w-full max-w-full px-3">
-                <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl rounded-2xl bg-clip-border">
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <button onclick="printForm('imprimir')" class="inline-flex items-center px-4 py-2 bg-slate-700 hover:bg-slate-800 text-white text-xs font-bold uppercase rounded shadow hover:shadow-md transition-all">
+                        <i class="fa-solid fa-print mr-2"></i> Imprimir
+                    </button>
+                </div>
+                <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl rounded-2xl bg-clip-border" id="imprimir">
                     
                     <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
                         <div class="flex flex-wrap items-center justify-between">
                             <h6 class="text-xl">
                                 <?= $is_read_only ? 'Visualización' : 'Edición' ?> de Respuestas
                             </h6>
+                            
                             <h6 class="text-lg text-gray-700">
-                                Cuestionario: **<?= $title ?>**
+                                Cuestionario: <?= $title ?>
                             </h6>
                         </div>
+                        <h6 class="text-lg">
+                            Beneficiario: <?= "{$beneficiary[0]['beneficiary_names']} {$beneficiary[0]['beneficiary_lastnames']}" ?>
+                        </h6>
                         <p class="text-sm text-gray-500 mt-1">
                             Enviado el: <?= date('d-m-Y H:i', strtotime($submission['submitted_at'])) ?>
                         </p>
@@ -101,23 +110,22 @@ $button_text = $is_read_only ? 'Respuestas en Modo Lectura' : 'Guardar Correccio
                                         <?php endforeach; ?>
                                     <?php endif; ?>
                                 </div>
-                                
-                                <div class="flex justify-end mt-8 border-t pt-4">
-                                    <?php if (!$is_read_only): ?>
-                                        <button type="submit" id="submitSubmissionBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition duration-150 ease-in-out">
-                                            <?= $button_text ?>
-                                        </button>
-                                    <?php else: ?>
-                                        <span class="text-lg font-bold text-green-700"><?= $button_text ?></span>
-                                    <?php endif; ?>
-                                    
-                                    <a href="javascript:history.back()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg ml-3 transition duration-150 ease-in-out">
-                                        Volver
-                                    </a>
-                                </div>
                             </form>
                         </div>
                     </div>
+                </div>
+                <div class="flex justify-end mt-8 border-t pt-4">
+                    <?php if (!$is_read_only): ?>
+                        <button type="submit" id="submitSubmissionBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition duration-150 ease-in-out">
+                            <?= $button_text ?>
+                        </button>
+                    <?php else: ?>
+                        <span class="text-lg font-bold text-green-700"><?= $button_text ?></span>
+                    <?php endif; ?>
+                    
+                    <a href="javascript:history.back()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg ml-3 transition duration-150 ease-in-out">
+                        Volver
+                    </a>
                 </div>
             </div>
         </div>
@@ -220,5 +228,76 @@ $button_text = $is_read_only ? 'Respuestas en Modo Lectura' : 'Guardar Correccio
             });
         }
     });
+
+    function printForm(idDiv) {
+        const content = document.getElementById(idDiv).innerHTML;
+        const iframe = document.createElement('iframe');
+        
+        // Estilos para ocultar el iframe en la vista normal
+        iframe.style.position = 'fixed';
+        iframe.style.right = '0';
+        iframe.style.bottom = '0';
+        iframe.style.width = '0';
+        iframe.style.height = '0';
+        iframe.style.border = '0';
+        
+        document.body.appendChild(iframe);
+        
+        const doc = iframe.contentWindow.document;
+        doc.open();
+        doc.write(`
+            <html>
+                <head>
+                    <title>Ficha de Beneficiario</title>
+                    <script src="https://cdn.tailwindcss.com"><\/script>
+                    
+                    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+                    
+                    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+
+                    <style>
+                        body { 
+                            background: white; 
+                            padding: 40px; 
+                            font-family: sans-serif; 
+                            -webkit-print-color-adjust: exact; 
+                            print-color-adjust: exact;
+                        }
+                        
+                        /* Estilos para tablas en impresión */
+                        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 12px; }
+                        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                        th { background-color: #f3f4f6; font-weight: bold; text-transform: uppercase; text-align: center; }
+                        
+                        /* 4. FORZAR TAMAÑO DEL MAPA AL IMPRIMIR */
+                        #map-readonly {
+                            width: 100% !important;
+                            height: 300px !important; /* Altura fija para que no se corte */
+                            border: 1px solid #ccc;
+                            z-index: 0; /* Asegurar que quede detrás de textos si los hubiera */
+                        }
+                        
+                        /* Ocultar controles de zoom del mapa en el papel */
+                        .leaflet-control-container {
+                            display: none !important;
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${content}
+                </body>
+            </html>
+        `);
+        doc.close();
+
+        // Esperamos un poco más (800ms) para que las imágenes del mapa se acomoden
+        iframe.contentWindow.onload = function() {
+            setTimeout(() => {
+                iframe.contentWindow.focus();
+                iframe.contentWindow.print();
+                document.body.removeChild(iframe);
+            }, 800);
+        };
+    }
 </script>
 <?= $this->endSection() ?>

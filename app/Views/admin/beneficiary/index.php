@@ -104,14 +104,12 @@ Beneficiarios
                                             <a href="<?= base_url("admin/edit_beneficiary/{$beneficiary['beneficiary_id']}") ?>" title="Editar Beneficiario" class="inline-block px-2 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
                                                 <i class="fa-solid fa-pencil"></i>
                                             </a> 
-                                            <button onclick="loadData(<?= $beneficiary['beneficiary_id'] ?>,'<?= $beneficiary['beneficiary_lastnames'] ?> <?= $beneficiary['beneficiary_names'] ?>')" title="Contacto" class="inline-block px-2 py-1.5 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out"
-                                            data-te-toggle="modal"
-                                                data-te-target="#contactModal"
-                                                data-te-ripple-init
-                                                data-te-ripple-color="light"
+                                            <a href="<?= base_url("admin/info_postulant/{$beneficiary['beneficiary_id']}") ?>" title="Ver postulante" class="inline-block px-2 py-1.5 bg-sky-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-sky-700 hover:shadow-lg focus:bg-sky-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-sky-800 active:shadow-lg transition duration-150 ease-in-out"
                                                 >
-                                                <i class="fa-solid fa-address-book"></i>
-                                            </button> <br>
+                                                <!-- <i class="fa-solid fa-check"></i> -->
+                                                <i class="fa-solid fa-eye"></i>
+                                            </a>
+                                            <br>
                                             <a href="<?= base_url("admin/view_kardex_beneficiary/{$beneficiary['beneficiary_id']}") ?>" title="Ver Kardex" class="mt-1 inline-block px-2 py-1.5 bg-cyan-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-cyan-700 hover:shadow-lg focus:bg-cyan-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-cyan-800 active:shadow-lg transition duration-150 ease-in-out">
                                                 <i class="fa-solid fa-book"></i>
                                             </a>
@@ -171,9 +169,11 @@ Beneficiarios
                                     <a href="<?= base_url("admin/edit_beneficiary/{$beneficiary['beneficiary_id']}") ?>" title="Editar Beneficiario" class="inline-block px-2 py-2 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700">
                                         <i class="fa-solid fa-pencil"></i>
                                     </a>
-                                    <button onclick="loadData(<?= $beneficiary['beneficiary_id'] ?>,'<?= $beneficiary['beneficiary_lastnames'] ?> <?= $beneficiary['beneficiary_names'] ?>')" title="Contacto" class="inline-block px-2 py-2 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700" data-te-toggle="modal" data-te-target="#contactModal" data-te-ripple-init data-te-ripple-color="light">
-                                        <i class="fa-solid fa-address-book"></i>
-                                    </button>
+                                    <a href="<?= base_url("admin/info_postulant/{$beneficiary['beneficiary_id']}") ?>" title="Ver postulante" class="inline-block px-2 py-2 bg-sky-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-sky-700"
+                                        >
+                                        <!-- <i class="fa-solid fa-check"></i> -->
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>
                                     <a href="<?= base_url("admin/view_kardex_beneficiary/{$beneficiary['beneficiary_id']}") ?>" title="Ver Kardex" class="inline-block px-2 py-2 bg-cyan-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-cyan-700">
                                         <i class="fa-solid fa-book"></i>
                                     </a>

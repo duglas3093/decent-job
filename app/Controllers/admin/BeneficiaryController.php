@@ -67,23 +67,32 @@ class BeneficiaryController extends BaseController
         return view('admin/beneficiary/add',$data);
     }
 
-    public function edit(int $beneficairy_id){
-        $beneficiaryModel = model('BeneficiaryModel');
-        if(!$data['beneficiary'] = $beneficiaryModel->where('beneficiary_id', $beneficairy_id)->first()){
-            throw PageNotFoundException::forPageNotFound();
-        }
-        $data['session'] = session()->get();
+    public function edit(int $beneficiary_id){
+        // 1. Cargar los modelos nuevos
+        $beneficiaryModel = new \App\Models\BeneficiaryModel();
+        $financierModel   = new \App\Models\FinancierModel();
         $areaModel = model('AreaModel');
+        // Si usas una tabla de estados (ej: 1=Activo, 2=Inactivo)
+        // $statusModel = new \App\Models\StatusModel(); 
+
+        // 2. Buscar el beneficiario por ID
+        $beneficiary = $beneficiaryModel->find($beneficiary_id);
+
+        if (!$beneficiary) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        // 3. Preparar los datos para la vista
+        $data['beneficiary'] = $beneficiary;
+        $data['session']     = session()->get();
         $data['areas'] = $areaModel->where('status_id', 1)->findAll();
-        $statusModel = model('StatusModel');
-        $cityModel = model('CityModel');
-        $scheduleModel = model('ScheduleModel');
-        $financierModel = model('FinancierModel');
-        $data['status'] = $statusModel->where('status_category',1)->findAll();
-        $data['financiers'] = $financierModel->where('status_id',1)->findAll();
-        $data['schedules'] = $scheduleModel->where('status_id',1)->findAll();
-        $data['cities'] = $cityModel->findAll();
-        return view('admin/beneficiary/edit',$data);
+        // Listas para los Selects
+        $data['financiers']  = $financierModel->where('status_id', 1)->findAll(); // Proyectos activos
+        
+        // Opcional: Si necesitas pasar la lista de estados para editarlo
+        // $data['status'] = $statusModel->findAll(); 
+
+        return view('admin/beneficiary/edit', $data);
     }
     
     public function getPostulant(int $beneficiary_id){

@@ -206,13 +206,15 @@ Reporte de Ejecución por Financiador
                                 <td class="px-4 py-3 text-center font-bold text-slate-500">${cont}</td>
                                 
                                 <td class="px-4 py-3">
-                                    <div class="font-bold text-slate-700 uppercase">
-                                        ${result.beneficiary_lastnames} ${result.beneficiary_names}
-                                    </div>
-                                    <div class="text-xs text-slate-500 flex items-center mt-1">
-                                        <i class="fa-regular fa-id-card mr-1"></i>
-                                        ${result.beneficiary_ci} ${result.beneficiary_ci_extension}
-                                    </div>
+                                    <a href= "${url}/admin/view_kardex_beneficiary/${result.beneficiary_id}" target="_blank">
+                                        <div class="font-bold text-slate-700 uppercase">
+                                            ${result.beneficiary_lastnames} ${result.beneficiary_names}
+                                        </div>
+                                        <div class="text-xs text-slate-500 flex items-center mt-1">
+                                            <i class="fa-regular fa-id-card mr-1"></i>
+                                            ${result.beneficiary_ci} ${result.beneficiary_ci_extension}
+                                        </div>
+                                    </a>
                                 </td>
 
                                 <td class="px-4 py-3 text-center">

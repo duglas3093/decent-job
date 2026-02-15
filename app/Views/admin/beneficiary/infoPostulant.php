@@ -15,30 +15,39 @@ Edición de beneficiario
                         <div class="flex flex-wrap items-start justify-between">
                             <h6 class="ligth:text-white text-xl mb-4 md:mb-0">Informaci&oacute;n</h6>
                             <div class="flex flex-col sm:flex-row gap-2">
-                                <button onclick="showVulnerabilities(<?= $beneficiary['beneficiary_id'] ?>)" title="Vulnerabilidad" style="display: none;" class="inline-block px-4 py-2.5 bg-amber-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-amber-500"
-                                            data-te-toggle="modal"
-                                                data-te-target="#vulnerability_participant"
-                                                data-te-ripple-init
-                                                data-te-ripple-color="light"
-                                                >
-                                    <i class="fa-solid fa-user-injured"></i> 
-                                    <span class="hidden sm:inline">Vulnerabilidades</span>
-                                </button>
-                                <a href="<?= base_url("admin/approve_postulant/{$beneficiary['beneficiary_id']}"); ?>" class="inline-block px-4 py-2.5 bg-green-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-green-500">
-                                    <i class="fa-solid fa-check"></i> 
-                                    <span class="hidden sm:inline">Aceptar</span>
-                                </a>
-                                <a href="<?= base_url("admin/drop_postulant/{$beneficiary['beneficiary_id']}"); ?>" class="inline-block px-4 py-2.5 bg-red-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-red-500">
-                                    <i class="fa-solid fa-times"></i> 
-                                    <span class="hidden sm:inline">Rechazar</span>
-                                </a>
+                                <?php if($beneficiary['status_id'] == 9 ): ?>
+                                    <button onclick="showVulnerabilities(<?= $beneficiary['beneficiary_id'] ?>)" title="Vulnerabilidad" style="display: none;" class="inline-block px-4 py-2.5 bg-amber-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-amber-500"
+                                                data-te-toggle="modal"
+                                                    data-te-target="#vulnerability_participant"
+                                                    data-te-ripple-init
+                                                    data-te-ripple-color="light"
+                                                    >
+                                        <i class="fa-solid fa-user-injured"></i> 
+                                        <span class="hidden sm:inline">Vulnerabilidades</span>
+                                    </button>
+                                    <a href="<?= base_url("admin/approve_postulant/{$beneficiary['beneficiary_id']}"); ?>" class="inline-block px-4 py-2.5 bg-green-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-green-500">
+                                        <i class="fa-solid fa-check"></i> 
+                                        <span class="hidden sm:inline">Aceptar</span>
+                                    </a>
+                                    <a href="<?= base_url("admin/drop_postulant/{$beneficiary['beneficiary_id']}"); ?>" class="inline-block px-4 py-2.5 bg-red-400 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-red-500">
+                                        <i class="fa-solid fa-times"></i> 
+                                        <span class="hidden sm:inline">Rechazar</span>
+                                    </a>
+                                <?php else: ?>
+                                    <button onclick="exportToXlsx()" class="inline-flex items-center px-4 py-2 bg-green-500 hover:bg-green-600 text-white text-xs font-bold uppercase rounded shadow hover:shadow-md transition-all">
+                                        <i class="fa-solid fa-file-excel mr-2"></i> Excel
+                                    </button>
+                                    <button onclick="printKardex('imprimir')" class="inline-flex items-center px-4 py-2 bg-slate-700 hover:bg-slate-800 text-white text-xs font-bold uppercase rounded shadow hover:shadow-md transition-all">
+                                        <i class="fa-solid fa-print mr-2"></i> Imprimir
+                                    </button>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
                     <!-- ---------------------------------------------------------------------------------------------------- -->
-                    <div class="flex-auto px-0 pt-0 pb-2 mt-8" id="imprimir">
+                    <div class="flex-auto px-0 pt-0 pb-2 mt-8" >
                         <div class="overflow-x-auto ml-4 pr-8 pl-4 pt-4 pb-4">
-                            <div class="bg-white rounded-lg shadow-lg border border-gray-200">
+                            <div class="bg-white rounded-lg shadow-lg border border-gray-200" id="imprimir">
                                 
                                 <div class="px-8 py-6 bg-gray-50 border-b border-gray-200">
                                     <div class="flex flex-wrap justify-between items-start">
@@ -446,6 +455,109 @@ Edición de beneficiario
     </div>
 </main>
 <script>
+    // --- LÓGICA DE IMPRESIÓN CORREGIDA ---
+    function printKardex(idDiv) {
+        const content = document.getElementById(idDiv).innerHTML;
+        const iframe = document.createElement('iframe');
+        
+        // Estilos para ocultar el iframe en la vista normal
+        iframe.style.position = 'fixed';
+        iframe.style.right = '0';
+        iframe.style.bottom = '0';
+        iframe.style.width = '0';
+        iframe.style.height = '0';
+        iframe.style.border = '0';
+        
+        document.body.appendChild(iframe);
+        
+        const doc = iframe.contentWindow.document;
+        doc.open();
+        doc.write(`
+            <html>
+                <head>
+                    <title>Ficha de Beneficiario</title>
+                    <script src="https://cdn.tailwindcss.com"><\/script>
+                    
+                    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+                    
+                    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+
+                    <style>
+                        body { 
+                            background: white; 
+                            padding: 40px; 
+                            font-family: sans-serif; 
+                            -webkit-print-color-adjust: exact; 
+                            print-color-adjust: exact;
+                        }
+                        
+                        /* Estilos para tablas en impresión */
+                        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 12px; }
+                        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                        th { background-color: #f3f4f6; font-weight: bold; text-transform: uppercase; text-align: center; }
+                        
+                        /* 4. FORZAR TAMAÑO DEL MAPA AL IMPRIMIR */
+                        #map-readonly {
+                            width: 100% !important;
+                            height: 300px !important; /* Altura fija para que no se corte */
+                            border: 1px solid #ccc;
+                            z-index: 0; /* Asegurar que quede detrás de textos si los hubiera */
+                        }
+                        
+                        /* Ocultar controles de zoom del mapa en el papel */
+                        .leaflet-control-container {
+                            display: none !important;
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${content}
+                </body>
+            </html>
+        `);
+        doc.close();
+
+        // Esperamos un poco más (800ms) para que las imágenes del mapa se acomoden
+        iframe.contentWindow.onload = function() {
+            setTimeout(() => {
+                iframe.contentWindow.focus();
+                iframe.contentWindow.print();
+                document.body.removeChild(iframe);
+            }, 800);
+        };
+    }
+
+    // --- LÓGICA DE MAPA (Igual que antes) ---
+    document.addEventListener('DOMContentLoaded', function() {
+        const lat = <?= $beneficiary['beneficiary_latitude'] ?? 0 ?>;
+        const lng = <?= $beneficiary['beneficiary_longitude'] ?? 0 ?>;
+
+        if (lat != 0 && lng != 0) {
+            var map = L.map('map-readonly', {
+                center: [lat, lng],
+                zoom: 15,
+                dragging: false,
+                touchZoom: false,
+                scrollWheelZoom: false,
+                doubleClickZoom: false,
+                boxZoom: false,
+                zoomControl: false,
+                attributionControl: false // Ocultar marca de agua para limpiar vista
+            });
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap'
+            }).addTo(map);
+
+            L.marker([lat, lng]).addTo(map);
+            
+            // Reajuste final para asegurar que el mapa renderice bien al cargar
+            setTimeout(() => { map.invalidateSize(); }, 200);
+        } else {
+            document.getElementById('map-readonly').innerHTML = '<div class="flex items-center justify-center h-full bg-gray-100 text-gray-400 text-xs py-10">Sin ubicación registrada</div>';
+        }
+    });
+
     function showVulnerabilities(beneficiary){
         let url = document.getElementById("base_url").value;
         let controller = `${url}/admin/get_vulnerabilities`

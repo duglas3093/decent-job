@@ -48,6 +48,7 @@ class ReportController extends BaseController{
     }
 
     $query = "SELECT 
+                b.beneficiary_id,
                 b.beneficiary_names,
                 b.beneficiary_lastnames,
                 b.beneficiary_ci,
