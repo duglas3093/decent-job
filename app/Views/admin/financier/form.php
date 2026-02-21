@@ -22,6 +22,24 @@
     </div>
 </div>
 
+<?php if (isset($financier)): ?>
+<div class="flex flex-wrap -mx-3 mb-6">
+    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="status_id">
+            Estado
+        </label>
+        <div class="relative">
+            <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="status_id" name="status_id">
+                <?php foreach ($status as $state): ?>
+                <option value="<?= $state['status_id'] ?>" <?= $financier['status_id'] == $state['status_id'] ? "selected" : "" ?>><?= $state['status_name'] ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+
+
 <div class="flex flex-wrap -mx-3 mt-6">
     <div class="w-full px-3">
         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full sm:w-auto">

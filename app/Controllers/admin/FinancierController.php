@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Entities\Financier;
+use CodeIgniter\Exceptions\PageNotFoundException;
 
 class FinancierController extends BaseController
 {
@@ -21,7 +22,10 @@ class FinancierController extends BaseController
         $data['areas'] = $areaModel->where('status_id', 1)->findAll();
         $financierModel = model('FinancierModel');
         $data['session'] = session()->get();
-        $data['financiers'] = $financierModel->where('status_id', 1)->findAll();
+        $data['financiers'] = $financierModel
+                            ->join('status s','s.status_id = financiers.status_id','LEFT')
+                            ->select('financiers.*, s.status_name')
+                            ->paginate(self::PAGINATION);
         return view('admin/financier/index',$data);
     }
     
@@ -92,7 +96,7 @@ class FinancierController extends BaseController
             'financier_id'              => trim($this->request->getVar('financier_id')),
             'financier_project'         => trim($this->request->getVar('financier_project')),
             'financier_description'     => trim($this->request->getVar('financier_description')),
-            //'status_id'                 => (int)trim($this->request->getVar('status_id')),
+            'status_id'                 => (int)trim($this->request->getVar('status_id')),
         ]);
         return redirect()->route('admin/financiers')->with('msg',[
             'type'=>'green',

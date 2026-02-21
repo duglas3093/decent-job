@@ -70,12 +70,16 @@ Edición de beneficiario
                                         </div>
                                     </div>
                                     
-                                    <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                    <div class="mt-6 grid grid-cols-2 md:grid-cols-5 gap-4 text-sm">
                                         <div>
                                             <span class="block text-gray-500 text-xs font-bold uppercase">Edad</span>
                                             <span class="font-medium text-gray-900">
                                                 <?= ((new DateTime(date("Y-m-d")))->diff(new DateTime($beneficiary['beneficiary_birthdate'])))->y ?> Años
                                             </span>
+                                        </div>
+                                        <div>
+                                            <span class="block text-gray-500 text-xs font-bold uppercase">Genero</span>
+                                            <span class="font-medium text-gray-900"><?= $beneficiary['beneficiary_gender'] ?></span>
                                         </div>
                                         <div>
                                             <span class="block text-gray-500 text-xs font-bold uppercase">Celular</span>

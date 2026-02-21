@@ -73,6 +73,7 @@ class ReportController extends BaseController{
             LEFT JOIN financiers f ON f.financier_id = b.financier_id
             
             WHERE $whereConditions
+            AND b.status_id != 9
             
             ORDER BY b.beneficiary_lastnames ASC";
 

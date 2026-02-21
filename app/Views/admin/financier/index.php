@@ -39,6 +39,9 @@ Financiadores
                                         <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                             Descripción
                                         </th>
+                                        <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none ligth:border-white/40 ligth:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                            Estado
+                                        </th>
                                         <th class="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b border-collapse border-solid shadow-none ligth:border-white/40 ligth:text-white tracking-none whitespace-nowrap text-slate-400 opacity-70"></th>
                                     </tr>
                                 </thead>
@@ -51,6 +54,12 @@ Financiadores
                                         <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
                                             <p class="mb-0 text-xs font-semibold leading-tight ligth:text-white ligth:opacity-80 normal-case"><?= substr($financier['financier_description'], 0, 100) . '...' ?></p>
                                         </td>
+                                        <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
+                                            <span class="bg-gradient-to-tl <?= $financier['status_name'] == 'Activo' ? "from-emerald-500 to-teal-400":"from-red-500 to-red-400" ?> px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
+                                                <?= $financier['status_name'] ?>
+                                            </span>
+                                        </td>
+
                                         <td class="p-2 align-middle bg-transparent border-b ligth:border-white/40 whitespace-nowrap shadow-transparent">
                                             <a href="<?= base_url("admin/edit_financier/{$financier['financier_id']}") ?>" title="Editar Financiador" class="text-xs font-semibold leading-tight text-slate-400">
                                                 <i class="fa-solid fa-pencil text-blue-600 text-lg"></i>
